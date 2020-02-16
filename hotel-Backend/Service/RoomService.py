@@ -14,3 +14,8 @@ class RoomService:
     def addRoom(cls,data):
         responseData = cls.roomDAO.addNewRoom(data.get('room_number'),data.get('price'),data.get('ratingOutofTen'))
         return responseData
+
+    @classmethod
+    def deleteRoom(cls, data):
+        cls.roomDAO.deleteRoomFromDB(data.get('room_id'))
+        return None

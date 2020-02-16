@@ -22,3 +22,12 @@ def addRoom():
     wsResponse['resultSet'] = responseData
     wsResponse['operationStatus'] = 1
     return wsResponse
+
+
+@app.route('/deleteRoom', methods=['POST'])
+def deleteRoom():
+    wsResponse = {"resultSet": None, "operationStatus": None}
+    responseData = roomService.deleteRoom(request.json)
+    wsResponse['resultSet'] = responseData
+    wsResponse['operationStatus'] = 1
+    return wsResponse
