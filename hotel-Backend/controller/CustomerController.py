@@ -11,10 +11,16 @@ customerService = CustomerService()
 @app.route("/getCustomersFromDB", methods=['GET'])
 def getCustomersFromDB():
     wsResponse = {"resultSet": None, "operationStatus": None}
-    print("Hey controller")
     responseData = customerService.getAllCustomers()
     wsResponse['resultSet'] = responseData
     wsResponse['operationStatus'] = 1
     return wsResponse
 
 
+@app.route("/addCustomerInDB", methods=['POST'])
+def addCustomerInDB():
+    wsResponse = {"resultSet": None, "operationStatus": None}
+    responseData = customerService.createCustomer(request.json)
+    wsResponse['resultSet'] = responseData
+    wsResponse['operationStatus'] = 1
+    return wsResponse
