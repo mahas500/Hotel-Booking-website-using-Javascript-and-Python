@@ -1,0 +1,16 @@
+from wsgiref import headers
+from DAO.RoomDAO import RoomDAO
+
+
+class RoomService:
+    roomDAO = RoomDAO()
+
+    @classmethod
+    def getAllRooms(cls):
+        responseData = cls.roomDAO.getAllRooms()
+        return responseData
+
+    @classmethod
+    def addRoom(cls,data):
+        responseData = cls.roomDAO.addNewRoom(data.get('room_number'),data.get('price'),data.get('ratingOutofTen'))
+        return responseData

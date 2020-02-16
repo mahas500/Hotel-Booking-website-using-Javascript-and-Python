@@ -25,6 +25,7 @@ def addCustomerInDB():
     wsResponse['operationStatus'] = 1
     return wsResponse
 
+
 @app.route("/customerLogin", methods=['POST'])
 def customerLogin():
     wsResponse = {"resultSet": None, "operationStatus": None}
@@ -32,3 +33,4 @@ def customerLogin():
     wsResponse['resultSet'] = responseData
     wsResponse['operationStatus'] = 1
     return wsResponse
+
