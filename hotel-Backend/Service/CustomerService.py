@@ -20,3 +20,18 @@ class CustomerService:
     def customerLogin(cls,data):
         responseData = cls.customerDAO.customerLogin(data.get('username'),data.get('password'))
         return responseData
+
+    @classmethod
+    def checkCustomerFromSessionID(cls,header):
+        print("hi 1")
+        responseData = cls.customerDAO.checkCustomerFromSessionID(header.get('session_id'))
+        print("hi 2")
+        print(responseData)
+        if responseData is not None:
+            return responseData
+        else:
+            return None
+
+
+
+

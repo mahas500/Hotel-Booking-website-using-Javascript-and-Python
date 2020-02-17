@@ -75,3 +75,21 @@ class CustomerDAO:
         finally:
             cursor.close()
             conn.close()
+
+
+    @classmethod
+    def checkCustomerFromSessionID(cls,session_id):
+        try:
+            conn = mysql.connect()
+            cursor = conn.cursor(pymysql.cursors.DictCursor)
+
+            cursor.execute("SELECT * from customer c where c.session_id=%s",
+                           session_id)
+            rows = cursor.fetchone()
+            print(rows)
+            return rows
+        except Exception as e:
+            print(e)
+        finally:
+            cursor.close()
+            conn.close()

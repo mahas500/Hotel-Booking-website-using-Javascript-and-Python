@@ -31,3 +31,4 @@ def deleteRoom():
     wsResponse['resultSet'] = responseData
     wsResponse['operationStatus'] = 1
     return wsResponse
+
