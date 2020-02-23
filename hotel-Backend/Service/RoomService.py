@@ -19,3 +19,12 @@ class RoomService:
     def deleteRoom(cls, data):
         cls.roomDAO.deleteRoomFromDB(data.get('room_id'))
         return None
+
+    @classmethod
+    def checkRoomIsAvailable(cls, data):
+        print (data)
+        responseData=cls.roomDAO.checkRoomIsAvailable(data)
+        if responseData is not None:
+            return responseData
+        else:
+            return None
