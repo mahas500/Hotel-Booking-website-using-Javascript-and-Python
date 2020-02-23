@@ -3,12 +3,14 @@ from DAO.BookingDAO import BookingDAO
 from DAO.CustomerDAO import CustomerDAO
 from Service.CustomerService import CustomerService
 from Service.RoomService import RoomService
+from Service.EmailService import EmailService
 
 class BookingService:
     bookingDAO = BookingDAO()
     customerService=CustomerService()
     customerDAO = CustomerDAO()
     roomService = RoomService()
+    emailService = EmailService()
 
     @classmethod
     def addBooking(cls,header,data):
@@ -16,7 +18,10 @@ class BookingService:
         checkCustomer = cls.customerService.checkCustomerFromSessionID(header.get('session_id'))
         checkRoomAvailibity = cls.roomService.checkRoomIsAvailable(data.get('room_id'))
         if checkRoomAvailibity is not None:
-            responseData = cls.bookingDAO.addRoomBooking(checkCustomer.get('customer_id'), data.get('room_id'),checkCustomer.get('email'))
+            responseData = cls.bookingDAO.addRoomBooking(checkCustomer.get('customer_id'), data.get('room_id'),
+                                                         checkCustomer.get('email'))
+            print(checkCustomer.get('email'))
+            cls.emailService.sendEmail(checkCustomer.get('email'))
             return responseData
         else:
             return None
