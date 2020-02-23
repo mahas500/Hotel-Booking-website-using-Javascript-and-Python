@@ -18,6 +18,9 @@ class BookingDAO:
                 "insert into booking (booking_id, customer_id,room_id) value (%s, %s, %s)",
                 (bookingId, customer_id, room_id))
             conn.commit()
+            cursor.execute("UPDATE room set availibility='No' where room_id=%s ",
+                           room_id)
+            conn.commit()
             cursor.execute("SELECT * from booking r WHERE r.booking_id = %s",
                            bookingId)
             rows = cursor.fetchone()

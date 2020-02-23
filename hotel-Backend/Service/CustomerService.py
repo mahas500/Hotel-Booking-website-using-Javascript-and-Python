@@ -22,15 +22,13 @@ class CustomerService:
         return responseData
 
     @classmethod
-    def checkCustomerFromSessionID(cls,header):
-        print("hi 1")
-        responseData = cls.customerDAO.checkCustomerFromSessionID(header.get('session_id'))
-        print("hi 2")
-        print(responseData)
+    def checkCustomerFromSessionID(cls,headerData):
+        responseData = cls.customerDAO.checkCustomerFromSessionID(headerData)
+
         if responseData is not None:
             return responseData
         else:
-            return None
+            return False
 
 
 

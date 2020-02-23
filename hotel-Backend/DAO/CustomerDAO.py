@@ -37,7 +37,7 @@ class CustomerDAO:
                 "insert into customer (customer_id, name,username,password,email,contact_no) value (%s, %s, %s,%s, %s, %s)",
                 (customerId, name, username, password, email, contact_no))
             conn.commit()
-            cursor.execute("SELECT * from customer c WHERE c.customer_id = %s",
+            cursor.execute("SELECT * from customer WHERE customer_id = %s",
                            customerId)
             rows = cursor.fetchone()
             return rows
@@ -83,10 +83,9 @@ class CustomerDAO:
             conn = mysql.connect()
             cursor = conn.cursor(pymysql.cursors.DictCursor)
 
-            cursor.execute("SELECT * from customer c where c.session_id=%s",
+            cursor.execute("SELECT * from customer where session_id=%s",
                            session_id)
             rows = cursor.fetchone()
-            print(rows)
             return rows
         except Exception as e:
             print(e)
