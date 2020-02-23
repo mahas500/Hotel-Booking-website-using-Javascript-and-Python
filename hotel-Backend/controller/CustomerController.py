@@ -34,3 +34,5 @@ def customerLogin():
     wsResponse['operationStatus'] = 1
     return wsResponse
 
+
+

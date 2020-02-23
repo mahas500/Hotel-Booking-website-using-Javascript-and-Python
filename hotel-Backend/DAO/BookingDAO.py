@@ -31,3 +31,24 @@ class BookingDAO:
             cursor.close()
             conn.close()
 
+    @classmethod
+    def contactUS(cls, customer_id, username,description):
+        try:
+            incidentId = str(uuid.uuid4())
+            conn = mysql.connect()
+            cursor = conn.cursor(pymysql.cursors.DictCursor)
+
+            cursor.execute(
+                "insert into incident(incident_id,customer_id, username,description) value (%s,%s, %s, %s)",
+                (incidentId,customer_id, username,description))
+            conn.commit()
+
+            cursor.execute("SELECT * from incident WHERE incident_id = %s",
+                           incidentId)
+            rows = cursor.fetchone()
+            return rows
+        except Exception as e:
+            print(e)
+        finally:
+            cursor.close()
+            conn.close()

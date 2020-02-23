@@ -14,3 +14,11 @@ def addBooking():
     wsResponse['resultSet'] = responseData
     wsResponse['operationStatus'] = 1
     return wsResponse
+
+@app.route("/contactUS", methods=['POST'])
+def contactUS():
+    wsResponse = {"resultSet": None, "operationStatus": None}
+    responseData = bookingService.contactUS(request.headers,request.json)
+    wsResponse['resultSet'] = responseData
+    wsResponse['operationStatus'] = 1
+    return wsResponse
