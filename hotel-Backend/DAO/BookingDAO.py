@@ -8,15 +8,15 @@ from flask import jsonify
 class BookingDAO:
 
     @classmethod
-    def addRoomBooking(cls, customer_id, room_id):
+    def addRoomBooking(cls, customer_id, room_id,email):
         try:
             bookingId = str(uuid.uuid4())
             conn = mysql.connect()
             cursor = conn.cursor(pymysql.cursors.DictCursor)
 
             cursor.execute(
-                "insert into booking (booking_id, customer_id,room_id) value (%s, %s, %s)",
-                (bookingId, customer_id, room_id))
+                "insert into booking (booking_id, customer_id,room_id,email) value (%s, %s, %s,%s)",
+                (bookingId, customer_id, room_id,email))
             conn.commit()
             cursor.execute("UPDATE room set availibility='No' where room_id=%s ",
                            room_id)

@@ -22,7 +22,6 @@ class RoomService:
 
     @classmethod
     def checkRoomIsAvailable(cls, data):
-        print (data)
         responseData=cls.roomDAO.checkRoomIsAvailable(data)
         if responseData is not None:
             return responseData

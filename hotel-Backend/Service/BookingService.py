@@ -16,7 +16,7 @@ class BookingService:
         checkCustomer = cls.customerService.checkCustomerFromSessionID(header.get('session_id'))
         checkRoomAvailibity = cls.roomService.checkRoomIsAvailable(data.get('room_id'))
         if checkRoomAvailibity is not None:
-            responseData = cls.bookingDAO.addRoomBooking(checkCustomer.get('customer_id'),data.get('room_id'))
+            responseData = cls.bookingDAO.addRoomBooking(checkCustomer.get('customer_id'), data.get('room_id'),checkCustomer.get('email'))
             return responseData
         else:
             return None
