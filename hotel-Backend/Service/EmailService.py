@@ -10,10 +10,18 @@ class EmailService:
     def sendEmail(cls,data):
         msg = Message('Room booking confirmation mail!!!', sender='mahashabdemanik@gmail.com',
                       recipients=[data])
-        msg.body = "Hi " \
-                   "Your Room has been booked successfully. We hope you have a great stay. " \
-                   "Thanks," \
-                   "Admin"
-        msg.html = "This is <h1>Hello All HTML</h1>"
+        msg.html = "<h3 align='center'>Hello User</h3> <br> <p> Your room has been booked successfully</p><br>" \
+                   "<p>Regards,<br>Team Admin</p>"
+        mail.send(msg)
+        return "Mail sent successfully!"
+
+
+    @classmethod
+    def contactUsEmail(cls,data):
+        msg = Message('Thanks for your email', sender='mahashabdemanik@gmail.com',
+                      recipients=[data])
+        msg.html = "<h3 align='center'>Hello User</h3> <br> <p> Thanks for reaching out to us." \
+                   " We will get back to you shortly</p><br>" \
+                   "<p>Regards,<br>Team Admin</p>"
         mail.send(msg)
         return "Mail sent successfully!"

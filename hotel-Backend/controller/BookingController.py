@@ -26,10 +26,3 @@ def contactUS():
     wsResponse['resultSet'] = responseData
     wsResponse['operationStatus'] = 1
     return wsResponse
-
-@app.route("/mail")
-def index():
-   msg = Message('Hello', sender = 'mahashabdemanik@gmail.com', recipients = ['mahamanik@gmail.com'])
-   msg.body = "Hello Flask message sent from Flask-Mail"
-   mail.send(msg)
-   return "Sent"

@@ -20,7 +20,6 @@ class BookingService:
         if checkRoomAvailibity is not None:
             responseData = cls.bookingDAO.addRoomBooking(checkCustomer.get('customer_id'), data.get('room_id'),
                                                          checkCustomer.get('email'))
-            print(checkCustomer.get('email'))
             cls.emailService.sendEmail(checkCustomer.get('email'))
             return responseData
         else:
@@ -30,5 +29,6 @@ class BookingService:
     def contactUS(cls,header,data):
         checkCustomer = cls.customerService.checkCustomerFromSessionID(header.get('session_id'))
         responseData = cls.bookingDAO.contactUS(checkCustomer.get('customer_id'), checkCustomer.get('username'),data.get('description'))
+        cls.emailService.contactUsEmail(checkCustomer.get('email'))
         return responseData
 
