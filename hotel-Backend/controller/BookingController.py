@@ -1,6 +1,6 @@
 from app import app
 from flask import jsonify
-from flask import flash, request
+from flask import flash, request,render_template
 from flask_mail import Mail, Message
 from app import mail
 
@@ -26,3 +26,7 @@ def contactUS():
     wsResponse['resultSet'] = responseData
     wsResponse['operationStatus'] = 1
     return wsResponse
+
+@app.route("/")
+def index():
+    return render_template('index.html')

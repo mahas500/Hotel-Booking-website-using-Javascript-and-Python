@@ -1,9 +1,11 @@
 from flask import Flask
 from flask_mail import Mail, Message
+from flask_bootstrap import Bootstrap
 
 
 app = Flask(__name__)
 mail=Mail(app)
+Bootstrap(app)
 
 app.config['MAIL_SERVER']='smtp.gmail.com'
 app.config['MAIL_PORT'] = 465

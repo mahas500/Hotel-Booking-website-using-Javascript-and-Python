@@ -6,10 +6,6 @@ from Service.RoomService import RoomService
 
 roomService = RoomService()
 
-@app.route("/", methods=['GET'])
-def Test():
-    return render_template('Test.html')
-
 @app.route("/getRooms", methods=['GET'])
 def getRooms():
     wsResponse = {"resultSet": None, "operationStatus": None}
