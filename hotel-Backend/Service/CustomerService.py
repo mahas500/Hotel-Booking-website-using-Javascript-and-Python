@@ -18,7 +18,6 @@ class CustomerService:
 
     @classmethod
     def customerLogin(cls,data):
-        print(data.get('username'))
         responseData = cls.customerDAO.customerLogin(data.get('username'),data.get('password'))
         return responseData
 
