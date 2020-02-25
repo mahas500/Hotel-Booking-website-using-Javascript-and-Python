@@ -1,7 +1,7 @@
 
 from app import app
 from flask import jsonify
-from flask import flash, request
+from flask import flash, request,render_template
 
 from Service.CustomerService import CustomerService
 
@@ -35,4 +35,6 @@ def customerLogin():
     return wsResponse
 
 
-
+@app.route("/userLoginPage", methods=['GET'])
+def userLoginPage():
+    return render_template('UserLogin.html')
