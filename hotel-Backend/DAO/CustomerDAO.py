@@ -49,22 +49,22 @@ class CustomerDAO:
 
 
     @classmethod
-    def customerLogin(cls, username, password):
+    def customerLogin(cls, customer_id, password):
         try:
             conn = mysql.connect()
             cursor = conn.cursor(pymysql.cursors.DictCursor)
 
-            cursor.execute("SELECT * from customer where username = %s and password= %s",
-                           (username, password))
+            cursor.execute("SELECT * from customer where customer_id = %s and password= %s",
+                           (customer_id, password))
             rows = cursor.fetchone()
             if rows is not None:
                 sessionId = str(uuid.uuid4())
                 cursor.execute("update customer set session_id = %s where customer_id = %s",
-                               (sessionId, rows.get('customer_id')))
+                               (sessionId, customer_id))
                 conn.commit()
 
-                cursor.execute("SELECT * from customer where username = %s and password= %s",
-                               (username, password))
+                cursor.execute("SELECT * from customer where customer_id = %s and password= %s",
+                               (customer_id, password))
                 rows = cursor.fetchone()
                 return rows
             else:
