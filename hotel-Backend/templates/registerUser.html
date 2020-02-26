@@ -9,34 +9,36 @@
 
   <h1 align="center">Register page</h1>
 
-<form id="loginForm">
+<form id="registerForm">
     <div class="form-group">
             <label>Enter your name</label>
-            <input type="text" class="form-control" id="customerName">
+            <input type="text" class="form-control" id="name">
     </div>
 
     <div class="form-group">
             <label>Enter your preferred username</label>
-            <input type="text" class="form-control" id="customerUsername">
+            <input type="text" class="form-control" id="username">
     </div>
 
     <div class="form-group">
             <label>Enter a password you wish to have </label>
-            <input type="password" class="form-control" id="pass">
+            <input type="password" class="form-control" id="password">
     </div>
 
     <div class="form-group">
             <label>Enter your email address </label>
-            <input type="email" class="form-control" id="pass">
+            <input type="email" class="form-control" id="email">
     </div>
 
     <div class="form-group">
             <label>Enter your contact number </label>
-            <input type="number" class="form-control" id="pass">
+            <input type="text" class="form-control" id="contact_no">
     </div>
 
     <button type="button" class="btn btn-primary" id="sendingData" value="submit">Register</button>
+    <br>
     <div>
+        <br>
     <label>Click below link for login now!</label>
         <br>
     <a id="registerData"  href="{{ url_for('userLoginPage') }}">Login</a>
@@ -44,7 +46,7 @@
 </form>
 
 
-    <script src="/static/javascript/userIsLogin.js"></script>
+    <script src="/static/javascript/registeringUser.js"></script>
 
 
 </body>

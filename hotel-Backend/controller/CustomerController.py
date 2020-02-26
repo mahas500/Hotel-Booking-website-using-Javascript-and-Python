@@ -20,11 +20,13 @@ def getCustomersFromDB():
 
 @app.route("/addCustomerInDB", methods=['POST'])
 def addCustomerInDB():
-    wsResponse = {"resultSet": None, "operationStatus": None}
-    responseData = customerService.createCustomer(request.json)
-    wsResponse['resultSet'] = responseData
-    wsResponse['operationStatus'] = 1
-    return wsResponse
+    if request.method == 'POST':
+        print(request.json)
+        wsResponse = {"resultSet": None, "operationStatus": None}
+        responseData = customerService.createCustomer(request.json)
+        wsResponse['resultSet'] = responseData
+        wsResponse['operationStatus'] = 1
+        return wsResponse
 
 
 @app.route("/customerLogin", methods=['POST'])
@@ -36,14 +38,17 @@ def customerLogin():
         return responseData
 
 
+
 @app.route("/userLoginPage", methods=['GET'])
 def userLoginPage():
     return render_template('UserLogin.html')
 
 
+
 @app.route("/dashboard", methods=['GET'])
 def dashboard():
     return render_template('dashboard.html')
+
 
 
 @app.route("/registerUser", methods=['GET'])
