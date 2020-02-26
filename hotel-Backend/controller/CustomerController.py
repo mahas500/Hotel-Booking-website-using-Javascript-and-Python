@@ -1,5 +1,7 @@
 
 from app import app
+import urllib.parse
+import json
 from flask import jsonify, redirect, url_for
 from flask import flash, request,render_template
 
@@ -29,12 +31,15 @@ def addCustomerInDB():
 @app.route("/customerLogin", methods=['POST'])
 def customerLogin():
     if request.method == 'POST':
-        jsonData = request.get_json()
+        jsonData = request.get_data()
         #wsResponse = {"resultSet": None, "operationStatus": None}
-        print(jsonData)
+        data = urllib.parse.unquote(jsonData.decode("utf-8", errors="ignore")).replace("&","\",").replace("=",":\"")
         #print(postData.json)
-        return render_template('dashboard.html')
-        #responseData = customerService.customerLogin(jsonData)
+        #return render_template('dashboard.html')
+        #return render_template('dashboard.html', result = customerService.customerLogin(jsonData))
+        print(customerService.customerLogin(json.loads("{"+data+"\"}")))
+        return customerService.customerLogin(json.loads("{"+data+"\"}"))
+
         #wsResponse['resultSet'] = responseData
         #wsResponse['operationStatus'] = 1
         #return render_template('dashboard.html',result=responseData)
