@@ -1,13 +1,17 @@
 <!doctype html>
 <html>
-   <body>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+   <body id="userDashboard">
       <table border = 1>
-         {% for key, value in result.items() %}
+         {% for key, value in session['loginData'].items() %}
             <tr>
                <th> {{ key }} </th>
                <td> {{ value }} </td>
             </tr>
          {% endfor %}
       </table>
+   <script src="/static/javascript/userIsLogin.js"></script>
    </body>
 </html>

@@ -6,6 +6,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 mail=Mail(app)
 Bootstrap(app)
+app.secret_key="manik123"
 
 app.config['MAIL_SERVER']='smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
