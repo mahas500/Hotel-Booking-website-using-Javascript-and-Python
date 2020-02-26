@@ -44,3 +44,8 @@ def userLoginPage():
 @app.route("/dashboard", methods=['GET'])
 def dashboard():
     return render_template('dashboard.html')
+
+
+@app.route("/registerUser", methods=['GET'])
+def registerUser():
+    return render_template('registerUser.html')

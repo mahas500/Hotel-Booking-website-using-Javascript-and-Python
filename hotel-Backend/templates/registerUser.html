@@ -11,16 +11,35 @@
 
 <form id="loginForm">
     <div class="form-group">
-            <label>Username</label>
+            <label>Enter your name</label>
             <input type="text" class="form-control" id="customerName">
     </div>
 
     <div class="form-group">
-            <label>Password</label>
+            <label>Enter your preferred username</label>
+            <input type="text" class="form-control" id="customerUsername">
+    </div>
+
+    <div class="form-group">
+            <label>Enter a password you wish to have </label>
             <input type="password" class="form-control" id="pass">
     </div>
 
-    <button type="button" class="btn btn-primary" id="sendingData" value="submit">Submit</button>
+    <div class="form-group">
+            <label>Enter your email address </label>
+            <input type="email" class="form-control" id="pass">
+    </div>
+
+    <div class="form-group">
+            <label>Enter your contact number </label>
+            <input type="number" class="form-control" id="pass">
+    </div>
+
+    <button type="button" class="btn btn-primary" id="sendingData" value="submit">Register</button>
+    <div>
+    <label>Click below link for login now!</label>
+    <button type="button" class="btn btn-secondary" id="registerData" value="submit" href="{{ url_for('userLogin') }}">Login</button>
+    </div>
 </form>
 
 
