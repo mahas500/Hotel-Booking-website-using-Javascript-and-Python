@@ -1,5 +1,4 @@
 import uuid
-
 import pymysql
 import json
 from dbconfig import mysql

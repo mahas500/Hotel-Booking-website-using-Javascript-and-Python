@@ -8,7 +8,7 @@ from Service.BookingService import BookingService
 from Service.EmailService import EmailService
 
 bookingService = BookingService()
-emailService = EmailService()
+
 
 
 @app.route("/getAllBookings", methods=['GET'])
@@ -44,4 +44,5 @@ def contactUsForm():
 @app.route("/")
 def index():
     return render_template('index.html')
+
 

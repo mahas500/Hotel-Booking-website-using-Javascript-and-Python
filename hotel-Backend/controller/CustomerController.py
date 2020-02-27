@@ -3,7 +3,6 @@ import urllib.parse
 import json
 from flask import jsonify, redirect, url_for, session
 from flask import flash, request, render_template
-
 from Service.CustomerService import CustomerService
 
 customerService = CustomerService()
@@ -50,7 +49,16 @@ def dashboard():
     return render_template('dashboard.html')
 
 
+@app.route("/adminDashboard", methods=['GET'])
+def adminDashboard():
+    return render_template('adminDashboard.html')
+
 
 @app.route("/registerUser", methods=['GET'])
 def registerUser():
     return render_template('registerUser.html')
+
+
+@app.route("/adminLoginPage", methods=['GET'])
+def adminLoginPage():
+    return render_template('adminLoginPage.html')
