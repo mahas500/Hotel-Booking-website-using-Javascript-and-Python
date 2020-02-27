@@ -12,6 +12,20 @@
             </tr>
          {% endfor %}
       </table>
+<br>
+ <table border = 1>
+     {% for x in session['RoomsData'] %}
+
+         {% for key, value in x.items() %}
+            <tr>
+               <th> {{ key }} </th>
+               <td> {{ value }} </td>
+            </tr>
+         {% endfor %}
+
+       {% endfor %}
+
+</table>
    <script src="/static/javascript/userIsLogin.js"></script>
    </body>
 </html>

@@ -32,10 +32,11 @@ def addCustomerInDB():
 @app.route("/customerLogin", methods=['POST'])
 def customerLogin():
     if request.method == 'POST':
-        jsonData = request.json
-        responseData=customerService.customerLogin(jsonData)
-        session['loginData']=responseData
-        return responseData
+        wsResponse = {"resultSet": None, "operationStatus": None}
+        responseData=customerService.customerLogin(request.json)
+        wsResponse['resultSet'] = responseData
+        wsResponse['operationStatus'] = 1
+        return wsResponse
 
 
 

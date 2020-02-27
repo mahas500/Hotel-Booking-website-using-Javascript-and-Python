@@ -19,6 +19,7 @@ def addBooking():
     wsResponse['operationStatus'] = 1
     return wsResponse
 
+
 @app.route("/contactUS", methods=['POST'])
 def contactUS():
     wsResponse = {"resultSet": None, "operationStatus": None}
@@ -26,6 +27,7 @@ def contactUS():
     wsResponse['resultSet'] = responseData
     wsResponse['operationStatus'] = 1
     return wsResponse
+
 
 @app.route("/")
 def index():

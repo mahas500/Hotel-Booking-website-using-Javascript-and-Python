@@ -10,6 +10,7 @@ class RoomService:
         responseData = cls.roomDAO.getAllRooms()
         return responseData
 
+
     @classmethod
     def addRoom(cls,data):
         responseData = cls.roomDAO.addNewRoom(data.get('room_number'),data.get('price'),data.get('ratingOutofTen'))

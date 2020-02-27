@@ -1,10 +1,15 @@
 from wsgiref import headers
+
+from flask import session, jsonify
+
 from DAO.CustomerDAO import CustomerDAO
 from Service.EmailService import EmailService
+from Service.RoomService import RoomService
 
 class CustomerService:
     customerDAO = CustomerDAO()
     emailService = EmailService()
+    roomService = RoomService()
 
     @classmethod
     def getAllCustomers(cls):
@@ -21,7 +26,13 @@ class CustomerService:
 
     @classmethod
     def customerLogin(cls,data):
-        responseData = cls.customerDAO.customerLogin(data.get('customer_id'),data.get('password'))
+        customerData = cls.customerDAO.customerLogin(data.get('customer_id'),data.get('password'))
+        session['loginData'] = customerData
+        print(session['loginData'])
+        print(type(session['loginData']))
+        responseData=cls.roomService.getAllRooms()
+        session['RoomsData']=responseData
+        print(type(session['RoomsData']))
         return responseData
 
     @classmethod
