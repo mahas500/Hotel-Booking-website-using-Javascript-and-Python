@@ -28,11 +28,8 @@ class CustomerService:
     def customerLogin(cls,data):
         customerData = cls.customerDAO.customerLogin(data.get('customer_id'),data.get('password'))
         session['loginData'] = customerData
-        print(session['loginData'])
-        print(type(session['loginData']))
         responseData=cls.roomService.getAllRooms()
         session['RoomsData']=responseData
-        print(type(session['RoomsData']))
         return responseData
 
     @classmethod

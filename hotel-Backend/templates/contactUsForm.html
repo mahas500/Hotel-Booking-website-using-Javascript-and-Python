@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+<body>
+
+<form id="contactusForm">
+    {% for key, value in session['loginData'].items() %}
+        {% if key=='username' %}
+           <h3 align="center">Hello User {{ value }}</h3>
+        {% elif key=='session_id'%}
+            <p hidden id="userSession">{{ value }}</p>
+        {% endif %}
+
+    {% endfor %}
+<div class="form-group">
+        <label>Enter your description</label>
+        <input type="text" class="form-control" id="description">
+    </div>
+<button type="button" class="btn btn-primary" id="sendingData" value="submit">Submit</button>
+<br>
+    <span>
+    <a href="{{ url_for('index') }}">Navigate to home</a>
+    </span>
+    </form>
+<script src="/static/javascript/contactUsData.js"></script>
+</body>
+</html>

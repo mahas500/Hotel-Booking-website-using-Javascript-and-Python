@@ -14,7 +14,6 @@ class BookingService:
 
     @classmethod
     def addBooking(cls,header,data):
-        #print("Hi booking")
         checkCustomer = cls.customerService.checkCustomerFromSessionID(header.get('session_id'))
         checkRoomAvailibity = cls.roomService.checkRoomIsAvailable(data.get('room_id'))
         if checkRoomAvailibity is not None:

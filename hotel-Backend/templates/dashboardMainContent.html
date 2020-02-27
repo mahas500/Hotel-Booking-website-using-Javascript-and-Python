@@ -1,0 +1,33 @@
+
+<html>
+
+  <body id="userDashboard">
+      <table border = 1>
+         {% for key, value in session['loginData'].items() %}
+            <tr>
+               <th> {{ key }} </th>
+               <td> {{ value }} </td>
+            </tr>
+             {% if key=='session_id' %}
+             {{ value }}
+             {% endif %}
+         {% endfor %}
+      </table>
+<br>
+
+     {% for x in session['RoomsData'] %}
+    <table border = 1>
+         {% for key, value in x.items() %}
+            <tr>
+               <th> {{ key }} </th>
+               <td> {{ value }} </td>
+            </tr>
+         {% endfor %}
+
+</table>
+          <br>
+       {% endfor %}
+
+<script src="/static/javascript/userIsLogin.js"></script>
+</body>
+</html>
