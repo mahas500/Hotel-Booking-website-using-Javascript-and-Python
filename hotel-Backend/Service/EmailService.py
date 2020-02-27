@@ -16,11 +16,16 @@ class EmailService:
         return "Mail sent successfully!"
 
     @classmethod
-    def contactUsEmail(cls, data):
+    def contactUsEmail(cls, inci, desc, data):
+        incident = inci
+        description = desc
         msg = Message('Thanks for your email', sender='mahashabdemanik@gmail.com',
                       recipients=[data])
         msg.html = "<h3 align='center'>Hello User</h3> <br> <p> Thanks for reaching out to us." \
-                   " We will get back to you shortly</p><br>" \
+                   " We will get back to you shortly. Please find below <b>incident ID</b> for reference</p><br>" \
+                   + incident + \
+                   "<br>"\
+                   "<b>Description</b>:" + description + \
                    "<p>Regards,<br>Team Admin</p>"
         mail.send(msg)
         return "Mail sent successfully!"
@@ -31,9 +36,9 @@ class EmailService:
         msg = Message('Thanks for your email', sender='mahashabdemanik@gmail.com',
                       recipients=[data])
         msg.html = "<h3 align='center'>Hello User</h3> <br> <p> You have been registered successfully." \
-                   " Please find below your customer ID</p><br>"\
-                   + cust + \
-                   "<p>Regards,"\
+                   " Please find below your customer ID</p><br>" \
+                   "<b>Customer ID:<b>" + cust + \
+                   "<p>Regards," \
                    "<br>Team Admin</p>"
         mail.send(msg)
         return None

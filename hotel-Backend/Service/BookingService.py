@@ -28,6 +28,6 @@ class BookingService:
     def contactUS(cls,header,data):
         checkCustomer = cls.customerService.checkCustomerFromSessionID(header.get('session_id'))
         responseData = cls.bookingDAO.contactUS(checkCustomer.get('customer_id'), checkCustomer.get('username'),data.get('description'))
-        cls.emailService.contactUsEmail(checkCustomer.get('email'))
+        cls.emailService.contactUsEmail(responseData.get('incident_id'),data.get('description'),checkCustomer.get('email'))
         return responseData
 
