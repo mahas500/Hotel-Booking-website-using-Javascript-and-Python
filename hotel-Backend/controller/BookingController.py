@@ -11,6 +11,15 @@ bookingService = BookingService()
 emailService = EmailService()
 
 
+@app.route("/getAllBookings", methods=['GET'])
+def getAllBookings():
+    wsResponse = {"resultSet": None, "operationStatus": None}
+    responseData = bookingService.getAllBookings()
+    wsResponse['resultSet'] = responseData
+    wsResponse['operationStatus'] = 1
+    return wsResponse
+
+
 @app.route("/addBooking", methods=['POST'])
 def addBooking():
     wsResponse = {"resultSet": None, "operationStatus": None}

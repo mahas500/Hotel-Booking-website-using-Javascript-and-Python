@@ -1,9 +1,21 @@
 from wsgiref import headers
+
+from flask import session
+
 from DAO.RoomDAO import RoomDAO
 
 
 class RoomService:
     roomDAO = RoomDAO()
+
+    @classmethod
+    def adminLogin(cls, data):
+        adminData = cls.roomDAO.adminLogin(data.get('customer_id'), data.get('password'))
+        session['adminData'] = adminData
+        responseData = cls.getAllRooms()
+        session['RoomsData'] = responseData
+        return responseData
+
 
     @classmethod
     def getAllRooms(cls):

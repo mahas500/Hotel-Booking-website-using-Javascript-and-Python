@@ -7,6 +7,24 @@ from flask import jsonify
 
 class BookingDAO:
 
+
+    @classmethod
+    def getAllBookings(cls):
+        try:
+            conn = mysql.connect()
+            cursor = conn.cursor(pymysql.cursors.DictCursor)
+
+            cursor.execute("SELECT * from booking")
+            rows = cursor.fetchall()
+            return rows
+        except Exception as e:
+
+            print(e)
+        finally:
+            cursor.close()
+            conn.close()
+
+
     @classmethod
     def addRoomBooking(cls, customer_id, room_id,email):
         try:

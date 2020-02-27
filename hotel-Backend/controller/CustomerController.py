@@ -21,7 +21,6 @@ def getCustomersFromDB():
 @app.route("/addCustomerInDB", methods=['POST'])
 def addCustomerInDB():
     if request.method == 'POST':
-        print(request.json)
         wsResponse = {"resultSet": None, "operationStatus": None}
         responseData = customerService.createCustomer(request.json)
         wsResponse['resultSet'] = responseData

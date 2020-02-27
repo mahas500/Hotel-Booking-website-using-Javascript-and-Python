@@ -6,6 +6,16 @@ from Service.RoomService import RoomService
 
 roomService = RoomService()
 
+
+@app.route("/adminLogin", methods=['POST'])
+def adminLogin():
+    wsResponse = {"resultSet": None, "operationStatus": None}
+    responseData = roomService.adminLogin(request.json)
+    wsResponse['resultSet'] = responseData
+    wsResponse['operationStatus'] = 1
+    return wsResponse
+
+
 @app.route("/getRooms", methods=['GET'])
 def getRooms():
     wsResponse = {"resultSet": None, "operationStatus": None}

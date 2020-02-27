@@ -12,6 +12,13 @@ class BookingService:
     roomService = RoomService()
     emailService = EmailService()
 
+
+    @classmethod
+    def getAllBookings(cls):
+        responseData = cls.bookingDAO.getAllBookings()
+        return responseData
+
+
     @classmethod
     def addBooking(cls,header,data):
         checkCustomer = cls.customerService.checkCustomerFromSessionID(header.get('session_id'))
