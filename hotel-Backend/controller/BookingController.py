@@ -26,7 +26,6 @@ def contactUS():
     responseData = bookingService.contactUS(request.headers,request.json)
     wsResponse['resultSet'] = responseData
     wsResponse['operationStatus'] = 1
-    print(wsResponse)
     return wsResponse
 
 @app.route("/contactUsForm")

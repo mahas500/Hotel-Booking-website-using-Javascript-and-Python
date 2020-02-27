@@ -12,7 +12,7 @@
         {% if key=='username' %}
            <h3 align="center">Hello User {{ value }}</h3>
         {% elif key=='session_id'%}
-            <p hidden id="userSession">{{ value }}</p>
+            <input hidden id="userSession" value={{ value }}>
         {% endif %}
 
     {% endfor %}
