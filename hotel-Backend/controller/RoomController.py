@@ -33,6 +33,11 @@ def addRoom():
     return wsResponse
 
 
+@app.route("/addRoomPage", methods=['GET'])
+def addRoomPage():
+    return render_template('addRoomPage.html')
+
+
 @app.route('/deleteRoom', methods=['POST'])
 def deleteRoom():
     wsResponse = {"resultSet": None, "operationStatus": None}
@@ -41,3 +46,7 @@ def deleteRoom():
     wsResponse['operationStatus'] = 1
     return wsResponse
 
+
+@app.route('/deleteRoomPage', methods=['GET'])
+def deleteRoomPage():
+    return render_template('deleteRoomPage.html')

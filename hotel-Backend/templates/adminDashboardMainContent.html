@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body id="userDashboard">
+      <table border = 1>
+         {% for key, value in session['adminDataStored'].items() %}
+            <tr>
+               <th> {{ key }} </th>
+               <td> {{ value }} </td>
+            </tr>
+             {% if key=='session_id' %}
+             {{ value }}
+             {% endif %}
+         {% endfor %}
+      </table>
+<br>
+
+     {% for x in session['RoomsDataAdmin'] %}
+    <table border = 1>
+         {% for key, value in x.items() %}
+            <tr>
+               <th> {{ key }} </th>
+               <td> {{ value }} </td>
+            </tr>
+         {% endfor %}
+
+</table>
+          <br>
+       {% endfor %}
+
+
+       {% for x in session['BookingsDataAdmin'] %}
+    <table border = 1>
+         {% for key, value in x.items() %}
+            <tr>
+               <th> {{ key }} </th>
+               <td> {{ value }} </td>
+            </tr>
+         {% endfor %}
+
+</table>
+          <br>
+       {% endfor %}
+
+<script src="/static/javascript/userIsLogin.js"></script>
+</body>
+
+</html>

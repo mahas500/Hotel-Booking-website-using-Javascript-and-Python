@@ -1,0 +1,37 @@
+
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+
+  <h1 align="center">Add Room Page</h1>
+
+<form id="registerForm">
+    <div class="form-group">
+            <label>Enter room number</label>
+            <input type="text" class="form-control" id="number">
+    </div>
+
+    <div class="form-group">
+            <label>Enter room price</label>
+            <input type="text" class="form-control" id="roomprice">
+    </div>
+
+    <div class="form-group">
+            <label>Enter rating for the room out of 10</label>
+            <input type="text" class="form-control" id="ratings">
+    </div>
+
+    <button type="button" class="btn btn-primary" id="sendingData" value="submit">ADD</button>
+    <span>
+    <a href="{{ url_for('adminDashboard') }}">Back to Dashboard</a>
+    </span>
+    <br>
+</form>
+
+
+    <script src="/static/javascript/addingRoom.js"></script>
+</body>
+</html>
