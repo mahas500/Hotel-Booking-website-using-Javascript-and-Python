@@ -50,11 +50,13 @@ class CustomerService:
         session['RoomsData'] = responseData
         return responseData
 
+
     @classmethod
     def checkCustomerFromSessionID(cls, headerData):
         responseData = cls.customerDAO.checkCustomerFromSessionID(headerData)
 
         if responseData is not None:
-            return responseData
+            return True
         else:
             return False
+

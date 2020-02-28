@@ -4,6 +4,8 @@ from DAO.CustomerDAO import CustomerDAO
 from Service.RoomService import RoomService
 from Service.EmailService import EmailService
 from Service.CustomerService import CustomerService
+from Exceptions.SomethingWentWrong import SomethingWentWrong
+from Exceptions.CustomerNotLoggedIn import CustomerNotLoggedIn
 
 
 class BookingService:
@@ -15,12 +17,15 @@ class BookingService:
 
     @classmethod
     def getAllBookings(cls):
-        responseData = cls.bookingDAO.getAllBookings()
+        if cls.getAllBookingsData():
+            responseData = cls.bookingDAO.getAllBookings()
+        else:
+            raise SomethingWentWrong
         return responseData
 
     @classmethod
     def addBooking(cls, header, data):
-        checkCustomer = cls.customerService.checkCustomerFromSessionID(header.get('session_id'))
+        checkCustomer = cls.customerDAO.checkCustomerFromSessionID(header.get('session_id'))
         checkRoomAvailibity = cls.roomService.checkRoomIsAvailable(data.get('room_id'))
         if checkRoomAvailibity is not None:
             responseData = cls.bookingDAO.addRoomBooking(checkCustomer.get('customer_id'), data.get('room_id'),
@@ -32,11 +37,14 @@ class BookingService:
 
     @classmethod
     def contactUS(cls, header, data):
-        checkCustomer = cls.customerService.checkCustomerFromSessionID(header.get('session_id'))
-        responseData = cls.bookingDAO.contactUS(checkCustomer.get('customer_id'), checkCustomer.get('username'),
+        if cls.customerService.checkCustomerFromSessionID(header.get('session_id')):
+            checkCustomer = cls.customerDAO.checkCustomerFromSessionID(header.get('session_id'))
+            responseData = cls.bookingDAO.contactUS(checkCustomer.get('customer_id'), checkCustomer.get('username'),
                                                 data.get('description'))
-        cls.emailService.contactUsEmail(responseData.get('incident_id'), data.get('description'),
+            cls.emailService.contactUsEmail(responseData.get('incident_id'), data.get('description'),
                                         checkCustomer.get('email'))
+        else:
+            raise CustomerNotLoggedIn
         return responseData
 
     @classmethod
@@ -46,3 +54,17 @@ class BookingService:
         cls.emailService.contactUsEmailbyHome(responseData.get('query_id'), data.get('name'), data.get('email'),
                                               data.get('description'))
         return responseData
+
+    @classmethod
+    def getAllBookingsData(cls):
+        if cls.bookingDAO.getAllBookings():
+            return True
+        else:
+            return False
+
+    @classmethod
+    def contactUSDataCheck(cls):
+        if cls.bookingDAO.getAllBookings():
+            return True
+        else:
+            return False
