@@ -5,30 +5,28 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
 </head>
-
 <body>
-<h1 align="center">Forget Password page</h1>
+<h1 align="center">Enter OTP Page</h1>
 
 <form id="loginForm">
 <div class="form-group">
-        <label>Enter your user ID</label>
-        <input type="text" class="form-control" id="customerID">
+        <label>Enter the OTP received via Email</label>
+        <input type="text" class="form-control" id="OtpReceived">
     </div>
 
     <div class="form-group">
-            <label>Enter your Email address</label>
-            <input type="text" class="form-control" id="email">
+            <label>Enter your New Password</label>
+            <input type="password" class="form-control" id="newPass">
     </div>
 
     <div class="form-group">
-    <label>Generate OTP</label>
-    <button type="button" class="btn btn-primary" id="sendingData" value="submit">Generate</button>
+    <button type="button" class="btn btn-primary" id="sendingData" value="submit">CONFIRM</button>
     </div>
     </form>
     <span>
     <a href="{{ url_for('index') }}">Navigate to home</a>
     </span>
 
-    <script src="/static/javascript/forgotPassword.js"></script>
+    <script src="/static/javascript/addOTP.js"></script>
 </body>
 </html>

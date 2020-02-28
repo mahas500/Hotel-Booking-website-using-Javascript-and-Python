@@ -17,6 +17,11 @@ def getCustomersFromDB():
     return wsResponse
 
 
+@app.route("/forgotPasswordForm", methods=['GET'])
+def forgotPasswordForm():
+    return render_template('forgotPasswordForm.html')
+
+
 @app.route("/forgotPassword", methods=['POST'])
 def forgotPassword():
     wsResponse = {"resultSet": None, "operationStatus": None}
@@ -24,6 +29,25 @@ def forgotPassword():
     wsResponse['resultSet'] = responseData
     wsResponse['operationStatus'] = 1
     return wsResponse
+
+
+@app.route("/newPassword", methods=['POST'])
+def newPassword():
+    wsResponse = {"resultSet": None, "operationStatus": None}
+    responseData = customerService.newPassword(request.json)
+    wsResponse['resultSet'] = responseData
+    wsResponse['operationStatus'] = 1
+    return wsResponse
+
+
+@app.route("/passwordChangedPage",methods=['GET'])
+def passwordChangedPage():
+    return render_template('passwordChangedForm.html')
+
+
+@app.route("/addOTP", methods=['GET'])
+def addOTP():
+    return render_template('addOTP.html')
 
 
 @app.route("/addCustomerInDB", methods=['POST'])

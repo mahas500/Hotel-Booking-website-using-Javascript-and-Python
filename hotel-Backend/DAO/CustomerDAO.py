@@ -29,6 +29,28 @@ class CustomerDAO:
 
 
     @classmethod
+    def UpdateNewPassword(cls, password, OTP):
+        try:
+            conn = mysql.connect()
+            cursor = conn.cursor(pymysql.cursors.DictCursor)
+
+            cursor.execute("Update customer set password = %s where OTP=%s",
+                           (password,OTP))
+            conn.commit()
+            cursor.execute("select * from customer where password = %s and OTP=%s",
+                           (password, OTP))
+
+            row = cursor.fetchone()
+            return row
+        except Exception as e:
+
+            print(e)
+        finally:
+            cursor.close()
+            conn.close()
+
+
+    @classmethod
     def getAllCustomersfromDB(cls):
         try:
             conn = mysql.connect()

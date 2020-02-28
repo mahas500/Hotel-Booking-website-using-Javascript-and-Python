@@ -20,6 +20,13 @@ class CustomerService:
         cls.emailService.forgotPasswordEmail(responseData.get('customer_id'), responseData.get('email'),OTP)
         return responseData
 
+
+    @classmethod
+    def newPassword(cls, data):
+        responseData = cls.customerDAO.UpdateNewPassword(data.get('password'), data.get('OTP'))
+        return responseData
+
+
     @classmethod
     def getAllCustomers(cls):
         responseData = cls.customerDAO.getAllCustomersfromDB()
