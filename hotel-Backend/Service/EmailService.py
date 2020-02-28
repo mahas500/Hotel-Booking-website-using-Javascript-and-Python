@@ -19,7 +19,7 @@ class EmailService:
     def contactUsEmail(cls, inci, desc, data):
         incident = inci
         description = desc
-        msg = Message('Thanks for your email', sender='mahashabdemanik@gmail.com',
+        msg = Message('Thanks for contacting Us', sender='mahashabdemanik@gmail.com',
                       recipients=[data])
         msg.html = "<h3 align='center'>Hello User</h3> <br> <p> Thanks for reaching out to us." \
                    " We will get back to you shortly. Please find below <b>incident ID</b> for reference</p><br>" \
@@ -33,7 +33,7 @@ class EmailService:
     @classmethod
     def custCreateMail(cls, cust_id, data):
         cust = cust_id
-        msg = Message('Thanks for your email', sender='mahashabdemanik@gmail.com',
+        msg = Message('Registration successful', sender='mahashabdemanik@gmail.com',
                       recipients=[data])
         msg.html = "<h3 align='center'>Hello User</h3> <br> <p> You have been registered successfully." \
                    " Please find below your customer ID</p><br>" \
@@ -42,3 +42,19 @@ class EmailService:
                    "<br>Team Admin</p>"
         mail.send(msg)
         return None
+
+    @classmethod
+    def forgotPasswordEmail(cls, cust_id, email, otp):
+        custID = cust_id
+        emailID = email
+        OTP = otp
+        msg = Message('Password Reset Email', sender='mahashabdemanik@gmail.com',
+                      recipients=[emailID])
+        msg.html = "<h3 align='center'>Hello User</h3> <br> <p> Thanks for reaching out to us." \
+                   " Below is the 6 digit OTP for resetting your password for customer ID" \
+                   "<br>" + custID +  \
+                   "<br>" + "<b>" + OTP + "</b>"\
+                   "<br>"\
+                   "<p>Regards,<br>Team Admin</p>"
+        mail.send(msg)
+        return "Mail sent successfully!"

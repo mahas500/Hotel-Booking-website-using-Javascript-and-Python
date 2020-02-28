@@ -17,6 +17,15 @@ def getCustomersFromDB():
     return wsResponse
 
 
+@app.route("/forgotPassword", methods=['POST'])
+def forgotPassword():
+    wsResponse = {"resultSet": None, "operationStatus": None}
+    responseData = customerService.forgotPassword(request.json)
+    wsResponse['resultSet'] = responseData
+    wsResponse['operationStatus'] = 1
+    return wsResponse
+
+
 @app.route("/addCustomerInDB", methods=['POST'])
 def addCustomerInDB():
     if request.method == 'POST':

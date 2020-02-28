@@ -1,3 +1,4 @@
+import uuid
 from wsgiref import headers
 
 from flask import session, jsonify
@@ -12,9 +13,18 @@ class CustomerService:
     roomService = RoomService()
 
     @classmethod
+    def forgotPassword(cls, data):
+        otp = str(uuid.uuid4())
+        OTP = otp[0:6]
+        responseData = cls.customerDAO.forgotPasswordDB(data.get('customer_id'), data.get('email'),OTP)
+        cls.emailService.forgotPasswordEmail(responseData.get('customer_id'), responseData.get('email'),OTP)
+        return responseData
+
+    @classmethod
     def getAllCustomers(cls):
         responseData = cls.customerDAO.getAllCustomersfromDB()
         return responseData
+
 
     @classmethod
     def createCustomer(cls, data):

@@ -8,6 +8,27 @@ from flask import jsonify
 class CustomerDAO:
 
     @classmethod
+    def forgotPasswordDB(cls,customer_id,email,otp):
+        try:
+            conn = mysql.connect()
+            cursor = conn.cursor(pymysql.cursors.DictCursor)
+
+            cursor.execute("update customer set otp=%s where customer_id=%s and email=%s",
+                           (otp,customer_id,email))
+            conn.commit()
+            cursor.execute("SELECT * from customer WHERE customer_id = %s",
+                           customer_id)
+            row = cursor.fetchone()
+            return row
+        except Exception as e:
+
+            print(e)
+        finally:
+            cursor.close()
+            conn.close()
+
+
+    @classmethod
     def getAllCustomersfromDB(cls):
         try:
             conn = mysql.connect()
