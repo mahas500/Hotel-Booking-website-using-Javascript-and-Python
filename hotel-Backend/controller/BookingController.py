@@ -46,3 +46,11 @@ def index():
     return render_template('index.html')
 
 
+@app.errorhandler(404)
+def error404(error):
+    return render_template('404ErrorPage.html')
+
+
+@app.errorhandler(500)
+def error500(error):
+    return render_template('500ErrorPage.html')
