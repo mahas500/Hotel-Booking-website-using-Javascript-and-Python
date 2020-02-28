@@ -54,3 +54,23 @@ def error404(error):
 @app.errorhandler(500)
 def error500(error):
     return render_template('500ErrorPage.html')
+
+
+@app.errorhandler(405)
+def error405(error):
+    return render_template('405ErrorPage.html')
+
+
+@app.errorhandler(403)
+def error403(error):
+    return render_template('403ErrorPage.html')
+
+
+@app.errorhandler(400)
+def error400(error):
+    return render_template('400ErrorPage.html')
+
+
+@app.errorhandler(502)
+def error502(error):
+    return render_template('502ErrorPage.html')
