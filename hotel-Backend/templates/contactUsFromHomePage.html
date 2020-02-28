@@ -10,28 +10,27 @@
 <h1 align="center">Contact Us Page</h1>
 
 <form id="contactusForm">
-    {% for key, value in session['loginData'].items() %}
-        {% if key=='username' %}
-           <h3 align="center">Hello User {{ value }}</h3>
-        {% elif key=='session_id'%}
-            <input hidden id="userSession" value={{ value }}>
-        {% endif %}
 
-    {% endfor %}
 <div class="form-group">
-        <label>Enter your description</label>
+        <label>Enter your name</label>
+        <input type="text" class="form-control" id="name">
+</div>
+    <div class="form-group">
+        <label>Enter your email</label>
+        <input type="text" class="form-control" id="email">
+</div>
+    <div class="form-group">
+        <label>Please enter your description</label>
         <input type="text" class="form-control" id="description">
-    </div>
+</div>
+
 <button type="button" class="btn btn-primary" id="sendingData" value="submit">Submit</button>
 <br>
     <span>
     <a href="{{ url_for('index') }}">Navigate to home</a>
     </span>
 <br>
-    <span>
-    <a href="{{ url_for('dashboard') }}">Navigate to dashboard</a>
-    </span>
     </form>
-<script src="/static/javascript/contactUsData.js"></script>
+<script src="/static/javascript/contactUsFromHome.js"></script>
 </body>
 </html>

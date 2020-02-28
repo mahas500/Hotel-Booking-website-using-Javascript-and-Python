@@ -52,6 +52,11 @@ def contactUsForm():
     return render_template('contactUsForm.html')
 
 
+@app.route("/contactUsViaHomeForm")
+def contactUsViaHomeForm():
+    return render_template('contactUsFromHomePage.html')
+
+
 @app.route("/")
 def index():
     return render_template('index.html')
