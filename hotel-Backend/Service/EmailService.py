@@ -15,6 +15,7 @@ class EmailService:
         mail.send(msg)
         return "Mail sent successfully!"
 
+
     @classmethod
     def contactUsEmail(cls, inci, desc, data):
         incident = inci
@@ -30,6 +31,21 @@ class EmailService:
         mail.send(msg)
         return "Mail sent successfully!"
 
+
+    @classmethod
+    def contactUsEmailbyHome(cls,inci, name, email, desc):
+        msg = Message('Thanks for contacting Us', sender='mahashabdemanik@gmail.com',
+                      recipients=[email])
+        msg.html = "<h3 align='center'>Hello <b>" + name + "<b> </h3>" "<br> <p> Thanks for reaching out to us." \
+                   " We will get back to you shortly. Please find below <b>incident ID</b> for reference</p><br>" \
+                   + inci + \
+                   "<br>"\
+                   "<b>Description</b>:" + desc + \
+                   "<p>Regards,<br>Team Admin</p>"
+        mail.send(msg)
+        return "Mail sent successfully!"
+
+
     @classmethod
     def custCreateMail(cls, cust_id, data):
         cust = cust_id
@@ -42,6 +58,7 @@ class EmailService:
                    "<br>Team Admin</p>"
         mail.send(msg)
         return None
+
 
     @classmethod
     def forgotPasswordEmail(cls, cust_id, email, otp):

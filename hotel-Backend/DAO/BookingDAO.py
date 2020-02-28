@@ -49,6 +49,7 @@ class BookingDAO:
             cursor.close()
             conn.close()
 
+
     @classmethod
     def contactUS(cls, customer_id, username,description):
         try:
@@ -63,6 +64,29 @@ class BookingDAO:
 
             cursor.execute("SELECT * from incident WHERE incident_id = %s",
                            incidentId)
+            rows = cursor.fetchone()
+            return rows
+        except Exception as e:
+            print(e)
+        finally:
+            cursor.close()
+            conn.close()
+
+
+    @classmethod
+    def contactUsViaHome(cls, name, email, description):
+        try:
+            query_id = str(uuid.uuid4())
+            conn = mysql.connect()
+            cursor = conn.cursor(pymysql.cursors.DictCursor)
+
+            cursor.execute(
+                "insert into query(query_id,name, email,description) value (%s,%s, %s, %s)",
+                (query_id, name, email, description))
+            conn.commit()
+
+            cursor.execute("SELECT * from query WHERE query_id = %s",
+                           query_id)
             rows = cursor.fetchone()
             return rows
         except Exception as e:

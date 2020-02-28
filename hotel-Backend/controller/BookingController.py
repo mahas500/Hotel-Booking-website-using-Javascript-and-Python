@@ -37,9 +37,20 @@ def contactUS():
     wsResponse['operationStatus'] = 1
     return wsResponse
 
+
+@app.route("/contactUsViaHome", methods=['POST'])
+def contactUsViaHome():
+    wsResponse = {"resultSet": None, "operationStatus": None}
+    responseData = bookingService.contactUsViaHome(request.json)
+    wsResponse['resultSet'] = responseData
+    wsResponse['operationStatus'] = 1
+    return wsResponse
+
+
 @app.route("/contactUsForm")
 def contactUsForm():
     return render_template('contactUsForm.html')
+
 
 @app.route("/")
 def index():

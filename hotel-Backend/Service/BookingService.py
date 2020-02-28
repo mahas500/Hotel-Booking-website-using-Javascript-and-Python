@@ -38,3 +38,11 @@ class BookingService:
         cls.emailService.contactUsEmail(responseData.get('incident_id'), data.get('description'),
                                         checkCustomer.get('email'))
         return responseData
+
+    @classmethod
+    def contactUsViaHome(cls, data):
+        responseData = cls.bookingDAO.contactUsViaHome(data.get('name'), data.get('email'),
+                                                       data.get('description'))
+        cls.emailService.contactUsEmailbyHome(responseData.get('query_id'), data.get('name'), data.get('email'),
+                                              data.get('description'))
+        return responseData
