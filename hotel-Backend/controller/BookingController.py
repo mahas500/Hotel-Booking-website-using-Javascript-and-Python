@@ -53,9 +53,13 @@ def contactUS():
 @app.route("/contactUsViaHome", methods=['POST'])
 def contactUsViaHome():
     wsResponse = {"resultSet": None, "operationStatus": None}
-    responseData = bookingService.contactUsViaHome(request.json)
-    wsResponse['resultSet'] = responseData
-    wsResponse['operationStatus'] = 1
+    try:
+        responseData = bookingService.contactUsViaHome(request.json)
+        wsResponse['resultSet'] = responseData
+        wsResponse['operationStatus'] = 1
+    except SomethingWentWrong:
+        wsResponse['resultSet'] = None
+        wsResponse['operationStatus'] = CustomUtils.SOMETHING_WENT_WRONG
     return wsResponse
 
 

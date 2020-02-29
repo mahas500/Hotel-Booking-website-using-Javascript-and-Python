@@ -23,6 +23,7 @@ class BookingService:
             raise SomethingWentWrong
         return responseData
 
+
     @classmethod
     def addBooking(cls, header, data):
         checkCustomer = cls.customerDAO.checkCustomerFromSessionID(header.get('session_id'))
@@ -34,6 +35,7 @@ class BookingService:
             return responseData
         else:
             return None
+
 
     @classmethod
     def contactUS(cls, header, data):
@@ -47,13 +49,20 @@ class BookingService:
             raise CustomerNotLoggedIn
         return responseData
 
+
     @classmethod
     def contactUsViaHome(cls, data):
-        responseData = cls.bookingDAO.contactUsViaHome(data.get('name'), data.get('email'),
+        if cls.contactUsViaHomeCheck(data.get('name'), data.get('email'),
+                                                       data.get('description')):
+
+            responseData = cls.bookingDAO.contactUsViaHome(data.get('name'), data.get('email'),
                                                        data.get('description'))
-        cls.emailService.contactUsEmailbyHome(responseData.get('query_id'), data.get('name'), data.get('email'),
-                                              data.get('description'))
+            cls.emailService.contactUsEmailbyHome(responseData.get('query_id'), data.get('name'), data.get('email'),
+                                                        data.get('description'))
+        else:
+            raise SomethingWentWrong
         return responseData
+
 
     @classmethod
     def getAllBookingsData(cls):
@@ -62,9 +71,11 @@ class BookingService:
         else:
             return False
 
+
     @classmethod
-    def contactUSDataCheck(cls):
-        if cls.bookingDAO.getAllBookings():
+    def contactUsViaHomeCheck(cls,name,email,description):
+        responseData = cls.bookingDAO.contactUsViaHome(name, email,description)
+        if responseData is not None:
             return True
         else:
             return False
