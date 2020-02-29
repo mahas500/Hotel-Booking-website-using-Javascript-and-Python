@@ -9,6 +9,12 @@
  <h1 align="center">Delete Room Page</h1>
 
 <form id="registerForm">
+    {% for key, value in session['adminDataStored'].items() %}
+        {% if key=='session_id' %}
+           <input hidden id="userSession" value={{ value }}>
+        {% endif %}
+
+    {% endfor %}
     <div class="form-group">
             <label>Enter room ID to delete</label>
             <input type="text" class="form-control" id="number">

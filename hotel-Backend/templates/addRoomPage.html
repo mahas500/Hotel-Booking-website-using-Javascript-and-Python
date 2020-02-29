@@ -9,6 +9,12 @@
   <h1 align="center">Add Room Page</h1>
 
 <form id="registerForm">
+    {% for key, value in session['adminDataStored'].items() %}
+        {% if key=='session_id' %}
+           <input hidden id="userSession" value={{ value }}>
+        {% endif %}
+
+    {% endfor %}
     <div class="form-group">
             <label>Enter room number</label>
             <input type="text" class="form-control" id="number">
