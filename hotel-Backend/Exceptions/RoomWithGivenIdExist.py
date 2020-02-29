@@ -1,0 +1,2 @@
+class RoomWithGivenIdExist(Exception):
+    pass
