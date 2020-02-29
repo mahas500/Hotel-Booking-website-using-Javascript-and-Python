@@ -1,3 +1,10 @@
+from CustomUtils import CustomUtils
+from Exceptions.NoBookingsExist import NoBookingsExist
+from Exceptions.NotAuthorized import NotAuthorized
+from Exceptions.RoomNotAvailable import RoomNotAvailable
+from Exceptions.RoomWithGivenIdDoesNotExist import RoomWithGivenIdDoesNotExist
+from Exceptions.RoomWithGivenNumberAlreadyExist import RoomWithGivenNumberAlreadyExist
+from Exceptions.WrongCredentials import WrongCredentials
 from app import app
 from flask import jsonify
 from flask import flash, request,render_template
@@ -9,27 +16,36 @@ roomService = RoomService()
 @app.route("/adminLogin", methods=['POST'])
 def adminLogin():
     wsResponse = {"resultSet": None, "operationStatus": None}
-    responseData = roomService.adminLogin(request.json)
-    wsResponse['resultSet'] = responseData
-    wsResponse['operationStatus'] = 1
+    try:
+        responseData = roomService.adminLogin(request.json)
+        wsResponse['resultSet'] = responseData
+        wsResponse['operationStatus'] = 1
+    except NoBookingsExist:
+        wsResponse['resultSet'] = None
+        wsResponse['operationStatus'] = CustomUtils.NO_BOOKINGS_EXIST
+    except RoomNotAvailable:
+        wsResponse['resultSet'] = None
+        wsResponse['operationStatus'] = CustomUtils.ROOM_NOT_AVAILABLE
+    except WrongCredentials:
+        wsResponse['resultSet'] = None
+        wsResponse['operationStatus'] = CustomUtils.WRONG_CREDENTIALS
     return wsResponse
 
-
-@app.route("/getRooms", methods=['GET'])
-def getRooms():
-    wsResponse = {"resultSet": None, "operationStatus": None}
-    responseData = roomService.getAllRooms()
-    wsResponse['resultSet'] = responseData
-    wsResponse['operationStatus'] = 1
-    return wsResponse
 
 
 @app.route("/addRoom", methods=['POST'])
 def addRoom():
     wsResponse = {"resultSet": None, "operationStatus": None}
-    responseData = roomService.addRoom(request.json)
-    wsResponse['resultSet'] = responseData
-    wsResponse['operationStatus'] = 1
+    try:
+        responseData = roomService.addRoom(request.headers,request.json)
+        wsResponse['resultSet'] = responseData
+        wsResponse['operationStatus'] = 1
+    except RoomWithGivenNumberAlreadyExist:
+        wsResponse['resultSet'] = None
+        wsResponse['operationStatus'] = CustomUtils.ROOM_WITH_GIVEN_NUMBER_ALREADY_EXIST
+    except NotAuthorized:
+        wsResponse['resultSet'] = None
+        wsResponse['operationStatus'] = CustomUtils.NOT_AUTHORIZED
     return wsResponse
 
 
@@ -41,9 +57,16 @@ def addRoomPage():
 @app.route('/deleteRoom', methods=['POST'])
 def deleteRoom():
     wsResponse = {"resultSet": None, "operationStatus": None}
-    responseData = roomService.deleteRoom(request.json)
-    wsResponse['resultSet'] = responseData
-    wsResponse['operationStatus'] = 1
+    try:
+        responseData = roomService.deleteRoom(request.headers,request.json)
+        wsResponse['resultSet'] = responseData
+        wsResponse['operationStatus'] = 1
+    except RoomWithGivenIdDoesNotExist:
+        wsResponse['resultSet'] = None
+        wsResponse['operationStatus'] = CustomUtils.ROOM_WITH_GIVEN_ID_DOES_NOT_EXIST
+    except NotAuthorized:
+        wsResponse['resultSet'] = None
+        wsResponse['operationStatus'] = CustomUtils.NOT_AUTHORIZED
     return wsResponse
 
 

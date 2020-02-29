@@ -86,7 +86,6 @@ def customerLogin():
     wsResponse = {"resultSet": None, "operationStatus": None}
     try:
         responseData = customerService.customerLogin(request.json)
-        print(responseData)
         wsResponse['resultSet'] = responseData
         wsResponse['operationStatus'] = 1
     except RoomNotAvailable:

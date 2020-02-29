@@ -8,6 +8,57 @@ class RoomDAO:
 
 
     @classmethod
+    def checkRoomWithGivenID(cls, room_id):
+        try:
+            conn = mysql.connect()
+            cursor = conn.cursor(pymysql.cursors.DictCursor)
+
+            cursor.execute("SELECT * from room where room_id=%s",
+                           room_id)
+            rows = cursor.fetchone()
+            return rows
+        except Exception as e:
+            print(e)
+        finally:
+            cursor.close()
+            conn.close()
+
+
+    @classmethod
+    def checkRoomWithNumber(cls, room_number):
+        try:
+            conn = mysql.connect()
+            cursor = conn.cursor(pymysql.cursors.DictCursor)
+
+            cursor.execute("SELECT * from room where room_number=%s",
+                           room_number)
+            rows = cursor.fetchone()
+            return rows
+        except Exception as e:
+            print(e)
+        finally:
+            cursor.close()
+            conn.close()
+
+
+    @classmethod
+    def adminCheckFromSessionID(cls,session_id):
+        try:
+            conn = mysql.connect()
+            cursor = conn.cursor(pymysql.cursors.DictCursor)
+
+            cursor.execute("SELECT * from admin where session_id=%s",
+                           session_id)
+            rows = cursor.fetchone()
+            return rows
+        except Exception as e:
+            print(e)
+        finally:
+            cursor.close()
+            conn.close()
+
+
+    @classmethod
     def adminLogin(cls, admin_id, password):
         try:
             conn = mysql.connect()
@@ -85,6 +136,9 @@ class RoomDAO:
 
             cursor.execute("DELETE from room where room_id=%s", room_id)
             conn.commit()
+            cursor.execute("SELECT * from room")
+            rows = cursor.fetchall()
+            return rows
         except Exception as e:
 
             print(e)
