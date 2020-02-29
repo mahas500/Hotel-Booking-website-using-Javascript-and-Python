@@ -1,6 +1,7 @@
 from CustomUtils import CustomUtils
 from Exceptions.CustomerNotLoggedIn import CustomerNotLoggedIn
 from Exceptions.SomethingWentWrong import SomethingWentWrong
+from Exceptions.RoomNotAvailable import RoomNotAvailable
 from app import app
 from flask import jsonify
 from flask import flash, request,render_template
@@ -11,7 +12,6 @@ from Service.BookingService import BookingService
 from Service.EmailService import EmailService
 
 bookingService = BookingService()
-
 
 
 @app.route("/getAllBookings", methods=['GET'])
@@ -27,13 +27,19 @@ def getAllBookings():
     return wsResponse
 
 
-
 @app.route("/addBooking", methods=['POST'])
 def addBooking():
     wsResponse = {"resultSet": None, "operationStatus": None}
-    responseData = bookingService.addBooking(request.headers, request.json)
-    wsResponse['resultSet'] = responseData
-    wsResponse['operationStatus'] = 1
+    try:
+        responseData = bookingService.addBooking(request.headers, request.json)
+        wsResponse['resultSet'] = responseData
+        wsResponse['operationStatus'] = 1
+    except RoomNotAvailable:
+        wsResponse['resultSet'] = None
+        wsResponse['operationStatus'] = CustomUtils.ROOM_NOT_AVAILABLE
+    except CustomerNotLoggedIn:
+        wsResponse['resultSet'] = None
+        wsResponse['operationStatus'] = CustomUtils.CUSTOMER_NOT_LOGGED_IN
     return wsResponse
 
 

@@ -47,6 +47,6 @@ class RoomService:
     def checkRoomIsAvailable(cls, data):
         responseData = cls.roomDAO.checkRoomIsAvailable(data)
         if responseData is not None:
-            return responseData
+            return True
         else:
             return None
