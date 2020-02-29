@@ -8,6 +8,42 @@ from flask import jsonify
 class CustomerDAO:
 
     @classmethod
+    def OTPCheck(cls, OTP):
+        try:
+            conn = mysql.connect()
+            cursor = conn.cursor(pymysql.cursors.DictCursor)
+
+            cursor.execute("SELECT * from customer WHERE OTP = %s",
+                           OTP)
+            row = cursor.fetchone()
+            return row
+        except Exception as e:
+
+            print(e)
+        finally:
+            cursor.close()
+            conn.close()
+
+
+    @classmethod
+    def forgotPasswordCheck(cls, customer_id,email):
+        try:
+            conn = mysql.connect()
+            cursor = conn.cursor(pymysql.cursors.DictCursor)
+
+            cursor.execute("SELECT * from customer WHERE customer_id = %s and email=%s",
+                           (customer_id,email))
+            row = cursor.fetchone()
+            return row
+        except Exception as e:
+
+            print(e)
+        finally:
+            cursor.close()
+            conn.close()
+
+
+    @classmethod
     def forgotPasswordDB(cls,customer_id,email,otp):
         try:
             conn = mysql.connect()
@@ -37,8 +73,11 @@ class CustomerDAO:
             cursor.execute("Update customer set password = %s where OTP=%s",
                            (password,OTP))
             conn.commit()
-            cursor.execute("select * from customer where password = %s and OTP=%s",
-                           (password, OTP))
+            cursor.execute("Update customer set OTP = null where password=%s",
+                           password)
+            conn.commit()
+            cursor.execute("select * from customer where password = %s",
+                           password)
 
             row = cursor.fetchone()
             return row

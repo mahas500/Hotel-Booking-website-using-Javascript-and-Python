@@ -30,7 +30,10 @@ class RoomService:
     @classmethod
     def getAllRooms(cls):
         responseData = cls.roomDAO.getAllRooms()
-        return responseData
+        if responseData is not None:
+            return True
+        else:
+            return False
 
 
     @classmethod

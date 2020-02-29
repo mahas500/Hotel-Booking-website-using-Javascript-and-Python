@@ -1,5 +1,8 @@
 from CustomUtils import CustomUtils
+from Exceptions.OTP_Not_Correct import OTP_Not_Correct
+from Exceptions.WrongCredentials import WrongCredentials
 from Exceptions.NoCustomersExist import NoCustomersExist
+from Exceptions.RoomNotAvailable import RoomNotAvailable
 from Exceptions.SomethingWentWrong import SomethingWentWrong
 from app import app
 import urllib.parse
@@ -32,18 +35,26 @@ def forgotPasswordForm():
 @app.route("/forgotPassword", methods=['POST'])
 def forgotPassword():
     wsResponse = {"resultSet": None, "operationStatus": None}
-    responseData = customerService.forgotPassword(request.json)
-    wsResponse['resultSet'] = responseData
-    wsResponse['operationStatus'] = 1
+    try:
+        responseData = customerService.forgotPassword(request.json)
+        wsResponse['resultSet'] = responseData
+        wsResponse['operationStatus'] = 1
+    except WrongCredentials:
+        wsResponse['resultSet'] = None
+        wsResponse['operationStatus'] = CustomUtils.WRONG_CREDENTIALS
     return wsResponse
 
 
 @app.route("/newPassword", methods=['POST'])
 def newPassword():
     wsResponse = {"resultSet": None, "operationStatus": None}
-    responseData = customerService.newPassword(request.json)
-    wsResponse['resultSet'] = responseData
-    wsResponse['operationStatus'] = 1
+    try:
+        responseData = customerService.newPassword(request.json)
+        wsResponse['resultSet'] = responseData
+        wsResponse['operationStatus'] = 1
+    except OTP_Not_Correct:
+        wsResponse['resultSet'] = None
+        wsResponse['operationStatus'] = CustomUtils.OTP_NOT_CORRECT
     return wsResponse
 
 
@@ -72,12 +83,19 @@ def addCustomerInDB():
 
 @app.route("/customerLogin", methods=['POST'])
 def customerLogin():
-    if request.method == 'POST':
-        wsResponse = {"resultSet": None, "operationStatus": None}
-        responseData=customerService.customerLogin(request.json)
+    wsResponse = {"resultSet": None, "operationStatus": None}
+    try:
+        responseData = customerService.customerLogin(request.json)
+        print(responseData)
         wsResponse['resultSet'] = responseData
         wsResponse['operationStatus'] = 1
-        return wsResponse
+    except RoomNotAvailable:
+        wsResponse['resultSet'] = None
+        wsResponse['operationStatus'] = CustomUtils.ROOM_NOT_AVAILABLE
+    except WrongCredentials:
+        wsResponse['resultSet'] = None
+        wsResponse['operationStatus'] = CustomUtils.WRONG_CREDENTIALS
+    return wsResponse
 
 
 
