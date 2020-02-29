@@ -173,3 +173,24 @@ class CustomerDAO:
         finally:
             cursor.close()
             conn.close()
+
+
+    @classmethod
+    def userLogoutDAO(cls,customer_id):
+        try:
+            conn = mysql.connect()
+            cursor = conn.cursor(pymysql.cursors.DictCursor)
+
+            cursor.execute("update customer set session_id = null where customer_id = %s",
+                           customer_id)
+            conn.commit()
+
+            cursor.execute("SELECT * from customer where customer_id = %s",
+                           customer_id)
+            row = cursor.fetchone()
+            return row
+        except Exception as e:
+            print(e)
+        finally:
+            cursor.close()
+            conn.close()

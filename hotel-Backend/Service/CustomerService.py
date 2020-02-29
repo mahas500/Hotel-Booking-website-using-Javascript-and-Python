@@ -33,7 +33,7 @@ class CustomerService:
     @classmethod
     def newPassword(cls, data):
         if cls.OTPCheck(data):
-            responseData = cls.customerDAO.UpdateNewPassword(data.get('password'),data.get('OTP'))
+            responseData = cls.customerDAO.UpdateNewPassword(data.get('password'), data.get('OTP'))
         else:
             raise OTP_Not_Correct
         return responseData
@@ -124,3 +124,10 @@ class CustomerService:
             return True
         else:
             return False
+
+    @classmethod
+    def userLogoutService(cls, customer_id):
+        responseData = cls.customerDAO.userLogoutDAO(customer_id)
+        session.pop('loginData')
+        session.pop('RoomsData')
+        return responseData

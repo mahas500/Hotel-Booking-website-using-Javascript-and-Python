@@ -162,3 +162,24 @@ class RoomDAO:
         finally:
             cursor.close()
             conn.close()
+
+
+    @classmethod
+    def adminLogoutDAO(cls,admin_id):
+        try:
+            conn = mysql.connect()
+            cursor = conn.cursor(pymysql.cursors.DictCursor)
+
+            cursor.execute("update admin set session_id = null where admin_id = %s",
+                           admin_id)
+            conn.commit()
+
+            cursor.execute("SELECT * from admin where admin_id = %s",
+                           admin_id)
+            row = cursor.fetchone()
+            return row
+        except Exception as e:
+            print(e)
+        finally:
+            cursor.close()
+            conn.close()

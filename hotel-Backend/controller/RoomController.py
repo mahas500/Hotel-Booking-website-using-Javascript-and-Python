@@ -6,7 +6,7 @@ from Exceptions.RoomWithGivenIdDoesNotExist import RoomWithGivenIdDoesNotExist
 from Exceptions.RoomWithGivenNumberAlreadyExist import RoomWithGivenNumberAlreadyExist
 from Exceptions.WrongCredentials import WrongCredentials
 from app import app
-from flask import jsonify
+from flask import jsonify, session
 from flask import flash, request,render_template
 from Service.RoomService import RoomService
 
@@ -73,3 +73,14 @@ def deleteRoom():
 @app.route('/deleteRoomPage', methods=['GET'])
 def deleteRoomPage():
     return render_template('deleteRoomPage.html')
+
+
+@app.route('/adminLogoutPage', methods=['GET'])
+def adminLogoutPage():
+    global x
+    for key, value in session['adminDataStored'].items():
+        if key == 'admin_id':
+            x = value
+            break
+    roomService.adminLogoutService(x)
+    return render_template('adminLogoutPage.html')

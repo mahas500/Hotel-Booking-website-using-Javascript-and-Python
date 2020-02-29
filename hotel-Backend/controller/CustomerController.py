@@ -122,3 +122,14 @@ def registerUser():
 @app.route("/adminLoginPage", methods=['GET'])
 def adminLoginPage():
     return render_template('adminLoginPage.html')
+
+
+@app.route("/userLogoutPage",methods=['GET'])
+def userLogoutPage():
+    global x
+    for key, value in session['loginData'].items():
+        if key == 'customer_id':
+            x = value
+            break
+    customerService.userLogoutService(x)
+    return render_template('userLogoutPage.html')

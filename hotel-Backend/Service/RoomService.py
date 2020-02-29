@@ -119,3 +119,11 @@ class RoomService:
             return True
         else:
             return None
+
+    @classmethod
+    def adminLogoutService(cls, admin_id):
+        responseData = cls.roomDAO.adminLogoutDAO(admin_id)
+        session.pop('adminDataStored')
+        session.pop('RoomsDataAdmin')
+        session.pop('BookingsDataAdmin')
+        return responseData
