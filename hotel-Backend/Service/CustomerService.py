@@ -3,6 +3,8 @@ from wsgiref import headers
 
 from flask import session, jsonify
 from DAO.CustomerDAO import CustomerDAO
+from Exceptions.NoCustomersExist import NoCustomersExist
+from Exceptions.SomethingWentWrong import SomethingWentWrong
 from Service.EmailService import EmailService
 from Service.RoomService import RoomService
 
@@ -29,17 +31,25 @@ class CustomerService:
 
     @classmethod
     def getAllCustomers(cls):
-        responseData = cls.customerDAO.getAllCustomersfromDB()
+        if cls.getAllCustomersCheck():
+            responseData = cls.customerDAO.getAllCustomersfromDB()
+        else:
+            raise NoCustomersExist
         return responseData
 
 
     @classmethod
     def createCustomer(cls, data):
-        responseData = cls.customerDAO.createNewCustomer(data.get('name'), data.get('username'), data.get('password'),
+        if cls.createCustomerCheck(data.get('name'), data.get('username'), data.get('password'),
+                                                         data.get('email'),
+                                                         data.get('contact_no')):
+            responseData = cls.customerDAO.createNewCustomer(data.get('name'), data.get('username'), data.get('password'),
                                                          data.get('email'),
                                                          data.get('contact_no'))
 
-        cls.emailService.custCreateMail(responseData.get('customer_id'), responseData.get('email'))
+            cls.emailService.custCreateMail(responseData.get('customer_id'), responseData.get('email'))
+        else:
+            raise SomethingWentWrong
         return responseData
 
     @classmethod
@@ -60,3 +70,20 @@ class CustomerService:
         else:
             return False
 
+
+    @classmethod
+    def getAllCustomersCheck(cls):
+        responseData = cls.customerDAO.getAllCustomersfromDB()
+        if responseData is not None:
+            return True
+        else:
+            return False
+
+
+    @classmethod
+    def createCustomerCheck(cls, name,username,password,email,contact_no):
+        responseData = cls.customerDAO.createNewCustomer(name,username,password,email,contact_no)
+        if responseData is not None:
+            return True
+        else:
+            return False

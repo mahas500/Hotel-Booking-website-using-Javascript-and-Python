@@ -2,6 +2,7 @@ from wsgiref import headers
 from DAO.BookingDAO import BookingDAO
 from DAO.CustomerDAO import CustomerDAO
 from DAO.RoomDAO import RoomDAO
+from Exceptions.NoBookingsExist import NoBookingsExist
 from Service.RoomService import RoomService
 from Service.EmailService import EmailService
 from Service.CustomerService import CustomerService
@@ -23,7 +24,7 @@ class BookingService:
         if cls.getAllBookingsData():
             responseData = cls.bookingDAO.getAllBookings()
         else:
-            raise SomethingWentWrong
+            raise NoBookingsExist
         return responseData
 
     @classmethod

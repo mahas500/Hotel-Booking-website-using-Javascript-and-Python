@@ -1,3 +1,6 @@
+from CustomUtils import CustomUtils
+from Exceptions.NoCustomersExist import NoCustomersExist
+from Exceptions.SomethingWentWrong import SomethingWentWrong
 from app import app
 import urllib.parse
 import json
@@ -11,9 +14,13 @@ customerService = CustomerService()
 @app.route("/getCustomersFromDB", methods=['GET'])
 def getCustomersFromDB():
     wsResponse = {"resultSet": None, "operationStatus": None}
-    responseData = customerService.getAllCustomers()
-    wsResponse['resultSet'] = responseData
-    wsResponse['operationStatus'] = 1
+    try:
+        responseData = customerService.getAllCustomers()
+        wsResponse['resultSet'] = responseData
+        wsResponse['operationStatus'] = 1
+    except NoCustomersExist:
+        wsResponse['resultSet'] = None
+        wsResponse['operationStatus'] = CustomUtils.NO_CUSTOMERS_EXIST
     return wsResponse
 
 
@@ -52,12 +59,15 @@ def addOTP():
 
 @app.route("/addCustomerInDB", methods=['POST'])
 def addCustomerInDB():
-    if request.method == 'POST':
-        wsResponse = {"resultSet": None, "operationStatus": None}
+    wsResponse = {"resultSet": None, "operationStatus": None}
+    try:
         responseData = customerService.createCustomer(request.json)
         wsResponse['resultSet'] = responseData
         wsResponse['operationStatus'] = 1
-        return wsResponse
+    except SomethingWentWrong:
+        wsResponse['resultSet'] = None
+        wsResponse['operationStatus'] = CustomUtils.SOMETHING_WENT_WRONG
+    return wsResponse
 
 
 @app.route("/customerLogin", methods=['POST'])

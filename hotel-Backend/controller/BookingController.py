@@ -1,5 +1,7 @@
 from CustomUtils import CustomUtils
+from Exceptions import NoBookingsExist
 from Exceptions.CustomerNotLoggedIn import CustomerNotLoggedIn
+from Exceptions.NoBookingsExist import NoBookingsExist
 from Exceptions.SomethingWentWrong import SomethingWentWrong
 from Exceptions.RoomNotAvailable import RoomNotAvailable
 from app import app
@@ -21,9 +23,9 @@ def getAllBookings():
         responseData = bookingService.getAllBookings()
         wsResponse['resultSet'] = responseData
         wsResponse['operationStatus'] = 1
-    except SomethingWentWrong:
+    except NoBookingsExist:
         wsResponse['resultSet'] = None
-        wsResponse['operationStatus'] = CustomUtils.SOMETHING_WENT_WRONG
+        wsResponse['operationStatus'] = CustomUtils.NO_BOOKINGS_EXIST
     return wsResponse
 
 
