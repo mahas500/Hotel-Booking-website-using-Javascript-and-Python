@@ -75,6 +75,17 @@ def deleteRoomPage():
     return render_template('deleteRoomPage.html')
 
 
+@app.route("/adminLoginPage", methods=['GET'])
+def adminLoginPage():
+    return render_template('adminLoginPage.html')
+
+
+@app.route("/adminDashboard", methods=['GET'])
+def adminDashboard():
+    return render_template('adminDashboard.html')
+
+
+
 @app.route('/adminLogoutPage', methods=['GET'])
 def adminLogoutPage():
     global x

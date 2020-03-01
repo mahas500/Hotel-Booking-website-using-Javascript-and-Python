@@ -9,33 +9,33 @@
 
   <h1 align="center">Register page</h1>
 
-<form id="registerForm">
+<form id="registerForm" onsubmit="return false">
     <div class="form-group">
             <label>Enter your name</label>
-            <input type="text" class="form-control" id="name">
+            <input type="text" class="form-control" id="name" placeholder="required" required>
     </div>
 
     <div class="form-group">
             <label>Enter your preferred username</label>
-            <input type="text" class="form-control" id="username">
+            <input type="text" class="form-control" id="username" placeholder="required" required>
     </div>
 
     <div class="form-group">
             <label>Enter a password you wish to have </label>
-            <input type="password" class="form-control" id="password">
+            <input type="password" class="form-control" id="password" placeholder="required" required>
     </div>
 
     <div class="form-group">
             <label>Enter your email address </label>
-            <input type="email" class="form-control" id="email">
+            <input type="email" class="form-control" id="email" placeholder="required" required>
     </div>
 
     <div class="form-group">
             <label>Enter your contact number </label>
-            <input type="text" class="form-control" id="contact_no">
+            <input type="text" class="form-control" id="contact_no" placeholder="required" required>
     </div>
 
-    <button type="button" class="btn btn-primary" id="sendingData" value="submit">Register</button>
+    <button type="submit" class="btn btn-primary" id="sendingData" value="submit" disabled="disabled">Register</button>
     <span>
     <a href="{{ url_for('index') }}">Navigate to home</a>
     </span>
@@ -51,6 +51,67 @@
 
     <script src="/static/javascript/registeringUser.js"></script>
 
+<script>
+var inputs = document.querySelectorAll('#registerForm input');
+
+var validateInput1 = function()
+{
+  return document.getElementById('name').value !== '';
+}
+
+var validateInput2 = function()
+{
+  return document.getElementById('username').value !== '';
+}
+
+var validateInput3 = function()
+{
+  return document.getElementById('password').value !== '';
+}
+
+var validateInput4 = function()
+{
+  return document.getElementById('email').value !== '';
+}
+
+var validateInput5 = function()
+{
+  return document.getElementById('contact_no').value !== '';
+}
+
+var validateForm = function() {
+
+  if ( !validateInput1() ) {
+    return false;
+  }
+
+  if ( !validateInput2() ) {
+    return false;
+  }
+ if ( !validateInput3() ) {
+    return false;
+  }
+
+  if ( !validateInput4() ) {
+    return false;
+  }
+if ( !validateInput5() ) {
+    return false;
+  }
+  return true;
+}
+
+for ( var i = 0, len = inputs.length; i < len; i++ )
+{
+  var checkValid = function() {
+    document.getElementById('sendingData').disabled = !validateForm();
+
+  }
+
+  inputs[i].addEventListener('change', checkValid);
+  inputs[i].addEventListener('keyup', checkValid);
+}
+    </script>
 
 </body>
 </html>
