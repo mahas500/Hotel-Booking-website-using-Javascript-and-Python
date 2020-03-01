@@ -9,18 +9,18 @@
 
   <h1 align="center">Admin Login page</h1>
 
-<form id="loginForm">
+<form id="loginForm" onsubmit="return false">
 <div class="form-group">
         <label>Enter your user ID</label>
-        <input type="text" class="form-control" id="adminName">
+        <input type="text" class="form-control" id="adminName" placeholder="required" required>
     </div>
 
     <div class="form-group">
             <label>Enter your Password</label>
-            <input type="password" class="form-control" id="pass">
+            <input type="password" class="form-control" id="pass" placeholder="required" required>
     </div>
 
-    <button type="button" class="btn btn-primary" id="sendingData" value="submit">Login</button>
+    <button type="submit" class="btn btn-primary" id="sendingData" value="submit" disabled="disabled">Login</button>
     <span>
     <a href="{{ url_for('index') }}">Navigate to home</a>
     </span>
@@ -29,6 +29,43 @@
 
 
     <script src="/static/javascript/adminIsLogin.js"></script>
+<script>
+var inputs = document.querySelectorAll('#loginForm input');
+
+var validateInput1 = function()
+{
+  return document.getElementById('adminName').value !== '';
+}
+
+var validateInput2 = function()
+{
+  return document.getElementById('pass').value !== '';
+}
+
+var validateForm = function() {
+
+  if ( !validateInput1() ) {
+    return false;
+  }
+
+  if ( !validateInput2() ) {
+    return false;
+  }
+
+  return true;
+}
+
+for ( var i = 0, len = inputs.length; i < len; i++ )
+{
+  var checkValid = function() {
+    document.getElementById('sendingData').disabled = !validateForm();
+
+  }
+
+  inputs[i].addEventListener('change', checkValid);
+  inputs[i].addEventListener('keyup', checkValid);
+}
+    </script>
 
 </body>
 </html>

@@ -29,5 +29,50 @@
 
 
     <script src="/static/javascript/deleteRoom.js"></script>
+
+<script>
+var inputs = document.querySelectorAll('#registerForm input');
+
+var validateInput1 = function()
+{
+  return document.getElementById('number').value !== '';
+}
+
+var validateInput2 = function()
+{
+  return document.getElementById('roomprice').value !== '';
+}
+var validateInput3 = function()
+{
+  return document.getElementById('ratings').value !== '';
+}
+
+var validateForm = function() {
+
+  if ( !validateInput1() ) {
+    return false;
+  }
+
+  if ( !validateInput2() ) {
+    return false;
+  }
+if ( !validateInput3() ) {
+    return false;
+  }
+
+  return true;
+}
+
+for ( var i = 0, len = inputs.length; i < len; i++ )
+{
+  var checkValid = function() {
+    document.getElementById('sendingData').disabled = !validateForm();
+
+  }
+
+  inputs[i].addEventListener('change', checkValid);
+  inputs[i].addEventListener('keyup', checkValid);
+}
+    </script>
 </body>
 </html>
