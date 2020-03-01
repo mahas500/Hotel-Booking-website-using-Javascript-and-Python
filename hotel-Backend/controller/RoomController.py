@@ -37,6 +37,7 @@ def adminLogin():
 def addRoom():
     wsResponse = {"resultSet": None, "operationStatus": None}
     try:
+        print(request.json)
         responseData = roomService.addRoom(request.headers,request.json)
         wsResponse['resultSet'] = responseData
         wsResponse['operationStatus'] = 1

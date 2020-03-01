@@ -103,9 +103,25 @@ class RoomDAO:
             cursor.close()
             conn.close()
 
+    @classmethod
+    def getAllRoomsForAdmin(cls):
+        try:
+            conn = mysql.connect()
+            cursor = conn.cursor(pymysql.cursors.DictCursor)
+
+            cursor.execute("SELECT * from room")
+            rows = cursor.fetchall()
+            return rows
+        except Exception as e:
+
+            print(e)
+        finally:
+            cursor.close()
+            conn.close()
+
 
     @classmethod
-    def addNewRoom(cls, room_number, price, ratingOutofTen):
+    def addNewRoom(cls, room_number, price, ratingOutofTen,facilities):
         try:
             roomId = str(uuid.uuid4())
             isAvailable='Yes'
@@ -114,8 +130,8 @@ class RoomDAO:
             cursor = conn.cursor(pymysql.cursors.DictCursor)
 
             cursor.execute(
-                "insert into room (room_id, room_number,price,ratingOutofTen,availibility) value (%s, %s, %s,%s, %s)",
-                (roomId, room_number, price+EuroPrice, ratingOutofTen, isAvailable))
+                "insert into room (room_id, room_number,price,ratingOutofTen,availibility,facilities) value (%s, %s, %s,%s, %s,%s)",
+                (roomId, room_number, price+EuroPrice, ratingOutofTen, isAvailable,facilities))
             conn.commit()
             cursor.execute("SELECT * from room r WHERE r.room_id = %s",
                            roomId)
