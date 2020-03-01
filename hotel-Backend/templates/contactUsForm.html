@@ -9,7 +9,7 @@
 
 <h1 align="center">Contact Us Page</h1>
 
-<form id="contactusForm">
+<form id="contactusForm" onsubmit="return false">
     {% for key, value in session['loginData'].items() %}
         {% if key=='username' %}
            <h3 align="center">Hello User {{ value }}</h3>
@@ -20,9 +20,9 @@
     {% endfor %}
 <div class="form-group">
         <label>Enter your description</label>
-        <input type="text" class="form-control" id="description">
+        <input type="text" class="form-control" id="description" placeholder="required" required>
     </div>
-<button type="button" class="btn btn-primary" id="sendingData" value="submit">Submit</button>
+<button type="submit" class="btn btn-primary" id="sendingData" value="submit" disabled="disabled">Submit</button>
 <br>
 <br>
     <span>
@@ -30,5 +30,34 @@
     </span>
     </form>
 <script src="/static/javascript/contactUsData.js"></script>
+
+<script>
+var inputs = document.querySelectorAll('#contactusForm input');
+
+var validateInput1 = function()
+{
+  return document.getElementById('description').value !== '';
+}
+
+var validateForm = function() {
+
+  if ( !validateInput1() ) {
+    return false;
+  }
+
+  return true;
+}
+
+for ( var i = 0, len = inputs.length; i < len; i++ )
+{
+  var checkValid = function() {
+    document.getElementById('sendingData').disabled = !validateForm();
+
+  }
+
+  inputs[i].addEventListener('change', checkValid);
+  inputs[i].addEventListener('keyup', checkValid);
+}
+    </script>
 </body>
 </html>

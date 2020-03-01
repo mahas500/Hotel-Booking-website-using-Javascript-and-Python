@@ -8,19 +8,19 @@
 <body>
 <h1 align="center">Enter OTP Page</h1>
 
-<form id="loginForm">
+<form id="loginForm" onsubmit="return false">
 <div class="form-group">
         <label>Enter the OTP received via Email</label>
-        <input type="text" class="form-control" id="OtpReceived">
+        <input type="text" class="form-control" id="OtpReceived" placeholder="required" required>
     </div>
 
     <div class="form-group">
             <label>Enter your New Password</label>
-            <input type="password" class="form-control" id="newPass">
+            <input type="password" class="form-control" id="newPass" placeholder="required" required>
     </div>
 
     <div class="form-group">
-    <button type="button" class="btn btn-primary" id="sendingData" value="submit">CONFIRM</button>
+    <button type="submit" class="btn btn-primary" id="sendingData" value="submit" disabled="disabled">CONFIRM</button>
     </div>
     </form>
     <span>
@@ -28,5 +28,42 @@
     </span>
 
     <script src="/static/javascript/addOTP.js"></script>
+<script>
+var inputs = document.querySelectorAll('#loginForm input');
+
+var validateInput1 = function()
+{
+  return document.getElementById('OtpReceived').value !== '';
+}
+
+var validateInput2 = function()
+{
+  return document.getElementById('newPass').value !== '';
+}
+
+var validateForm = function() {
+
+  if ( !validateInput1() ) {
+    return false;
+  }
+
+  if ( !validateInput2() ) {
+    return false;
+  }
+
+  return true;
+}
+
+for ( var i = 0, len = inputs.length; i < len; i++ )
+{
+  var checkValid = function() {
+    document.getElementById('sendingData').disabled = !validateForm();
+
+  }
+
+  inputs[i].addEventListener('change', checkValid);
+  inputs[i].addEventListener('keyup', checkValid);
+}
+    </script>
 </body>
 </html>

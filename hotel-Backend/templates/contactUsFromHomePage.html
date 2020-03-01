@@ -9,22 +9,22 @@
 
 <h1 align="center">Contact Us Page</h1>
 
-<form id="contactusForm">
+<form id="contactusForm" onsubmit="return false">
 
 <div class="form-group">
         <label>Enter your name</label>
-        <input type="text" class="form-control" id="name">
+        <input type="text" class="form-control" id="name" placeholder="required" required>
 </div>
     <div class="form-group">
         <label>Enter your email</label>
-        <input type="text" class="form-control" id="email">
+        <input type="text" class="form-control" id="email" placeholder="required" required>
 </div>
     <div class="form-group">
         <label>Please enter your description</label>
-        <input type="text" class="form-control" id="description">
+        <input type="text" class="form-control" id="description" placeholder="required" required>
 </div>
 
-<button type="button" class="btn btn-primary" id="sendingData" value="submit">Submit</button>
+<button type="submit" class="btn btn-primary" id="sendingData" value="submit" disabled="disabled">Submit</button>
 <br>
     <span>
     <a href="{{ url_for('index') }}">Navigate to home</a>
@@ -32,5 +32,49 @@
 <br>
     </form>
 <script src="/static/javascript/contactUsFromHome.js"></script>
+
+<script>
+var inputs = document.querySelectorAll('#contactusForm input');
+
+var validateInput1 = function()
+{
+  return document.getElementById('name').value !== '';
+}
+
+var validateInput2 = function()
+{
+  return document.getElementById('email').value !== '';
+}
+var validateInput3 = function()
+{
+  return document.getElementById('description').value !== '';
+}
+
+var validateForm = function() {
+
+  if ( !validateInput1() ) {
+    return false;
+  }
+
+  if ( !validateInput2() ) {
+    return false;
+  }
+  if ( !validateInput3() ) {
+    return false;
+  }
+  return true;
+}
+
+for ( var i = 0, len = inputs.length; i < len; i++ )
+{
+  var checkValid = function() {
+    document.getElementById('sendingData').disabled = !validateForm();
+
+  }
+
+  inputs[i].addEventListener('change', checkValid);
+  inputs[i].addEventListener('keyup', checkValid);
+}
+    </script>
 </body>
 </html>
