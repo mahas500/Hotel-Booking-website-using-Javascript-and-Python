@@ -1,33 +1,83 @@
 
+<!DOCTYPE html>
 <html>
 
-  <body id="userDashboard">
-      <table border = 1>
-         {% for key, value in session['loginData'].items() %}
-            <tr>
-               <th> {{ key }} </th>
-               <td> {{ value }} </td>
-            </tr>
-             {% if key=='session_id' %}
-             {{ value }}
-             {% endif %}
-         {% endfor %}
-      </table>
-<br>
+<head>
 
-     {% for x in session['RoomsData'] %}
-    <table border = 1>
-         {% for key, value in x.items() %}
-            <tr>
-               <th> {{ key }} </th>
-               <td> {{ value }} </td>
-            </tr>
-         {% endfor %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-</table>
-          <br>
-       {% endfor %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/baguetteBox.min.css">
+    <link rel="stylesheet" href="/static/css/thumbnail-gallery.css">
+</head>
+<body>
+
+<div class="main-content">
+   <div class="container gallery-container">
+
+    <div class="tz-gallery">
+
+        <div class="row">
+
+
+            {% for x in session['RoomsData'] %}
+
+
+            <div class="col-sm-6 col-md-4">
+
+                <div class="thumbnail">
+
+
+
+                     <a class="lightbox" href="/static/images/Castle-House.jpg">
+                        <img src="/static/images/Castle-House.jpg" alt="Park">
+                    </a>
+                    <div class="caption">
+                    {% for key, value in x.items() %}
+                        {% if key!='room_id' and key!='room_number'%}
+                       <p>{{ key }}</p> <h3> {{ value }}</h3>
+                            {% elif key=='room_id'%}
+                            <button type="submit" class="btn btn-primary" id="sendingData" value="submit">Reserve</button>
+                         <input hidden id="userRoomId" value={{ value }}>
+                            {% endif %}
+                        {% for key,value in session['loginData'].items() %}
+                            {% if key=='session_id' %}
+                            <input hidden id="userSession" value={{ value }}>
+                            {% endif %}
+                            {% endfor %}
+
+                     {% endfor %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        {% endfor %}
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/baguetteBox.min.js"></script>
+<script>
+    baguetteBox.run('.tz-gallery');
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="/static/javascript/demo.js"></script>
+<script src="https://cdn.tutorialzine.com/misc/enhance/v3.js" async></script>
 
 <script src="/static/javascript/userIsLogin.js"></script>
+
+
 </body>
 </html>
