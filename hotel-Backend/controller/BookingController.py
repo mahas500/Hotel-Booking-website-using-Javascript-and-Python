@@ -42,7 +42,7 @@ def addBooking():
     except CustomerNotLoggedIn:
         wsResponse['resultSet'] = None
         wsResponse['operationStatus'] = CustomUtils.CUSTOMER_NOT_LOGGED_IN
-    return render_template('roomBookingForm.html')
+    return wsResponse
 
 
 @app.route("/RoomBookingConfirmation", methods=['GET'])

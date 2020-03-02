@@ -1,4 +1,7 @@
 from wsgiref import headers
+
+from flask import session
+
 from DAO.BookingDAO import BookingDAO
 from DAO.CustomerDAO import CustomerDAO
 from DAO.RoomDAO import RoomDAO
@@ -29,15 +32,14 @@ class BookingService:
 
     @classmethod
     def addBooking(cls, header, data):
-        print(header.get('session_id'))
-        print(data.get('room_id'))
         if cls.customerService.checkCustomerFromSessionID(header.get('session_id')):
             checkCustomer = cls.customerDAO.checkCustomerFromSessionID(header.get('session_id'))
             if cls.roomService.checkRoomIsAvailable(data.get('room_id')):
                 cls.roomDAO.checkRoomIsAvailable(data.get('room_id'))
                 responseData = cls.bookingDAO.addRoomBooking(checkCustomer.get('customer_id'), data.get('room_id'),
                                                              checkCustomer.get('email'))
-                cls.emailService.sendEmail(checkCustomer.get('email'))
+                session['currentRoomData'] = data.get('room_id')
+                cls.emailService.sendEmail(checkCustomer.get('email'),responseData.get('booking_id'))
             else:
                 raise RoomNotAvailable
         else:

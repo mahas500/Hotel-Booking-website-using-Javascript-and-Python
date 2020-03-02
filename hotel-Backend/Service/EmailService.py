@@ -7,11 +7,13 @@ from app import mail
 class EmailService:
 
     @classmethod
-    def sendEmail(cls, data):
+    def sendEmail(cls, email,bookingId):
         try:
             msg = Message('Room booking confirmation mail!!!', sender='mahashabdemanik@gmail.com',
-                        recipients=[data])
+                        recipients=[email])
             msg.html = "<h3 align='center'>Hello User</h3> <br> <p> Your room has been booked successfully</p><br>" \
+                        "<p> Below is your booking details</p><br>" \
+                       "<p>Booking ID:</p><br>" + bookingId + \
                    "<p>Regards,<br>Team Admin</p>"
             mail.send(msg)
             return True
