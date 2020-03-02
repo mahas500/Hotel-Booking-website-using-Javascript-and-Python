@@ -4,8 +4,8 @@ import json
 from dbconfig import mysql
 from flask import jsonify
 
-class RoomDAO:
 
+class RoomDAO:
 
     @classmethod
     def checkRoomWithGivenID(cls, room_id):
@@ -23,7 +23,6 @@ class RoomDAO:
             cursor.close()
             conn.close()
 
-
     @classmethod
     def checkRoomWithNumber(cls, room_number):
         try:
@@ -40,9 +39,8 @@ class RoomDAO:
             cursor.close()
             conn.close()
 
-
     @classmethod
-    def adminCheckFromSessionID(cls,session_id):
+    def adminCheckFromSessionID(cls, session_id):
         try:
             conn = mysql.connect()
             cursor = conn.cursor(pymysql.cursors.DictCursor)
@@ -56,7 +54,6 @@ class RoomDAO:
         finally:
             cursor.close()
             conn.close()
-
 
     @classmethod
     def adminLogin(cls, admin_id, password):
@@ -85,7 +82,6 @@ class RoomDAO:
         finally:
             cursor.close()
             conn.close()
-
 
     @classmethod
     def getAllRooms(cls):
@@ -119,19 +115,18 @@ class RoomDAO:
             cursor.close()
             conn.close()
 
-
     @classmethod
-    def addNewRoom(cls, room_number, price, ratingOutofTen,facilities):
+    def addNewRoom(cls, room_number, price, Average_Rating, facilities):
         try:
             roomId = str(uuid.uuid4())
-            isAvailable='Yes'
-            EuroPrice='€'
+            isAvailable = 'Yes'
+            EuroPrice = '€'
             conn = mysql.connect()
             cursor = conn.cursor(pymysql.cursors.DictCursor)
 
             cursor.execute(
-                "insert into room (room_id, room_number,price,ratingOutofTen,availibility,facilities) value (%s, %s, %s,%s, %s,%s)",
-                (roomId, room_number, price+EuroPrice, ratingOutofTen, isAvailable,facilities))
+                "insert into room(room_id, room_number,price,Average_Rating,availibility,facilities) value (%s, %s, %s,%s, %s,%s)",
+                (roomId, room_number, price + EuroPrice, Average_Rating, isAvailable, facilities))
             conn.commit()
             cursor.execute("SELECT * from room r WHERE r.room_id = %s",
                            roomId)
@@ -142,7 +137,6 @@ class RoomDAO:
         finally:
             cursor.close()
             conn.close()
-
 
     @classmethod
     def deleteRoomFromDB(cls, room_id):
@@ -169,7 +163,7 @@ class RoomDAO:
             cursor = conn.cursor(pymysql.cursors.DictCursor)
 
             cursor.execute("SELECT * from room where availibility='Yes' and room_id=%s",
-                            room_id)
+                           room_id)
             row = cursor.fetchone()
             return row
         except Exception as e:
@@ -179,9 +173,8 @@ class RoomDAO:
             cursor.close()
             conn.close()
 
-
     @classmethod
-    def adminLogoutDAO(cls,admin_id):
+    def adminLogoutDAO(cls, admin_id):
         try:
             conn = mysql.connect()
             cursor = conn.cursor(pymysql.cursors.DictCursor)

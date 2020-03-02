@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<h1 align="center">Room Booked Successfully</h1>
+<br>
+<br>
+<label>Below are your room details</label>
+{% for x in session['RoomsData'] %}
+    {% for key, value in x.items() %}
+        {% if key=='room_number' %}
+
+        <br>
+            <label>Room Number:</label>
+       <b> <h3>{{ value }}</h3></b>
+<br>
+        {% elif key=='price' %}
+
+        <br>
+            <label>Room Price:</label>
+       <b> <h3>{{ value }}</h3></b>
+<br>
+        {% elif key=='facilities' %}
+
+        <br>
+            <label>Facilities:</label>
+       <b> <h3>{{ value }}</h3></b>
+        {% endif %}
+    {% endfor %}
+{% endfor %}
+<br>
+<br>
+<p> We have sent you a mail regarding your booking. Kindly check it for more details</p>
+<br>
+<br>
+<div>
+    <span>
+        <h5>Navigate to Dashboard</h5>
+
+    <a class="active" href="{{ url_for('dashboard') }}">Back to dashboard</a>
+    </span>
+    <br>
+    <br>
+        <span>
+            <h5>Logout from Webpage</h5>
+
+    <a href="{{ url_for('userLogoutPage') }}">Logout</a>
+    </span>
+</div>
+
+
+
+</body>
+</html>

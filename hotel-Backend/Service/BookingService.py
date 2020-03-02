@@ -29,6 +29,8 @@ class BookingService:
 
     @classmethod
     def addBooking(cls, header, data):
+        print(header.get('session_id'))
+        print(data.get('room_id'))
         if cls.customerService.checkCustomerFromSessionID(header.get('session_id')):
             checkCustomer = cls.customerDAO.checkCustomerFromSessionID(header.get('session_id'))
             if cls.roomService.checkRoomIsAvailable(data.get('room_id')):

@@ -6,7 +6,7 @@ $("document").ready(function()
         var head = $("#userSession").val();
         var roomnumber = $("#number").val();
         var roomprice = $("#roomprice").val();
-        var ratings = $("#ratings").val();
+        var Average_Rating = $("#ratings").val();
         var facility = $("#facility").val();
         $.post({url: "http://127.0.0.1:5000/addRoom",
 
@@ -14,7 +14,7 @@ $("document").ready(function()
         session_id:head
     },
 
-           data: JSON.stringify({room_number: roomnumber,price:roomprice,ratingOutofTen:ratings,facilities:facility}),
+           data: JSON.stringify({room_number: roomnumber,price:roomprice,Average_Rating:Average_Rating,facilities:facility}),
             contentType: "application/json",
             success: function(result)
             {

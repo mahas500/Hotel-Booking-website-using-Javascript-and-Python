@@ -31,24 +31,36 @@
 
                 <div class="thumbnail">
 
-
-
-                     <a class="lightbox" href="/static/images/Castle-House.jpg">
                         <img src="/static/images/Castle-House.jpg" alt="Park">
-                    </a>
+
                     <div class="caption">
+
                     {% for key, value in x.items() %}
-                        {% if key!='room_id' and key!='room_number'%}
-                       <p>{{ key }}</p> <h3> {{ value }}</h3>
-                            {% elif key=='room_id'%}
+
+                        {% if key=='room_id' %}
+
+                         <input hidden id="RoomBookingId" value={{ value }}>
                             <button type="submit" class="btn btn-primary" id="sendingData" value="submit">Reserve</button>
-                         <input hidden id="userRoomId" value={{ value }}>
+
+                        {% elif key!='room_id' and key!='room_number' %}
+
+                       <p>{{ key }}</p> <h3> {{ value }}</h3>
+
+
                             {% endif %}
+
+                        {% endfor %}
+
+
+
                         {% for key,value in session['loginData'].items() %}
+
                             {% if key=='session_id' %}
+
                             <input hidden id="userSession" value={{ value }}>
+
                             {% endif %}
-                            {% endfor %}
+
 
                      {% endfor %}
 
@@ -58,8 +70,8 @@
 
             </div>
 
-
         {% endfor %}
+
         </div>
 
     </div>
@@ -69,14 +81,12 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/baguetteBox.min.js"></script>
-<script>
-    baguetteBox.run('.tz-gallery');
-</script>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="/static/javascript/demo.js"></script>
 <script src="https://cdn.tutorialzine.com/misc/enhance/v3.js" async></script>
 
-<script src="/static/javascript/userIsLogin.js"></script>
+ <script src="/static/javascript/roomBook.js"></script>
 
 
 </body>

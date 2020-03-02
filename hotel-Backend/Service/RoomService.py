@@ -57,7 +57,7 @@ class RoomService:
     def addRoom(cls, header,data):
         if cls.adminCheckFromSessionID(header):
             if cls.checkRoomWithNumber(data):
-                responseData = cls.roomDAO.addNewRoom(data.get('room_number'), data.get('price'), data.get('ratingOutofTen'),data.get('facilities'))
+                responseData = cls.roomDAO.addNewRoom(data.get('room_number'), data.get('price'), data.get('Average_Rating'),data.get('facilities'))
             else:
                 raise RoomWithGivenNumberAlreadyExist
         else:
