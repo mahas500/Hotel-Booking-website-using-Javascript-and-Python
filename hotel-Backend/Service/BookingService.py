@@ -38,8 +38,10 @@ class BookingService:
                 cls.roomDAO.checkRoomIsAvailable(data.get('room_id'))
                 responseData = cls.bookingDAO.addRoomBooking(checkCustomer.get('customer_id'), data.get('room_id'),
                                                              checkCustomer.get('email'))
-                session['currentRoomData'] = data.get('room_id')
+
                 cls.emailService.sendEmail(checkCustomer.get('email'),responseData.get('booking_id'))
+                currentRoomData = cls.roomService.getCurrentRoomData(data.get('room_id'))
+                session['currentRoomData'] = currentRoomData
             else:
                 raise RoomNotAvailable
         else:

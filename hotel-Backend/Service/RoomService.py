@@ -127,3 +127,8 @@ class RoomService:
         session.pop('RoomsDataAdmin')
         session.pop('BookingsDataAdmin')
         return responseData
+
+    @classmethod
+    def getCurrentRoomData(cls,room_id):
+        responseData = cls.roomDAO.getCurrentRoomData(room_id)
+        return responseData

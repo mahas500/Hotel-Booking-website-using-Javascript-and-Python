@@ -10,8 +10,8 @@
 <br>
 <br>
 <label>Below are your room details</label>
-{% for x in session['RoomsData'] %}
-    {% for key, value in x.items() %}
+
+    {% for key, value in session['currentRoomData'].items() %}
         {% if key=='room_number' %}
 
         <br>
@@ -31,7 +31,6 @@
        <b> <h3>{{ value }}</h3></b>
         {% endif %}
     {% endfor %}
-{% endfor %}
 <br>
 <br>
 <p> We have sent you a mail regarding your booking. Kindly check it for more details</p>
