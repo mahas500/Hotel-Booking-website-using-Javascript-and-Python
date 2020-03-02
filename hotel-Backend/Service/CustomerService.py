@@ -130,5 +130,4 @@ class CustomerService:
         responseData = cls.customerDAO.userLogoutDAO(customer_id)
         session.pop('loginData')
         session.pop('RoomsData')
-        session.pop('currentRoomData')
         return responseData
