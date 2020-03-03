@@ -33,11 +33,8 @@
   </div>
 </div>
 
+
    <div class="container gallery-container">
-
-
-
-
 
     <div class="tz-gallery">
 
@@ -55,11 +52,13 @@
 
                     <div class="caption">
 
+                    var buttonId =0
                     {% for key, value in x.items() %}
 
                         {% if key=='room_id' %}
 
                          <input hidden id="RoomBookingId" value={{ value }}>
+
                             <button type="submit" class="btn btn-primary" id="sendingData" onclick="sendValues()" value="submit">Change Status</button>
 
                         {% elif key!='room_id' and key!='room_number' %}
@@ -167,6 +166,41 @@
 
 
 </div>
+
+
+<script>
+    function sendValues(){
+
+        
+        $("document").ready(function()
+{
+
+    $("button").click(function()
+    {
+        var head = $("#userSession").val();
+        var roomID = $("#RoomBookingId").val();
+        var roomStatus = $("#roomStatusCheck").val();
+
+        $.post({url: "http://127.0.0.1:5000/changeRoomStatus",
+
+            headers: {
+        session_id:head
+    },
+           data: JSON.stringify({room_id: roomID,availibility:roomStatus}),
+            contentType: "application/json",
+            success: function(result)
+            {
+
+               window.alert("Status Changed Successfully!!!")
+                console.log(result)
+
+
+            }});
+
+    });
+});
+    }
+</script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/baguetteBox.min.js"></script>
 

@@ -78,6 +78,26 @@ class RoomService:
 
 
     @classmethod
+    def changeRoomStatus(cls,header, data):
+        if cls.adminCheckFromSessionID(header):
+            if cls.checkRoomWithGivenID(data):
+                roomDataWithGivenID = cls.roomDAO.checkRoomWithGivenID(data.get('room_id'))
+                print(roomDataWithGivenID)
+                checkStatus = roomDataWithGivenID.get('availibility')
+                if checkStatus == 'Yes':
+                    responseData = cls.roomDAO.changeStatusToNo(data.get('room_id'))
+                    print(responseData)
+                else:
+                    responseData = cls.roomDAO.changeStatusToYes(data.get('room_id'))
+                    print(responseData)
+            else:
+                raise RoomWithGivenIdDoesNotExist
+        else:
+            raise NotAuthorized
+        return responseData
+
+
+    @classmethod
     def checkRoomIsAvailable(cls, data):
         responseData = cls.roomDAO.checkRoomIsAvailable(data)
         if responseData is not None:

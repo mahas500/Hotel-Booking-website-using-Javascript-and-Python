@@ -70,6 +70,22 @@ def deleteRoom():
     return wsResponse
 
 
+@app.route("/changeRoomStatus", methods=['POST'])
+def changeRoomStatus():
+    wsResponse = {"resultSet": None, "operationStatus": None}
+    try:
+        responseData = roomService.changeRoomStatus(request.headers,request.json)
+        wsResponse['resultSet'] = responseData
+        wsResponse['operationStatus'] = 1
+    except RoomWithGivenNumberAlreadyExist:
+        wsResponse['resultSet'] = None
+        wsResponse['operationStatus'] = CustomUtils.ROOM_WITH_GIVEN_NUMBER_ALREADY_EXIST
+    except NotAuthorized:
+        wsResponse['resultSet'] = None
+        wsResponse['operationStatus'] = CustomUtils.NOT_AUTHORIZED
+    return wsResponse
+
+
 @app.route('/deleteRoomPage', methods=['GET'])
 def deleteRoomPage():
     return render_template('deleteRoomPage.html')

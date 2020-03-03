@@ -210,3 +210,45 @@ class RoomDAO:
         finally:
             cursor.close()
             conn.close()
+
+
+    @classmethod
+    def changeStatusToNo(cls, room_id):
+        try:
+            conn = mysql.connect()
+            cursor = conn.cursor(pymysql.cursors.DictCursor)
+
+            cursor.execute("UPDATE room set availibility = 'No' where room_id=%s",
+                           room_id)
+            conn.commit()
+            cursor.execute("select * from room where room_id=%s",
+                           room_id)
+            row = cursor.fetchone()
+            return row
+        except Exception as e:
+
+            print(e)
+        finally:
+            cursor.close()
+            conn.close()
+
+
+    @classmethod
+    def changeStatusToYes(cls, room_id):
+        try:
+            conn = mysql.connect()
+            cursor = conn.cursor(pymysql.cursors.DictCursor)
+
+            cursor.execute("UPDATE room set availibility = 'Yes' where room_id=%s",
+                           room_id)
+            conn.commit()
+            cursor.execute("select * from room where room_id=%s",
+                           room_id)
+            row = cursor.fetchone()
+            return row
+        except Exception as e:
+
+            print(e)
+        finally:
+            cursor.close()
+            conn.close()
