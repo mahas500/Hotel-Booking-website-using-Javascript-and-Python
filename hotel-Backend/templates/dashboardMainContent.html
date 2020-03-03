@@ -57,7 +57,7 @@
                         {% if key=='room_id' %}
 
                          <input hidden id="RoomBookingId" value={{ value }}>
-                            <button type="submit" class="btn btn-primary" id="sendingData" onclick="sendValues()" value="submit">Reserve</button>
+                            <button type="submit" class="btn btn-primary" id={{ value }} onclick="sendValues(id)" value="submit">Reserve</button>
 
                         {% elif key!='room_id' and key!='room_number' %}
 
@@ -162,35 +162,25 @@
 
 </div>
 
-
 <script>
-    function sendValues(){
-        $("document").ready(function()
-{
+    function sendValues(value){
 
-    $("button").click(function()
-    {
         var head = $("#userSession").val();
-        var roomID = $("#RoomBookingId").val();
 
         $.post({url: "http://127.0.0.1:5000/addBooking",
 
             headers: {
         session_id:head
     },
-           data: JSON.stringify({room_id: roomID}),
+           data: JSON.stringify({room_id: value}),
             contentType: "application/json",
             success: function(result)
             {
 
-                window.location.href = "http://127.0.0.1:5000/RoomBookingConfirmation"
+               window.location.href = "http://127.0.0.1:5000/RoomBookingConfirmation"
                 console.log(result)
 
-
             }});
-
-    });
-});
     }
 </script>
 

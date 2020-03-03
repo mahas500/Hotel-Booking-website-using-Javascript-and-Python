@@ -7,14 +7,18 @@ from app import mail
 class EmailService:
 
     @classmethod
-    def sendEmail(cls, email,bookingId):
+    def sendEmail(cls, email,bookingId,room_number,price,facilities,Average_Rating):
         try:
             msg = Message('Room booking confirmation mail!!!', sender='mahashabdemanik@gmail.com',
                         recipients=[email])
             msg.html = "<h3 align='center'>Hello User</h3> <br> <p> Your room has been booked successfully</p><br>" \
                         "<p> Below is your booking details</p><br>" \
-                       "<p>Booking ID:</p><br>" + bookingId + \
-                   "<p>Regards,<br>Team Admin</p>"
+                       "<p>Booking ID: </p>" + bookingId + \
+                       "<p>Room Number: </p>" + room_number + \
+                       "<p>Price: </p>" + price + \
+                       "<p>Facilities include: </p>" + facilities + \
+                       "<p>Average Customer Ratings: </p>" + Average_Rating + \
+                       "<p>Regards,<br>Team Admin</p>"
             mail.send(msg)
             return True
         except Exception as e:

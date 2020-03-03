@@ -52,14 +52,13 @@
 
                     <div class="caption">
 
-                    var buttonId =0
                     {% for key, value in x.items() %}
 
                         {% if key=='room_id' %}
 
                          <input hidden id="RoomBookingId" value={{ value }}>
 
-                            <button type="submit" class="btn btn-primary" id="sendingData" onclick="sendValues()" value="submit">Change Status</button>
+                            <button type="submit" class="btn btn-primary" id={{ value }} onclick="sendValues(id)" value="submit">Change Status</button>
 
                         {% elif key!='room_id' and key!='room_number' %}
 
@@ -161,7 +160,7 @@
 		</footer>
 
 
-		<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
 		<script src="https://cdn.tutorialzine.com/misc/enhance/v2.js" async></script>
 
 
@@ -169,16 +168,9 @@
 
 
 <script>
-    function sendValues(){
+    function sendValues(value){
 
-        
-        $("document").ready(function()
-{
-
-    $("button").click(function()
-    {
         var head = $("#userSession").val();
-        var roomID = $("#RoomBookingId").val();
         var roomStatus = $("#roomStatusCheck").val();
 
         $.post({url: "http://127.0.0.1:5000/changeRoomStatus",
@@ -186,7 +178,7 @@
             headers: {
         session_id:head
     },
-           data: JSON.stringify({room_id: roomID,availibility:roomStatus}),
+           data: JSON.stringify({room_id: value,availibility:roomStatus}),
             contentType: "application/json",
             success: function(result)
             {
@@ -194,11 +186,7 @@
                window.alert("Status Changed Successfully!!!")
                 console.log(result)
 
-
             }});
-
-    });
-});
     }
 </script>
 

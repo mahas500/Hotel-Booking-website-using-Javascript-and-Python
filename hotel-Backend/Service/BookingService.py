@@ -35,11 +35,12 @@ class BookingService:
         if cls.customerService.checkCustomerFromSessionID(header.get('session_id')):
             checkCustomer = cls.customerDAO.checkCustomerFromSessionID(header.get('session_id'))
             if cls.roomService.checkRoomIsAvailable(data.get('room_id')):
-                cls.roomDAO.checkRoomIsAvailable(data.get('room_id'))
+                roomData = cls.roomDAO.checkRoomIsAvailable(data.get('room_id'))
                 responseData = cls.bookingDAO.addRoomBooking(checkCustomer.get('customer_id'), data.get('room_id'),
                                                              checkCustomer.get('email'))
 
-                cls.emailService.sendEmail(checkCustomer.get('email'),responseData.get('booking_id'))
+                cls.emailService.sendEmail(checkCustomer.get('email'),responseData.get('booking_id'),
+                                           roomData.get('room_number'),roomData.get('price'),roomData.get('facilities'),roomData.get('Average_Rating'))
                 currentRoomData = cls.roomService.getCurrentRoomData(data.get('room_id'))
                 session['currentRoomData'] = currentRoomData
             else:
