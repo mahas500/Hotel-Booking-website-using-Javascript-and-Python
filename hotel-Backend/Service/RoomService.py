@@ -1,6 +1,8 @@
+import base64
 from wsgiref import headers
-
+import json
 from flask import session
+from werkzeug.wrappers import json
 
 from DAO.RoomDAO import RoomDAO
 from DAO.BookingDAO import BookingDAO
@@ -152,3 +154,12 @@ class RoomService:
     def getCurrentRoomData(cls,room_id):
         responseData = cls.roomDAO.getCurrentRoomData(room_id)
         return responseData
+
+
+    @classmethod
+    def addRoomFromtheForm(cls, image_id):
+        response = cls.roomDAO.addRoomFromtheForm(image_id)
+        #decodedImage = base64.b64decode(response)
+        #decodedImage = json.loads(json.dumps(response))
+        decodedImage = base64.b64decode(response.get('image_id'))
+        return decodedImage

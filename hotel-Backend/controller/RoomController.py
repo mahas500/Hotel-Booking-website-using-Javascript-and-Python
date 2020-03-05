@@ -1,3 +1,9 @@
+import os
+import base64
+from flask import request, render_template
+from flask import session
+from werkzeug.utils import secure_filename
+
 from CustomUtils import CustomUtils
 from Exceptions.NoBookingsExist import NoBookingsExist
 from Exceptions.NotAuthorized import NotAuthorized
@@ -5,10 +11,8 @@ from Exceptions.RoomNotAvailable import RoomNotAvailable
 from Exceptions.RoomWithGivenIdDoesNotExist import RoomWithGivenIdDoesNotExist
 from Exceptions.RoomWithGivenNumberAlreadyExist import RoomWithGivenNumberAlreadyExist
 from Exceptions.WrongCredentials import WrongCredentials
-from app import app
-from flask import jsonify, session
-from flask import flash, request,render_template
 from Service.RoomService import RoomService
+from app import app
 
 roomService = RoomService()
 
@@ -111,3 +115,26 @@ def adminLogoutPage():
             break
     roomService.adminLogoutService(x)
     return render_template('adminLogoutPage.html')
+
+
+@app.route('/addRoomFromtheForm', methods=['POST'])
+def addRoomFromtheForm():
+    file = request.files['file']
+    image_string = file.read()
+    image_string_enc = base64.b64encode(image_string)
+    print("Image_string_enc = ", image_string_enc)
+    responseData = roomService.addRoomFromtheForm(image_string_enc)
+    print(responseData)
+
+    with open("F:\GitHub\Web-Development-CA\hotel-Backend\static\images\Old1.jpg", "wb") as fh:
+        fh.write(responseData)
+        print(fh)
+        fh.close()
+    #filename = secure_filename(file.fh)
+    #file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    return render_template('displayImageOnPage.html')
+
+
+@app.route('/addRoomFromForm')
+def upload_file():
+   return render_template('addRoomFromForm.html')

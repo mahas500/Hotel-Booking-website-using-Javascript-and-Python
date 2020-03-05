@@ -1,4 +1,5 @@
 import uuid
+
 import pymysql
 import json
 from dbconfig import mysql
@@ -239,11 +240,31 @@ class RoomDAO:
             conn = mysql.connect()
             cursor = conn.cursor(pymysql.cursors.DictCursor)
 
-            cursor.execute("UPDATE room set availibility = 'Yes' where room_id=%s",
+            cursor.execute("UPDATE room set availibility = 'Yes' where room_id=%r",
                            room_id)
             conn.commit()
             cursor.execute("select * from room where room_id=%s",
                            room_id)
+            row = cursor.fetchone()
+            return row
+        except Exception as e:
+
+            print(e)
+        finally:
+            cursor.close()
+            conn.close()
+
+
+    @classmethod
+    def addRoomFromtheForm(cls, image_id):
+        try:
+            conn = mysql.connect()
+            cursor = conn.cursor(pymysql.cursors.DictCursor)
+            cursor.execute("insert into imagesTest(image_id) value(%s)",
+                           image_id)
+            conn.commit()
+            cursor.execute("select * from imagesTest where image_id=%s",
+                            image_id)
             row = cursor.fetchone()
             return row
         except Exception as e:
