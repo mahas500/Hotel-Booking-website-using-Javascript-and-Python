@@ -48,7 +48,12 @@
 
                 <div class="thumbnail">
 
-                        <img src="/static/images/Castle-House.jpg" alt="Park">
+                {% for key, value in responseData.items() %}
+                    {% if key=='image' %}
+                        <img src="data:;base64,{{ image }}">
+                    {% endif %}
+
+                {% endfor %}
 
                     <div class="caption">
 

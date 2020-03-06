@@ -19,9 +19,14 @@ roomService = RoomService()
 
 @app.route("/adminLogin", methods=['POST'])
 def adminLogin():
+    global decodedImage, responseData
     wsResponse = {"resultSet": None, "operationStatus": None}
     try:
         responseData = roomService.adminLogin(request.json)
+        print(responseData)
+        for x in responseData:
+            decodedImage = x.decode("utf-8")
+            print(decodedImage)
         wsResponse['resultSet'] = responseData
         wsResponse['operationStatus'] = 1
     except NoBookingsExist:
@@ -33,7 +38,8 @@ def adminLogin():
     except WrongCredentials:
         wsResponse['resultSet'] = None
         wsResponse['operationStatus'] = CustomUtils.WRONG_CREDENTIALS
-    return wsResponse
+    return render_template('adminDashboardMainContent.html', image=decodedImage, responseData=responseData)
+
 
 
 

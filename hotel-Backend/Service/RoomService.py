@@ -25,11 +25,13 @@ class RoomService:
             session['adminDataStored'] = adminData
             if cls.getAllRooms():
                 roomData = cls.roomDAO.getAllRoomsForAdmin()
-
                 session['RoomsDataAdmin'] = roomData
                 if cls.getAllBookingsfromDBCheck():
-                    responseData = cls.bookingDAO.getAllBookings()
-                    session['BookingsDataAdmin'] = responseData
+                    responseBookingData = cls.bookingDAO.getAllBookings()
+                    session['BookingsDataAdmin'] = responseBookingData
+                    responseData = cls.roomDAO.getAllImages
+                    print(responseData)
+                    print(type(responseData))
                 else:
                     raise NoBookingsExist
             else:

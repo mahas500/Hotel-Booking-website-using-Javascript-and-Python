@@ -106,7 +106,7 @@ class RoomDAO:
             conn = mysql.connect()
             cursor = conn.cursor(pymysql.cursors.DictCursor)
 
-            cursor.execute("SELECT * from room")
+            cursor.execute("SELECT room_id,room_number,price,Average_Rating,availibility,facilities from room")
             rows = cursor.fetchall()
             return rows
         except Exception as e:
@@ -255,6 +255,22 @@ class RoomDAO:
         finally:
             cursor.close()
             conn.close()
+
+
+    @classmethod
+    def getAllImages(cls):
+        try:
+            conn = mysql.connect()
+            cursor = conn.cursor(pymysql.cursors.DictCursor)
+            cursor.execute("select image from room")
+            row = cursor.fetchall()
+            print(row)
+            return row
+        except Exception as e:
+
+            print(e)
+        finally:
+            cursor.close()
 
 
     @classmethod
