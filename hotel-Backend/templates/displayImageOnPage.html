@@ -1,6 +1,16 @@
 <html>
 <img>
 <h1>Below is the image</h1>
-<img src="F:/GitHub/Web-Development-CA/hotel-Backend/static/images/Old1.jpg">Hello</img>
+
+
+{% for key, value in responseData.items() %}
+        {% if key=='room_number' %}
+            <h3>{{ value }}</h3>
+         {% elif key=='image' %}
+            <img src="data:;base64,{{ image }}">
+        {% endif %}
+
+    {% endfor %}
+
 </body>
 </html>

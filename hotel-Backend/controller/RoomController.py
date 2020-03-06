@@ -120,19 +120,29 @@ def adminLogoutPage():
 @app.route('/addRoomFromtheForm', methods=['POST'])
 def addRoomFromtheForm():
     file = request.files['file']
-    image_string = file.read()
-    image_string_enc = base64.b64encode(image_string)
-    print("Image_string_enc = ", image_string_enc)
-    responseData = roomService.addRoomFromtheForm(image_string_enc)
-    print(responseData)
+    room_number = request.form['number']
+    price = request.form['roomprice']
+    Average_Rating = request.form['ratings']
+    facilities = request.form['facility']
 
-    with open("F:\GitHub\Web-Development-CA\hotel-Backend\static\images\Old1.jpg", "wb") as fh:
-        fh.write(responseData)
-        print(fh)
-        fh.close()
+    image_string = file.read()
+    image = base64.b64encode(image_string)
+    dictlist=[]
+    responseData = roomService.addRoom(image,room_number,price,Average_Rating,facilities)
+    decodedImage = responseData.get('image').decode("utf-8")
+
+    for key, value in responseData.items():
+        temp = [key, value]
+        dictlist.append(temp)
+    print(dictlist)
+
+  #  with open("F:\GitHub\Web-Development-CA\hotel-Backend\static\images\Old1.jpg", "wb") as fh:
+    #    fh.write(responseData)
+    #    print(fh)
+    #    fh.close()
     #filename = secure_filename(file.fh)
     #file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-    return render_template('displayImageOnPage.html')
+    return render_template('displayImageOnPage.html',image=decodedImage,responseData=responseData)
 
 
 @app.route('/addRoomFromForm')

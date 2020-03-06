@@ -116,8 +116,9 @@ class RoomDAO:
             cursor.close()
             conn.close()
 
+
     @classmethod
-    def addNewRoom(cls, room_number, price, Average_Rating, facilities):
+    def addNewRoom(cls, room_number, price, Average_Rating, facilities,image):
         try:
             roomId = str(uuid.uuid4())
             isAvailable = 'Yes'
@@ -126,8 +127,8 @@ class RoomDAO:
             cursor = conn.cursor(pymysql.cursors.DictCursor)
 
             cursor.execute(
-                "insert into room(room_id, room_number,price,Average_Rating,availibility,facilities) value (%s, %s, %s,%s, %s,%s)",
-                (roomId, room_number, price + EuroPrice, Average_Rating, isAvailable, facilities))
+                "insert into room(room_id, room_number,price,Average_Rating,availibility,facilities,image) value (%s, %s, %s,%s, %s,%s,%s)",
+                (roomId, room_number, price + EuroPrice, Average_Rating, isAvailable, facilities,image))
             conn.commit()
             cursor.execute("SELECT * from room r WHERE r.room_id = %s",
                            roomId)
@@ -138,6 +139,7 @@ class RoomDAO:
         finally:
             cursor.close()
             conn.close()
+
 
     @classmethod
     def deleteRoomFromDB(cls, room_id):

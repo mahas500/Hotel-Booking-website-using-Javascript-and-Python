@@ -25,6 +25,7 @@ class RoomService:
             session['adminDataStored'] = adminData
             if cls.getAllRooms():
                 roomData = cls.roomDAO.getAllRoomsForAdmin()
+
                 session['RoomsDataAdmin'] = roomData
                 if cls.getAllBookingsfromDBCheck():
                     responseData = cls.bookingDAO.getAllBookings()
@@ -55,15 +56,25 @@ class RoomService:
             return False
 
 
+ #   @classmethod
+ #   def addRoom(cls, header,data):
+  #      if cls.adminCheckFromSessionID(header):
+  #          if cls.checkRoomWithNumber(data):
+    #            responseData = cls.roomDAO.addNewRoom(data.get('room_number'), data.get('price'), data.get('Average_Rating'),data.get('facilities'))
+  #          else:
+   #             raise RoomWithGivenNumberAlreadyExist
+  #      else:
+ #           raise NotAuthorized
+  #      return responseData
+
+
     @classmethod
-    def addRoom(cls, header,data):
-        if cls.adminCheckFromSessionID(header):
-            if cls.checkRoomWithNumber(data):
-                responseData = cls.roomDAO.addNewRoom(data.get('room_number'), data.get('price'), data.get('Average_Rating'),data.get('facilities'))
-            else:
-                raise RoomWithGivenNumberAlreadyExist
+    def addRoom(cls, image,room_number,price,Average_Rating,facilities):
+
+        if cls.checkRoomWithNumber(room_number):
+            responseData = cls.roomDAO.addNewRoom(room_number, price, Average_Rating,facilities,image)
         else:
-            raise NotAuthorized
+            raise RoomWithGivenNumberAlreadyExist
         return responseData
 
 
@@ -126,8 +137,8 @@ class RoomService:
 
 
     @classmethod
-    def checkRoomWithNumber(cls, data):
-        responseData = cls.roomDAO.checkRoomWithNumber(data.get('room_number'))
+    def checkRoomWithNumber(cls, room_number):
+        responseData = cls.roomDAO.checkRoomWithNumber(room_number)
         if responseData is None:
             return True
         else:
