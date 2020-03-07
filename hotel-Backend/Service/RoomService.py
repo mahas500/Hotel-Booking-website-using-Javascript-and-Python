@@ -23,15 +23,11 @@ class RoomService:
         if cls.adminLoginCheck(data):
             adminData = cls.roomDAO.adminLogin(data.get('admin_id'), data.get('password'))
             session['adminDataStored'] = adminData
-            if cls.getAllRooms():
-                roomData = cls.roomDAO.getAllRoomsForAdmin()
-                session['RoomsDataAdmin'] = roomData
-                if cls.getAllBookingsfromDBCheck():
-                    responseBookingData = cls.bookingDAO.getAllBookings()
-                    session['BookingsDataAdmin'] = responseBookingData
-                    responseData = cls.roomDAO.getAllImages
-                    print(responseData)
-                    print(type(responseData))
+            if cls.getAllBookingsfromDBCheck():
+                responseBookingData = cls.bookingDAO.getAllBookings()
+                session['BookingsDataAdmin'] = responseBookingData
+                if cls.getAllRooms():
+                    responseData = cls.roomDAO.getAllRoomsForAdmin()
                 else:
                     raise NoBookingsExist
             else:
@@ -52,6 +48,7 @@ class RoomService:
     @classmethod
     def getAllRooms(cls):
         responseData = cls.roomDAO.getAllRooms()
+        session['RoomsDataAdmin'] = responseData
         if responseData is not None:
             return True
         else:
@@ -75,6 +72,7 @@ class RoomService:
 
         if cls.checkRoomWithNumber(room_number):
             responseData = cls.roomDAO.addNewRoom(room_number, price, Average_Rating,facilities,image)
+            print(type(responseData))
         else:
             raise RoomWithGivenNumberAlreadyExist
         return responseData

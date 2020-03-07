@@ -1,3 +1,4 @@
+import json
 import os
 import base64
 from flask import request, render_template
@@ -19,14 +20,32 @@ roomService = RoomService()
 
 @app.route("/adminLogin", methods=['POST'])
 def adminLogin():
-    global decodedImage, responseData
+    global decodedImage, responseData, imageData, items, i
     wsResponse = {"resultSet": None, "operationStatus": None}
     try:
         responseData = roomService.adminLogin(request.json)
-        print(responseData)
-        for x in responseData:
-            decodedImage = x.decode("utf-8")
-            print(decodedImage)
+
+
+        # for x in imageData:
+        #    decodedImage = x.decode("utf-8")
+        #   print(decodedImage)
+
+        items = []
+
+        #for i in responseData:
+        #    for index, item in enumerate(i):
+        #        print(index, item)
+        #        if item == 'image':
+        #            items.append(item)
+
+        for i in responseData:
+            for key,value in i.items():
+                if key == 'image':
+                    decodedImage = value.decode("utf-8")
+                    items.append(decodedImage)
+        print(items)
+
+
         wsResponse['resultSet'] = responseData
         wsResponse['operationStatus'] = 1
     except NoBookingsExist:
@@ -38,16 +57,14 @@ def adminLogin():
     except WrongCredentials:
         wsResponse['resultSet'] = None
         wsResponse['operationStatus'] = CustomUtils.WRONG_CREDENTIALS
-    return render_template('adminDashboardMainContent.html', image=decodedImage, responseData=responseData)
-
-
+    return render_template('adminDashboardMainContent.html', item=items,image=decodedImage)
 
 
 @app.route("/addRoom", methods=['POST'])
 def addRoom():
     wsResponse = {"resultSet": None, "operationStatus": None}
     try:
-        responseData = roomService.addRoom(request.headers,request.json)
+        responseData = roomService.addRoom(request.headers, request.json)
         wsResponse['resultSet'] = responseData
         wsResponse['operationStatus'] = 1
     except RoomWithGivenNumberAlreadyExist:
@@ -68,7 +85,7 @@ def addRoomPage():
 def deleteRoom():
     wsResponse = {"resultSet": None, "operationStatus": None}
     try:
-        responseData = roomService.deleteRoom(request.headers,request.json)
+        responseData = roomService.deleteRoom(request.headers, request.json)
         wsResponse['resultSet'] = responseData
         wsResponse['operationStatus'] = 1
     except RoomWithGivenIdDoesNotExist:
@@ -84,7 +101,7 @@ def deleteRoom():
 def changeRoomStatus():
     wsResponse = {"resultSet": None, "operationStatus": None}
     try:
-        responseData = roomService.changeRoomStatus(request.headers,request.json)
+        responseData = roomService.changeRoomStatus(request.headers, request.json)
         wsResponse['resultSet'] = responseData
         wsResponse['operationStatus'] = 1
     except RoomWithGivenNumberAlreadyExist:
@@ -111,7 +128,6 @@ def adminDashboard():
     return render_template('adminDashboard.html')
 
 
-
 @app.route('/adminLogoutPage', methods=['GET'])
 def adminLogoutPage():
     global x
@@ -133,8 +149,8 @@ def addRoomFromtheForm():
 
     image_string = file.read()
     image = base64.b64encode(image_string)
-    dictlist=[]
-    responseData = roomService.addRoom(image,room_number,price,Average_Rating,facilities)
+    dictlist = []
+    responseData = roomService.addRoom(image, room_number, price, Average_Rating, facilities)
     decodedImage = responseData.get('image').decode("utf-8")
 
     for key, value in responseData.items():
@@ -142,15 +158,15 @@ def addRoomFromtheForm():
         dictlist.append(temp)
     print(dictlist)
 
-  #  with open("F:\GitHub\Web-Development-CA\hotel-Backend\static\images\Old1.jpg", "wb") as fh:
+    #  with open("F:\GitHub\Web-Development-CA\hotel-Backend\static\images\Old1.jpg", "wb") as fh:
     #    fh.write(responseData)
     #    print(fh)
     #    fh.close()
-    #filename = secure_filename(file.fh)
-    #file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-    return render_template('displayImageOnPage.html',image=decodedImage,responseData=responseData)
+    # filename = secure_filename(file.fh)
+    # file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    return render_template('displayImageOnPage.html', image=decodedImage, responseData=responseData)
 
 
 @app.route('/addRoomFromForm')
 def upload_file():
-   return render_template('addRoomFromForm.html')
+    return render_template('addRoomFromForm.html')

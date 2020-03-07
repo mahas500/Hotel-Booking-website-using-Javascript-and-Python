@@ -89,9 +89,9 @@ class RoomDAO:
         try:
             conn = mysql.connect()
             cursor = conn.cursor(pymysql.cursors.DictCursor)
-
-            cursor.execute("SELECT * from room where availibility='yes'")
+            cursor.execute("SELECT room_id,room_number,price,Average_Rating,availibility,facilities from room where availibility='Yes'")
             rows = cursor.fetchall()
+            print(rows)
             return rows
         except Exception as e:
 
@@ -106,8 +106,9 @@ class RoomDAO:
             conn = mysql.connect()
             cursor = conn.cursor(pymysql.cursors.DictCursor)
 
-            cursor.execute("SELECT room_id,room_number,price,Average_Rating,availibility,facilities from room")
+            cursor.execute("SELECT * from room")
             rows = cursor.fetchall()
+            print(rows)
             return rows
         except Exception as e:
 
