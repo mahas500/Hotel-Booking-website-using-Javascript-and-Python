@@ -27,7 +27,7 @@
  <div class="header">
   <a class="logo">FastRoomBook.com</a>
   <div class="header-right">
-    <a class="active" href="{{ url_for('addRoomPage') }}">Add Room</a>
+    <a class="active" href="{{ url_for('addRoomFromForm') }}">Add Room</a>
       <a href="{{ url_for('deleteRoomPage') }}">Delete Room</a>
       <a href="{{ url_for('adminLogoutPage') }}">Logout</a>
   </div>
@@ -41,20 +41,23 @@
         <div class="row">
 
 
-            {% for x in session['RoomsDataAdmin'] %}
+            {% for x in response %}
 
 
             <div class="col-sm-6 col-md-4">
 
                 <div class="thumbnail">
 
-             <img src="/static/images/Castle-House.jpg" alt="Park">
-
+                <img src="/static/images/Castle-House.jpg" alt="Park">
                     <div class="caption">
 
                     {% for key, value in x.items() %}
 
-                        {% if key=='room_id' %}
+                    {% if key=='image' %}
+
+                    <img height="183px" width="275px" src="data:;base64,{{ value }}" alt="Park">
+
+                        {% elif key=='room_id' %}
 
                          <input hidden id="RoomBookingId" value={{ value }}>
 
@@ -70,7 +73,9 @@
 
                             {% endif %}
 
-                        {% endfor %}
+
+                         {% endfor %}
+
 
                         {% for key,value in session['adminDataStored'].items() %}
 
@@ -80,10 +85,11 @@
 
                             {% endif %}
 
-
                      {% endfor %}
 
                     </div>
+
+
 
                 </div>
 

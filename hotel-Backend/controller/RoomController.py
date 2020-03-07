@@ -4,7 +4,7 @@ import base64
 from flask import request, render_template
 from flask import session
 from werkzeug.utils import secure_filename
-
+from DAO.RoomDAO import RoomDAO
 from CustomUtils import CustomUtils
 from Exceptions.NoBookingsExist import NoBookingsExist
 from Exceptions.NotAuthorized import NotAuthorized
@@ -16,35 +16,13 @@ from Service.RoomService import RoomService
 from app import app
 
 roomService = RoomService()
-
+roomDAO = RoomDAO()
 
 @app.route("/adminLogin", methods=['POST'])
 def adminLogin():
-    global decodedImage, responseData, imageData, items, i
     wsResponse = {"resultSet": None, "operationStatus": None}
     try:
         responseData = roomService.adminLogin(request.json)
-
-
-        # for x in imageData:
-        #    decodedImage = x.decode("utf-8")
-        #   print(decodedImage)
-
-        items = []
-
-        #for i in responseData:
-        #    for index, item in enumerate(i):
-        #        print(index, item)
-        #        if item == 'image':
-        #            items.append(item)
-
-        for i in responseData:
-            for key,value in i.items():
-                if key == 'image':
-                    decodedImage = value.decode("utf-8")
-                    items.append(decodedImage)
-        print(items)
-
 
         wsResponse['resultSet'] = responseData
         wsResponse['operationStatus'] = 1
@@ -57,23 +35,23 @@ def adminLogin():
     except WrongCredentials:
         wsResponse['resultSet'] = None
         wsResponse['operationStatus'] = CustomUtils.WRONG_CREDENTIALS
-    return render_template('adminDashboardMainContent.html', item=items,image=decodedImage)
-
-
-@app.route("/addRoom", methods=['POST'])
-def addRoom():
-    wsResponse = {"resultSet": None, "operationStatus": None}
-    try:
-        responseData = roomService.addRoom(request.headers, request.json)
-        wsResponse['resultSet'] = responseData
-        wsResponse['operationStatus'] = 1
-    except RoomWithGivenNumberAlreadyExist:
-        wsResponse['resultSet'] = None
-        wsResponse['operationStatus'] = CustomUtils.ROOM_WITH_GIVEN_NUMBER_ALREADY_EXIST
-    except NotAuthorized:
-        wsResponse['resultSet'] = None
-        wsResponse['operationStatus'] = CustomUtils.NOT_AUTHORIZED
     return wsResponse
+
+
+#@app.route("/addRoom", methods=['POST'])
+#def addRoom():
+#    wsResponse = {"resultSet": None, "operationStatus": None}
+ #   try:
+ #       responseData = roomService.addRoom(request.headers, request.json)
+ #       wsResponse['resultSet'] = responseData
+ #       wsResponse['operationStatus'] = 1
+ #   except RoomWithGivenNumberAlreadyExist:
+ #       wsResponse['resultSet'] = None
+ #       wsResponse['operationStatus'] = CustomUtils.ROOM_WITH_GIVEN_NUMBER_ALREADY_EXIST
+ #   except NotAuthorized:
+ #       wsResponse['resultSet'] = None
+ #       wsResponse['operationStatus'] = CustomUtils.NOT_AUTHORIZED
+ #   return wsResponse
 
 
 @app.route("/addRoomPage", methods=['GET'])
@@ -125,7 +103,19 @@ def adminLoginPage():
 
 @app.route("/adminDashboard", methods=['GET'])
 def adminDashboard():
-    return render_template('adminDashboard.html')
+    global decodedImage
+    allData = roomDAO.getAllRoomsForAdmin()
+    responseData = roomDAO.getAllRooms()
+    items = []
+
+    for i in allData:
+        for key, value in i.items():
+            if key == 'image':
+                decodedImage = value.decode("utf-8")
+                items.append({key: decodedImage})
+
+    responseData = responseData + items
+    return render_template('adminDashboardMainContent.html', response=responseData)
 
 
 @app.route('/adminLogoutPage', methods=['GET'])
@@ -141,6 +131,7 @@ def adminLogoutPage():
 
 @app.route('/addRoomFromtheForm', methods=['POST'])
 def addRoomFromtheForm():
+    global decodedImage
     file = request.files['file']
     room_number = request.form['number']
     price = request.form['roomprice']
@@ -149,24 +140,20 @@ def addRoomFromtheForm():
 
     image_string = file.read()
     image = base64.b64encode(image_string)
-    dictlist = []
+
     responseData = roomService.addRoom(image, room_number, price, Average_Rating, facilities)
-    decodedImage = responseData.get('image').decode("utf-8")
 
-    for key, value in responseData.items():
-        temp = [key, value]
-        dictlist.append(temp)
-    print(dictlist)
 
-    #  with open("F:\GitHub\Web-Development-CA\hotel-Backend\static\images\Old1.jpg", "wb") as fh:
-    #    fh.write(responseData)
-    #    print(fh)
-    #    fh.close()
-    # filename = secure_filename(file.fh)
-    # file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-    return render_template('displayImageOnPage.html', image=decodedImage, responseData=responseData)
+    items=[]
+    for i in responseData:
+        for key, value in i.items():
+            if key == 'image':
+                decodedImage = value.decode("utf-8")
+                items.append(decodedImage)
+
+    return "Room added!!!"
 
 
 @app.route('/addRoomFromForm')
-def upload_file():
+def addRoomFromForm():
     return render_template('addRoomFromForm.html')

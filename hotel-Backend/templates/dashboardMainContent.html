@@ -57,6 +57,7 @@
                         {% if key=='room_id' %}
 
                          <input hidden id="RoomBookingId" value={{ value }}>
+
                             <button type="submit" class="btn btn-primary" id={{ value }} onclick="sendValues(id)" value="submit">Reserve</button>
 
                         {% elif key!='room_id' and key!='room_number' %}
@@ -156,7 +157,8 @@
 		</footer>
 
 
-		<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+		<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 		<script src="https://cdn.tutorialzine.com/misc/enhance/v2.js" async></script>
 
 

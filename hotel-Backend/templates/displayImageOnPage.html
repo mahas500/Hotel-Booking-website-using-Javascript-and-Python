@@ -2,15 +2,11 @@
 <img>
 <h1>Below is the image</h1>
 
+        {% for i in item %}
 
-{% for key, value in responseData.items() %}
-        {% if key=='room_number' %}
-            <h3>{{ value }}</h3>
-         {% elif key=='image' %}
-            <img src="data:;base64,{{ image }}">
-        {% endif %}
+                    <img height="275px" width="183px" src="data:;base64,{{ i }}">
 
-    {% endfor %}
+        {% endfor %}
 
 </body>
 </html>
