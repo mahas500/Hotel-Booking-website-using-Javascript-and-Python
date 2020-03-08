@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+
+<h2 align="center">Existing Customer Complaints</h2>
+<br>
+<br>
+<table class="table table-striped table-dark table-bordered table-hover">
+  <thead class="thead-dark">
+    <tr>
+      <th>Incident ID</th>
+       <th>Customer ID</th>
+        <th>Username</th>
+        <th>Description</th>
+    </tr>
+  </thead>
+{% for x in session['CustomerIncidents'] %}
+  <tbody>
+
+    <tr>
+{% for key, value in x.items() %}
+    {% if key=='incident_id' %}
+        <td align="center"> {{ value }} </td>
+    {% endif %}
+{% endfor %}
+
+        {% for key, value in x.items() %}
+    {% if key=='customer_id' %}
+        <td align="center"> {{ value }} </td>
+    {% endif %}
+{% endfor %}
+
+        {% for key, value in x.items() %}
+    {% if key=='username' %}
+        <td align="center"> {{ value }} </td>
+    {% endif %}
+{% endfor %}
+
+        {% for key, value in x.items() %}
+    {% if key=='description' %}
+        <td align="center"> {{ value }} </td>
+    {% endif %}
+{% endfor %}
+    </tr>
+  </tbody>
+
+{% endfor %}
+</table>
+<br>
+<br>
+<br>
+<br>
+<h2 align="center">Non-Registered User Enquiries</h2>
+<br>
+<br>
+<table class="table table-striped table-dark table-bordered table-hover">
+  <thead class="thead-dark">
+    <tr>
+      <th>Query ID</th>
+       <th>Name</th>
+        <th>Email</th>
+        <th>Description</th>
+    </tr>
+  </thead>
+{% for x in session['NewCustomerEnquiry'] %}
+  <tbody>
+
+    <tr>
+{% for key, value in x.items() %}
+    {% if key=='query_id' %}
+        <td align="center"> {{ value }} </td>
+    {% endif %}
+{% endfor %}
+
+        {% for key, value in x.items() %}
+    {% if key=='name' %}
+        <td align="center"> {{ value }} </td>
+    {% endif %}
+{% endfor %}
+
+        {% for key, value in x.items() %}
+    {% if key=='email' %}
+        <td align="center"> {{ value }} </td>
+    {% endif %}
+{% endfor %}
+
+        {% for key, value in x.items() %}
+    {% if key=='description' %}
+        <td align="center"> {{ value }} </td>
+    {% endif %}
+{% endfor %}
+    </tr>
+  </tbody>
+
+{% endfor %}
+</table>
+<br>
+<br>
+<div>
+    <span>
+        <h5>Navigate to Dashboard</h5>
+
+    <a class="active" href="{{ url_for('adminDashboard') }}">Back to dashboard</a>
+    </span>
+    <br>
+    <br>
+        <span>
+            <h5>Logout from Webpage</h5>
+
+    <a href="{{ url_for('adminLogoutPage') }}">Logout</a>
+    </span>
+</div>
+
+</body>
+</html>

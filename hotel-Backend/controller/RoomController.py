@@ -24,6 +24,7 @@ def adminLogin():
     try:
         responseData = roomService.adminLogin(request.json)
 
+
         wsResponse['resultSet'] = responseData
         wsResponse['operationStatus'] = 1
     except NoBookingsExist:
@@ -36,22 +37,6 @@ def adminLogin():
         wsResponse['resultSet'] = None
         wsResponse['operationStatus'] = CustomUtils.WRONG_CREDENTIALS
     return wsResponse
-
-
-#@app.route("/addRoom", methods=['POST'])
-#def addRoom():
-#    wsResponse = {"resultSet": None, "operationStatus": None}
- #   try:
- #       responseData = roomService.addRoom(request.headers, request.json)
- #       wsResponse['resultSet'] = responseData
- #       wsResponse['operationStatus'] = 1
- #   except RoomWithGivenNumberAlreadyExist:
- #       wsResponse['resultSet'] = None
- #       wsResponse['operationStatus'] = CustomUtils.ROOM_WITH_GIVEN_NUMBER_ALREADY_EXIST
- #   except NotAuthorized:
- #       wsResponse['resultSet'] = None
- #       wsResponse['operationStatus'] = CustomUtils.NOT_AUTHORIZED
- #   return wsResponse
 
 
 @app.route("/addRoomPage", methods=['GET'])
@@ -143,7 +128,7 @@ def addRoomFromtheForm():
 
     responseData = roomService.addRoom(room_number, price, Average_Rating, facilities,image)
 
-    return redirect(url_for('adminDashboard'))
+    return redirect(url_for('addRoomFromForm'))
 
 
 @app.route('/addRoomFromForm')
@@ -154,3 +139,12 @@ def addRoomFromForm():
 @app.route('/RoomBookingPage')
 def RoomBookingPage():
     return render_template('RoomBookingPage.html')
+
+
+@app.route('/CustomerEnquiries')
+def CustomerEnquiries():
+    incidentData = roomDAO.Customerincident()
+    session['CustomerIncidents'] = incidentData
+    enquiryData = roomDAO.CustomerEnquiry()
+    session['NewCustomerEnquiry'] = enquiryData
+    return render_template('CustomerEnquiries.html')

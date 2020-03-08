@@ -297,7 +297,36 @@ class RoomDAO:
             cursor = conn.cursor(pymysql.cursors.DictCursor)
             cursor.execute("select image from room")
             row = cursor.fetchall()
-            print(row)
+            return row
+        except Exception as e:
+
+            print(e)
+        finally:
+            cursor.close()
+
+
+    @classmethod
+    def Customerincident(cls):
+        try:
+            conn = mysql.connect()
+            cursor = conn.cursor(pymysql.cursors.DictCursor)
+            cursor.execute("select * from incident")
+            row = cursor.fetchall()
+            return row
+        except Exception as e:
+
+            print(e)
+        finally:
+            cursor.close()
+
+
+    @classmethod
+    def CustomerEnquiry(cls):
+        try:
+            conn = mysql.connect()
+            cursor = conn.cursor(pymysql.cursors.DictCursor)
+            cursor.execute("select * from query")
+            row = cursor.fetchall()
             return row
         except Exception as e:
 
