@@ -89,9 +89,8 @@ class RoomDAO:
         try:
             conn = mysql.connect()
             cursor = conn.cursor(pymysql.cursors.DictCursor)
-            cursor.execute("SELECT room_id,room_number,price,Average_Rating,availibility,facilities from room where availibility='Yes'")
+            cursor.execute("SELECT room_id,room_number,price,Average_Rating,availibility,facilities from room")
             rows = cursor.fetchall()
-            print(rows)
             return rows
         except Exception as e:
 
@@ -99,6 +98,23 @@ class RoomDAO:
         finally:
             cursor.close()
             conn.close()
+
+
+    @classmethod
+    def getAllRoomsForUser(cls):
+        try:
+            conn = mysql.connect()
+            cursor = conn.cursor(pymysql.cursors.DictCursor)
+            cursor.execute("SELECT room_id,room_number,price,Average_Rating,availibility,facilities from room where availibility='Yes'")
+            rows = cursor.fetchall()
+            return rows
+        except Exception as e:
+
+            print(e)
+        finally:
+            cursor.close()
+            conn.close()
+
 
     @classmethod
     def getAllRoomsForAdmin(cls):
@@ -108,7 +124,23 @@ class RoomDAO:
 
             cursor.execute("SELECT * from room")
             rows = cursor.fetchall()
-            print(rows)
+            return rows
+        except Exception as e:
+
+            print(e)
+        finally:
+            cursor.close()
+            conn.close()
+
+
+    @classmethod
+    def getAllDataForUser(cls):
+        try:
+            conn = mysql.connect()
+            cursor = conn.cursor(pymysql.cursors.DictCursor)
+
+            cursor.execute("SELECT * from room where availibility='Yes'")
+            rows = cursor.fetchall()
             return rows
         except Exception as e:
 
@@ -204,7 +236,7 @@ class RoomDAO:
             conn = mysql.connect()
             cursor = conn.cursor(pymysql.cursors.DictCursor)
 
-            cursor.execute("SELECT * from room where room_id=%s",
+            cursor.execute("SELECT room_id,room_number,price,Average_Rating,availibility,facilities from room where room_id=%s",
                            room_id)
             row = cursor.fetchone()
             return row

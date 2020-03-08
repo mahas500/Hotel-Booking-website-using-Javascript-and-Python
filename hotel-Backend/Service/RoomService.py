@@ -55,6 +55,14 @@ class RoomService:
             return False
 
 
+    @classmethod
+    def getAllRoomsForUser(cls):
+        responseData = cls.roomDAO.getAllRoomsForUser()
+        if responseData is not None:
+            return True
+        else:
+            return False
+
  #   @classmethod
  #   def addRoom(cls, header,data):
   #      if cls.adminCheckFromSessionID(header):
@@ -68,11 +76,12 @@ class RoomService:
 
 
     @classmethod
-    def addRoom(cls, image,room_number,price,Average_Rating,facilities):
+    def addRoom(cls, imageUTF8,room_number,price,Average_Rating,facilities):
 
         if cls.checkRoomWithNumber(room_number):
-            responseData = cls.roomDAO.addNewRoom(room_number, price, Average_Rating,facilities,image)
-            print(type(responseData))
+            roomData = cls.roomDAO.addNewRoom(room_number, price, Average_Rating,facilities,imageUTF8)
+            responseData = cls.roomDAO.getAllRoomsForAdmin()
+            print(responseData)
         else:
             raise RoomWithGivenNumberAlreadyExist
         return responseData

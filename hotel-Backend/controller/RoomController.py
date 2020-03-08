@@ -1,9 +1,9 @@
 import json
 import os
 import base64
-from flask import request, render_template
+from flask import request, render_template, url_for
 from flask import session
-from werkzeug.utils import secure_filename
+from werkzeug.utils import secure_filename, redirect
 from DAO.RoomDAO import RoomDAO
 from CustomUtils import CustomUtils
 from Exceptions.NoBookingsExist import NoBookingsExist
@@ -151,7 +151,7 @@ def addRoomFromtheForm():
                 decodedImage = value.decode("utf-8")
                 items.append(decodedImage)
 
-    return "Room added!!!"
+    return redirect(url_for('adminDashboard'))
 
 
 @app.route('/addRoomFromForm')

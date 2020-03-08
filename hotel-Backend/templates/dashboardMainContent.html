@@ -41,7 +41,7 @@
         <div class="row">
 
 
-            {% for x in session['RoomsData'] %}
+            {% for x in response %}
 
 
             <div class="col-sm-6 col-md-4">
@@ -54,7 +54,11 @@
 
                     {% for key, value in x.items() %}
 
-                        {% if key=='room_id' %}
+                        {% if key=='image' %}
+
+                    <img height="183px" width="275px" src="data:;base64,{{ value }}" alt="Park">
+
+                        {% elif key=='room_id' %}
 
                          <input hidden id="RoomBookingId" value={{ value }}>
 

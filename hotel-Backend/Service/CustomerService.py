@@ -66,9 +66,9 @@ class CustomerService:
         if cls.customerLoginCheck(data.get('customer_id'), data.get('password')):
             customerData = cls.customerDAO.customerLogin(data.get('customer_id'), data.get('password'))
             session['loginData'] = customerData
-            if cls.roomService.getAllRooms():
-                responseData = cls.roomDAO.getAllRooms()
-                session['RoomsData'] = responseData
+            if cls.roomService.getAllRoomsForUser():
+                responseData = cls.roomDAO.getAllRoomsForUser()
+
             else:
                 raise RoomNotAvailable
         else:
@@ -129,5 +129,4 @@ class CustomerService:
     def userLogoutService(cls, customer_id):
         responseData = cls.customerDAO.userLogoutDAO(customer_id)
         session.pop('loginData')
-        session.pop('RoomsData')
         return responseData

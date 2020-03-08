@@ -10,9 +10,10 @@ import json
 from flask import jsonify, redirect, url_for, session
 from flask import flash, request, render_template
 from Service.CustomerService import CustomerService
+from DAO.RoomDAO import RoomDAO
 
 customerService = CustomerService()
-
+roomDAO = RoomDAO()
 
 @app.route("/getCustomersFromDB", methods=['GET'])
 def getCustomersFromDB():
@@ -106,7 +107,19 @@ def userLoginPage():
 
 @app.route("/dashboard", methods=['GET'])
 def dashboard():
-    return render_template('dashboard.html')
+    global decodedImage
+    allData = roomDAO.getAllDataForUser()
+    responseData = roomDAO.getAllRoomsForUser()
+    items = []
+
+    for i in allData:
+        for key, value in i.items():
+            if key == 'image':
+                decodedImage = value.decode("utf-8")
+                items.append({key: decodedImage})
+
+    responseData = responseData + items
+    return render_template('dashboardMainContent.html', response=responseData)
 
 
 @app.route("/registerUser", methods=['GET'])
