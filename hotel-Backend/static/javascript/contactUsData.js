@@ -15,6 +15,7 @@ $("document").ready(function()
             contentType: "application/json",
             success: function()
             {
+                window.alert("Mail sent to admin!!!")
 
             }});
 

@@ -128,7 +128,7 @@ def addRoomFromtheForm():
 
     responseData = roomService.addRoom(room_number, price, Average_Rating, facilities,image)
 
-    return redirect(url_for('addRoomFromForm'))
+    return render_template('addRoomFromForm.html')
 
 
 @app.route('/addRoomFromForm')
