@@ -33,7 +33,15 @@
   </div>
 </div>
 
+{% for key,value in session['adminDataStored'].items() %}
 
+                            {% if key=='name' %}
+
+                                <h2 align="center">Welcome {{ value }}</h2>
+
+                            {% endif %}
+
+                     {% endfor %}
    <div class="container gallery-container">
 
     <div class="tz-gallery">
