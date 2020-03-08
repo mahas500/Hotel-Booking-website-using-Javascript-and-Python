@@ -141,18 +141,10 @@ def addRoomFromtheForm():
     image_string = file.read()
     image = base64.b64encode(image_string)
 
-    responseData = roomService.addRoom(image, room_number, price, Average_Rating, facilities)
+    responseData = roomService.addRoom(room_number, price, Average_Rating, facilities,image)
 
-
-    items=[]
-    for i in responseData:
-        for key, value in i.items():
-            if key == 'image':
-                decodedImage = value.decode("utf-8")
-                items.append(decodedImage)
-
-    #return redirect(url_for('adminDashboard'))
-    return redirect(url_for('addRoomFromForm'))
+    return redirect(url_for('adminDashboard'))
+    #return "Room Added successfully"
 
 
 @app.route('/addRoomFromForm')

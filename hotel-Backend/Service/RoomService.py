@@ -76,10 +76,10 @@ class RoomService:
 
 
     @classmethod
-    def addRoom(cls, imageUTF8,room_number,price,Average_Rating,facilities):
+    def addRoom(cls,room_number,price,Average_Rating,facilities,image):
 
         if cls.checkRoomWithNumber(room_number):
-            roomData = cls.roomDAO.addNewRoom(room_number, price, Average_Rating,facilities,imageUTF8)
+            roomData = cls.roomDAO.addNewRoom(room_number, price, Average_Rating,facilities,image)
             responseData = cls.roomDAO.getAllRoomsForAdmin()
             print(responseData)
         else:
