@@ -305,22 +305,3 @@ class RoomDAO:
         finally:
             cursor.close()
 
-
-    @classmethod
-    def addRoomFromtheForm(cls, image_id):
-        try:
-            conn = mysql.connect()
-            cursor = conn.cursor(pymysql.cursors.DictCursor)
-            cursor.execute("insert into imagesTest(image_id) value(%s)",
-                           image_id)
-            conn.commit()
-            cursor.execute("select * from imagesTest where image_id=%s",
-                            image_id)
-            row = cursor.fetchone()
-            return row
-        except Exception as e:
-
-            print(e)
-        finally:
-            cursor.close()
-            conn.close()

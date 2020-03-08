@@ -98,7 +98,6 @@ def customerLogin():
     return wsResponse
 
 
-
 @app.route("/userLoginPage", methods=['GET'])
 def userLoginPage():
     return render_template('UserLogin.html')

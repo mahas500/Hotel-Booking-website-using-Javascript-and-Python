@@ -48,7 +48,6 @@ class RoomService:
     @classmethod
     def getAllRooms(cls):
         responseData = cls.roomDAO.getAllRooms()
-        session['RoomsDataAdmin'] = responseData
         if responseData is not None:
             return True
         else:
@@ -101,6 +100,7 @@ class RoomService:
 
     @classmethod
     def changeRoomStatus(cls,header, data):
+        global responseData
         if cls.adminCheckFromSessionID(header):
             if cls.checkRoomWithGivenID(data):
                 roomDataWithGivenID = cls.roomDAO.checkRoomWithGivenID(data.get('room_id'))
@@ -166,7 +166,6 @@ class RoomService:
     def adminLogoutService(cls, admin_id):
         responseData = cls.roomDAO.adminLogoutDAO(admin_id)
         session.pop('adminDataStored')
-        session.pop('RoomsDataAdmin')
         session.pop('BookingsDataAdmin')
         return responseData
 
@@ -175,11 +174,3 @@ class RoomService:
         responseData = cls.roomDAO.getCurrentRoomData(room_id)
         return responseData
 
-
-    @classmethod
-    def addRoomFromtheForm(cls, image_id):
-        response = cls.roomDAO.addRoomFromtheForm(image_id)
-        #decodedImage = base64.b64decode(response)
-        #decodedImage = json.loads(json.dumps(response))
-        decodedImage = base64.b64decode(response.get('image_id'))
-        return decodedImage
