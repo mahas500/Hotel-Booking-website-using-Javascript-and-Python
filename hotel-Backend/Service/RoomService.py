@@ -109,7 +109,7 @@ class RoomService:
                 if checkStatus == 'Yes':
                     responseData = cls.roomDAO.changeStatusToNo(data.get('room_id'))
                     print(responseData)
-                else:
+                elif checkStatus == 'No':
                     responseData = cls.roomDAO.changeStatusToYes(data.get('room_id'))
                     print(responseData)
             else:
@@ -130,7 +130,7 @@ class RoomService:
 
     @classmethod
     def adminLoginCheck(cls, data):
-        responseData = cls.roomDAO.adminLogin(data.get('admin_id'), data.get('password'))
+        responseData = cls.roomDAO.adminLogin(data.get('username'), data.get('password'))
         if responseData is not None:
             return True
         else:

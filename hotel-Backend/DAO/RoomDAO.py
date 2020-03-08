@@ -275,7 +275,7 @@ class RoomDAO:
             conn = mysql.connect()
             cursor = conn.cursor(pymysql.cursors.DictCursor)
 
-            cursor.execute("UPDATE room set availibility = 'Yes' where room_id=%r",
+            cursor.execute("UPDATE room set availibility = 'Yes' where room_id=%s",
                            room_id)
             conn.commit()
             cursor.execute("select * from room where room_id=%s",
