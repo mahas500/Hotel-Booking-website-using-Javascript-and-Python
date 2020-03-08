@@ -21,7 +21,7 @@ class RoomService:
     @classmethod
     def adminLogin(cls, data):
         if cls.adminLoginCheck(data):
-            adminData = cls.roomDAO.adminLogin(data.get('admin_id'), data.get('password'))
+            adminData = cls.roomDAO.adminLogin(data.get('username'), data.get('password'))
             session['adminDataStored'] = adminData
             if cls.getAllBookingsfromDBCheck():
                 responseBookingData = cls.bookingDAO.getAllBookings()

@@ -63,8 +63,8 @@ class CustomerService:
 
     @classmethod
     def customerLogin(cls, data):
-        if cls.customerLoginCheck(data.get('customer_id'), data.get('password')):
-            customerData = cls.customerDAO.customerLogin(data.get('customer_id'), data.get('password'))
+        if cls.customerLoginCheck(data.get('username'), data.get('password')):
+            customerData = cls.customerDAO.customerLogin(data.get('username'), data.get('password'))
             session['loginData'] = customerData
             if cls.roomService.getAllRoomsForUser():
                 responseData = cls.roomDAO.getAllRoomsForUser()

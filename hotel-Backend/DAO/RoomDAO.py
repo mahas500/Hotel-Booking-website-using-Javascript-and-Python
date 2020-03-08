@@ -57,22 +57,22 @@ class RoomDAO:
             conn.close()
 
     @classmethod
-    def adminLogin(cls, admin_id, password):
+    def adminLogin(cls, username, password):
         try:
             conn = mysql.connect()
             cursor = conn.cursor(pymysql.cursors.DictCursor)
 
-            cursor.execute("SELECT * from admin where admin_id = %s and password= %s",
-                           (admin_id, password))
+            cursor.execute("SELECT * from admin where username = %s and password= %s",
+                           (username, password))
             rows = cursor.fetchone()
             if rows is not None:
                 sessionId = str(uuid.uuid4())
-                cursor.execute("update admin set session_id = %s where admin_id = %s",
-                               (sessionId, admin_id))
+                cursor.execute("update admin set session_id = %s where username = %s",
+                               (sessionId, username))
                 conn.commit()
 
-                cursor.execute("SELECT * from admin where admin_id = %s and password= %s",
-                               (admin_id, password))
+                cursor.execute("SELECT * from admin where username = %s and password= %s",
+                               (username, password))
                 rows = cursor.fetchone()
                 return rows
             else:

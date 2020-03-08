@@ -7,7 +7,7 @@ $("document").ready(function()
         var name = $("#adminName").val();
         var pass = $("#pass").val();
         $.post({url: "http://127.0.0.1:5000/adminLogin",
-            data: JSON.stringify({admin_id: name, password : pass}),
+            data: JSON.stringify({username: name, password : pass}),
             contentType: "application/json",
             success: function(result)
             {

@@ -151,7 +151,8 @@ def addRoomFromtheForm():
                 decodedImage = value.decode("utf-8")
                 items.append(decodedImage)
 
-    return redirect(url_for('adminDashboard'))
+    #return redirect(url_for('adminDashboard'))
+    return redirect(url_for('addRoomFromForm'))
 
 
 @app.route('/addRoomFromForm')
