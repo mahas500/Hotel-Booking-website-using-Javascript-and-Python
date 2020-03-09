@@ -31,7 +31,7 @@ def adminLogin():
         wsResponse['operationStatus'] = 1
     except NoBookingsExist:
         wsResponse['resultSet'] = None
-        wsResponse['operationStatus'] = CustomUtils.NO_BOOKINGS_EXIST
+        wsResponse[''] = CustomUtils.NO_BOOKINGS_EXIST
     except RoomNotAvailable:
         wsResponse['resultSet'] = None
         wsResponse['operationStatus'] = CustomUtils.ROOM_NOT_AVAILABLE
@@ -50,6 +50,8 @@ def addRoomPage():
 def deleteRoom():
     wsResponse = {"resultSet": None, "operationStatus": None}
     try:
+        print(request.json)
+        print(request.headers)
         responseData = roomService.deleteRoom(request.headers, request.json)
         wsResponse['resultSet'] = responseData
         wsResponse['operationStatus'] = 1
@@ -82,8 +84,13 @@ def changeRoomStatus():
 def deleteRoomPage():
     global roomData
     responseBookingData = roomDAO.GetRoomID()
-    print(responseBookingData)
-    return render_template('deleteRoomPage.html',response=responseBookingData)
+    list = []
+
+    for x in responseBookingData:
+        for key,value in x.items():
+            if key=='room_id':
+                list.append(value)
+    return render_template('deleteRoomPage.html',response=list)
 
 
 @app.route("/adminLoginPage", methods=['GET'])
