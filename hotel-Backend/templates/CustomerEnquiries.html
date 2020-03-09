@@ -6,6 +6,12 @@
 <body>
 
 <h2 align="center">Existing Customer Complaints</h2>
+    {% for key, value in session['adminDataStored'].items() %}
+        {% if key=='session_id' %}
+           <input hidden id="userSession" value={{ value }}>
+        {% endif %}
+
+    {% endfor %}
 <br>
 <br>
 <table class="table table-striped table-dark table-bordered table-hover">
