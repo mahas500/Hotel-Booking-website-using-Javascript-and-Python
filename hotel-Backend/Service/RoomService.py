@@ -24,8 +24,6 @@ class RoomService:
             adminData = cls.roomDAO.adminLogin(data.get('username'), data.get('password'))
             session['adminDataStored'] = adminData
             if cls.getAllBookingsfromDBCheck():
-                responseBookingData = cls.bookingDAO.getAllBookings()
-                session['BookingsDataAdmin'] = responseBookingData
                 if cls.getAllRooms():
                     responseData = cls.roomDAO.getAllRoomsForAdmin()
                 else:
@@ -154,7 +152,6 @@ class RoomService:
     def adminLogoutService(cls, admin_id):
         responseData = cls.roomDAO.adminLogoutDAO(admin_id)
         session.pop('adminDataStored')
-        session.pop('BookingsDataAdmin')
         return responseData
 
     @classmethod

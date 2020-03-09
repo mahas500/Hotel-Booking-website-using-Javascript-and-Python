@@ -14,9 +14,11 @@ from Exceptions.RoomWithGivenNumberAlreadyExist import RoomWithGivenNumberAlread
 from Exceptions.WrongCredentials import WrongCredentials
 from Service.RoomService import RoomService
 from app import app
+from DAO.BookingDAO import BookingDAO
 
 roomService = RoomService()
 roomDAO = RoomDAO()
+bookingDAO = BookingDAO()
 
 @app.route("/adminLogin", methods=['POST'])
 def adminLogin():
@@ -138,6 +140,8 @@ def addRoomFromForm():
 
 @app.route('/RoomBookingPage')
 def RoomBookingPage():
+    responseBookingData = bookingDAO.getAllBookings()
+    session['BookingsDataAdmin'] = responseBookingData
     return render_template('RoomBookingPage.html')
 
 
