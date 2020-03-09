@@ -13,7 +13,18 @@ $("document").ready(function()
             {
                 console.log(result);
 
-            window.location.href = "http://127.0.0.1:5000/dashboard";
+                console.log(result.operationStatus);
+
+                if(result.operationStatus===1){
+                    window.location.href = "http://127.0.0.1:5000/dashboard";
+                }
+                else if(result.operationStatus===-4){
+                   window.alert('Rooms not available')
+            }
+                else {
+                    window.alert('Wrong credentials')
+                }
+
             }});
 
     });
