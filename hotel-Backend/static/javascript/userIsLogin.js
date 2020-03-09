@@ -11,9 +11,6 @@ $("document").ready(function()
             contentType: "application/json",
             success: function(result)
             {
-                console.log(result);
-
-                console.log(result.operationStatus);
 
                 if(result.operationStatus===1){
                     window.location.href = "http://127.0.0.1:5000/dashboard";

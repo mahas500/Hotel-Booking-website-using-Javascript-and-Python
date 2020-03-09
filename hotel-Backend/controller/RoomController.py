@@ -25,8 +25,6 @@ def adminLogin():
     wsResponse = {"resultSet": None, "operationStatus": None}
     try:
         responseData = roomService.adminLogin(request.json)
-
-
         wsResponse['resultSet'] = responseData
         wsResponse['operationStatus'] = 1
     except NoBookingsExist:
@@ -50,8 +48,6 @@ def addRoomPage():
 def deleteRoom():
     wsResponse = {"resultSet": None, "operationStatus": None}
     try:
-        print(request.json)
-        print(request.headers)
         responseData = roomService.deleteRoom(request.headers, request.json)
         wsResponse['resultSet'] = responseData
         wsResponse['operationStatus'] = 1
@@ -140,7 +136,7 @@ def addRoomFromtheForm():
 
     responseData = roomService.addRoom(room_number, price, Average_Rating, facilities,image)
 
-    return render_template('addRoomFromForm.html')
+    return responseData
 
 
 @app.route('/addRoomFromForm')

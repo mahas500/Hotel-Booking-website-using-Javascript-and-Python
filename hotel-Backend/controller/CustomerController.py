@@ -56,6 +56,7 @@ def newPassword():
     except OTP_Not_Correct:
         wsResponse['resultSet'] = None
         wsResponse['operationStatus'] = CustomUtils.OTP_NOT_CORRECT
+    print(wsResponse)
     return wsResponse
 
 

@@ -14,7 +14,16 @@ $("document").ready(function()
             success: function(result)
             {
                 console.log(result)
-                window.alert("Room deleted successfully")
+                var x = result.operationStatus
+                if(x === -12){
+                    console.log(x)
+                    window.alert('Room with given ID does not exist')
+                }
+                else{
+                    console.log(result.operationStatus)
+                     window.alert('Room deleted successfully')
+                }
+
             }});
 
     });

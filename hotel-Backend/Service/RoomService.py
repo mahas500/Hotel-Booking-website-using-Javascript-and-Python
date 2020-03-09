@@ -148,6 +148,7 @@ class RoomService:
         else:
             return None
 
+
     @classmethod
     def adminLogoutService(cls, admin_id):
         responseData = cls.roomDAO.adminLogoutDAO(admin_id)
