@@ -334,3 +334,17 @@ class RoomDAO:
         finally:
             cursor.close()
 
+
+    @classmethod
+    def GetRoomID(cls):
+        try:
+            conn = mysql.connect()
+            cursor = conn.cursor(pymysql.cursors.DictCursor)
+            cursor.execute("select room_id from room")
+            row = cursor.fetchall()
+            return row
+        except Exception as e:
+
+            print(e)
+        finally:
+            cursor.close()

@@ -80,7 +80,10 @@ def changeRoomStatus():
 
 @app.route('/deleteRoomPage', methods=['GET'])
 def deleteRoomPage():
-    return render_template('deleteRoomPage.html')
+    global roomData
+    responseBookingData = roomDAO.GetRoomID()
+    print(responseBookingData)
+    return render_template('deleteRoomPage.html',response=responseBookingData)
 
 
 @app.route("/adminLoginPage", methods=['GET'])
