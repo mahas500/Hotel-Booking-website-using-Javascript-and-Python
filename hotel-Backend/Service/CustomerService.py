@@ -35,6 +35,7 @@ class CustomerService:
             raise WrongCredentials
         return responseData
 
+
     @classmethod
     def newPassword(cls, data):
         if cls.OTPCheck(data):
@@ -112,15 +113,12 @@ class CustomerService:
     def customerLogin(cls, data):
         global responseData
         if cls.customerLoginCheck(data.get('username'),data.get('password')):
-            print("Hello")
             if cls.roomService.getAllRoomsForUser():
                 responseData = cls.roomDAO.getAllRoomsForUser()
                 if responseData == ():
                     raise RoomNotAvailable
                 else:
-
-                    passHash = cls.customerDAO.getHashPass(data.get('username'))
-                    customerData = cls.customerDAO.customerLogin(data.get('username'), passHash)
+                    customerData = cls.customerDAO.customerLoginfromCustID(data.get('username'))
                     session['loginData'] = customerData
         else:
             raise WrongCredentials
@@ -146,10 +144,9 @@ class CustomerService:
 
     @classmethod
     def customerLoginCheck(cls,username,password):
-        passwordHash = cls.customerDAO.getHashPass(username)
-        print(passwordHash)
+        password1 = cls.customerDAO.getHashPass(username)
+        passwordHash = password1.get('password')
         result = check_password_hash(passwordHash, password)
-        print(result)
         return result
 
     @classmethod
