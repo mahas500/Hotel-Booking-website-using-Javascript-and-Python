@@ -1,6 +1,8 @@
 from CustomUtils import CustomUtils
 from Exceptions import NoBookingsExist
 from Exceptions.CustomerNotLoggedIn import CustomerNotLoggedIn
+from Exceptions.InvalidEmail import InvalidEmail
+from Exceptions.InvalidName import InvalidName
 from Exceptions.NoBookingsExist import NoBookingsExist
 from Exceptions.SomethingWentWrong import SomethingWentWrong
 from Exceptions.RoomNotAvailable import RoomNotAvailable
@@ -70,6 +72,12 @@ def contactUsViaHome():
         responseData = bookingService.contactUsViaHome(request.json)
         wsResponse['resultSet'] = responseData
         wsResponse['operationStatus'] = 1
+    except InvalidEmail:
+        wsResponse['resultSet'] = None
+        wsResponse['operationStatus'] = CustomUtils.INVALID_EMAIL
+    except InvalidName:
+        wsResponse['resultSet'] = None
+        wsResponse['operationStatus'] = CustomUtils.INVALID_NAME
     except SomethingWentWrong:
         wsResponse['resultSet'] = None
         wsResponse['operationStatus'] = CustomUtils.SOMETHING_WENT_WRONG

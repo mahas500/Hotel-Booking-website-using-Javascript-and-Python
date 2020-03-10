@@ -5,6 +5,8 @@ from flask import session
 from DAO.BookingDAO import BookingDAO
 from DAO.CustomerDAO import CustomerDAO
 from DAO.RoomDAO import RoomDAO
+from Exceptions.InvalidEmail import InvalidEmail
+from Exceptions.InvalidName import InvalidName
 from Exceptions.NoBookingsExist import NoBookingsExist
 from Service.RoomService import RoomService
 from Service.EmailService import EmailService
@@ -63,13 +65,31 @@ class BookingService:
 
     @classmethod
     def contactUsViaHome(cls, data):
-        if cls.contactUsViaHomeCheck(data.get('name'), data.get('email'),
-                                     data.get('description')):
+        if cls.contactUsViaHomeCheck(data.get('name'), data.get('email'),data.get('description')):
+            z = data.get('name')
+            count = 0
 
-            responseData = cls.bookingDAO.contactUsViaHome(data.get('name'), data.get('email'),
-                                                           data.get('description'))
-            cls.emailService.contactUsEmailbyHome(responseData.get('query_id'), data.get('name'), data.get('email'),
-                                                  data.get('description'))
+            for j in z:
+                if j in "0, 1, 2, 3, 4, 5, 6, 7, 8, 9,@,#,$,%,&,*":
+                    count = count + 1
+            if count == 0:
+                x = data.get('email')
+                count = 0
+                count1 = 0
+                for i in x:
+                    if i == '@':
+                        count = count + 1
+                    elif i == '.':
+                        count1 = count1 + 1
+                if count == 1 and count1 == 1:
+                    responseData = cls.bookingDAO.contactUsViaHome(data.get('name'), data.get('email'),
+                                                                   data.get('description'))
+                    cls.emailService.contactUsEmailbyHome(responseData.get('query_id'), data.get('name'), data.get('email'),
+                                                      data.get('description'))
+                else:
+                    raise InvalidEmail
+            else:
+                raise InvalidName
         else:
             raise SomethingWentWrong
         return responseData
