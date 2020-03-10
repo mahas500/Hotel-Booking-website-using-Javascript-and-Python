@@ -50,10 +50,9 @@ class CustomerService:
 
     @classmethod
     def getAllCustomers(cls):
+        global responseData
         if cls.getAllCustomersCheck():
             responseData = cls.customerDAO.getAllCustomersfromDB()
-        else:
-            raise NoCustomersExist
         return responseData
 
     @classmethod

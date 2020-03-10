@@ -21,15 +21,9 @@ roomDAO = RoomDAO()
 
 @app.route("/getCustomersFromDB", methods=['GET'])
 def getCustomersFromDB():
-    wsResponse = {"resultSet": None, "operationStatus": None}
-    try:
-        responseData = customerService.getAllCustomers()
-        wsResponse['resultSet'] = responseData
-        wsResponse['operationStatus'] = 1
-    except NoCustomersExist:
-        wsResponse['resultSet'] = None
-        wsResponse['operationStatus'] = CustomUtils.NO_CUSTOMERS_EXIST
-    return wsResponse
+    responseData = customerService.getAllCustomers()
+    session['allCustomerData'] = responseData
+    return render_template('allCustomerData.html')
 
 
 @app.route("/forgotPasswordForm", methods=['GET'])

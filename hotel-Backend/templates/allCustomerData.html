@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+
+<h2 align="center">Registered Customer Details</h2>
+    {% for key, value in session['adminDataStored'].items() %}
+        {% if key=='session_id' %}
+           <input hidden id="userSession" value={{ value }}>
+        {% endif %}
+
+    {% endfor %}
+<br>
+<br>
+<table class="table table-striped table-dark table-bordered table-hover">
+  <thead class="thead-dark">
+    <tr>
+      <th>Customer ID</th>
+       <th>Name</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Contact Number</th>
+    </tr>
+  </thead>
+{% for x in session['allCustomerData'] %}
+  <tbody>
+
+    <tr>
+{% for key, value in x.items() %}
+    {% if key=='customer_id' %}
+        <td align="center"> {{ value }} </td>
+    {% endif %}
+{% endfor %}
+
+        {% for key, value in x.items() %}
+    {% if key=='name' %}
+        <td align="center"> {{ value }} </td>
+    {% endif %}
+{% endfor %}
+
+        {% for key, value in x.items() %}
+    {% if key=='username' %}
+        <td align="center"> {{ value }} </td>
+    {% endif %}
+{% endfor %}
+
+        {% for key, value in x.items() %}
+    {% if key=='email' %}
+        <td align="center"> {{ value }} </td>
+    {% endif %}
+{% endfor %}
+
+        {% for key, value in x.items() %}
+    {% if key=='contact_no' %}
+        <td align="center"> {{ value }} </td>
+    {% endif %}
+{% endfor %}
+    </tr>
+  </tbody>
+
+{% endfor %}
+</table>
+<br>
+<br>
+<br>
+<div>
+    <span>
+        <h5>Navigate to Dashboard</h5>
+
+    <a class="active" href="{{ url_for('adminDashboard') }}">Back to dashboard</a>
+    </span>
+    <br>
+    <br>
+        <span>
+            <h5>Logout from Webpage</h5>
+
+    <a href="{{ url_for('adminLogoutPage') }}">Logout</a>
+    </span>
+</div>
+
+</body>
+</html>

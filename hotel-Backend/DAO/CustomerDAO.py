@@ -95,7 +95,7 @@ class CustomerDAO:
             conn = mysql.connect()
             cursor = conn.cursor(pymysql.cursors.DictCursor)
 
-            cursor.execute("SELECT * from customer")
+            cursor.execute("SELECT customer_id,name,username,email,contact_no from customer")
             rows = cursor.fetchall()
             return rows
         except Exception as e:
