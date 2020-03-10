@@ -103,15 +103,15 @@ class CustomerService:
 
     @classmethod
     def customerLogin(cls, data):
+        global responseData
         if cls.customerLoginCheck(data.get('username'), data.get('password')):
-            customerData = cls.customerDAO.customerLogin(data.get('username'), data.get('password'))
-            session['loginData'] = customerData
             if cls.roomService.getAllRoomsForUser():
                 responseData = cls.roomDAO.getAllRoomsForUser()
-                print(responseData)
-
-            else:
-                raise RoomNotAvailable
+                if responseData == ():
+                    raise RoomNotAvailable
+                else:
+                    customerData = cls.customerDAO.customerLogin(data.get('username'), data.get('password'))
+                    session['loginData'] = customerData
         else:
             raise WrongCredentials
 

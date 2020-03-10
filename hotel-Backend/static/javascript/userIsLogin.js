@@ -16,9 +16,9 @@ $("document").ready(function()
                     window.location.href = "http://127.0.0.1:5000/dashboard";
                 }
                 else if(result.operationStatus===-4){
-                   window.alert('Rooms not available')
+                   window.alert('Rooms not available.Kindly contact admin')
             }
-                else {
+                else if(result.operationStatus===-2){
                     window.alert('Wrong credentials')
                 }
 

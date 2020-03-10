@@ -20,8 +20,7 @@ $("document").ready(function()
                     window.alert('Room with given ID does not exist')
                 }
                 else{
-                    console.log(result.operationStatus)
-                     window.alert('Room deleted successfully')
+                    window.alert('Room deleted successfully')
                 }
 
             }});
