@@ -1,4 +1,7 @@
 from CustomUtils import CustomUtils
+from Exceptions.InvalidContactNumber import InvalidContactNumber
+from Exceptions.InvalidEmail import InvalidEmail
+from Exceptions.InvalidName import InvalidName
 from Exceptions.OTP_Not_Correct import OTP_Not_Correct
 from Exceptions.WrongCredentials import WrongCredentials
 from Exceptions.NoCustomersExist import NoCustomersExist
@@ -56,7 +59,6 @@ def newPassword():
     except OTP_Not_Correct:
         wsResponse['resultSet'] = None
         wsResponse['operationStatus'] = CustomUtils.OTP_NOT_CORRECT
-    print(wsResponse)
     return wsResponse
 
 
@@ -77,6 +79,15 @@ def addCustomerInDB():
         responseData = customerService.createCustomer(request.json)
         wsResponse['resultSet'] = responseData
         wsResponse['operationStatus'] = 1
+    except InvalidContactNumber:
+        wsResponse['resultSet'] = None
+        wsResponse['operationStatus'] = CustomUtils.INVALID_CONTACT_NUMBER
+    except InvalidEmail:
+        wsResponse['resultSet'] = None
+        wsResponse['operationStatus'] = CustomUtils.INVALID_EMAIL
+    except InvalidName:
+        wsResponse['resultSet'] = None
+        wsResponse['operationStatus'] = CustomUtils.INVALID_NAME
     except SomethingWentWrong:
         wsResponse['resultSet'] = None
         wsResponse['operationStatus'] = CustomUtils.SOMETHING_WENT_WRONG

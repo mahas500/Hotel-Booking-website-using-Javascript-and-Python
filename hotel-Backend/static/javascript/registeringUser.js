@@ -14,7 +14,19 @@ $("document").ready(function()
             success: function(result)
             {
                 console.log(result);
-                window.alert('Registration Successful!!!')
+                if (result.operationStatus===-14){
+                    window.alert('Invalid Email')
+                }
+                else if(result.operationStatus===-15){
+                    window.alert('Invalid Contact Number!!')
+                }
+                else if(result.operationStatus===-16){
+                    window.alert('Invalid Name!!')
+                }
+                else if(result.operationStatus===1){
+                    window.alert('Registration Successful!!')
+                }
+
             }});
 
     });

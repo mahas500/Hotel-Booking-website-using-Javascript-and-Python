@@ -4,6 +4,9 @@ from wsgiref import headers
 from flask import session, jsonify
 from DAO.CustomerDAO import CustomerDAO
 from DAO.RoomDAO import RoomDAO
+from Exceptions.InvalidContactNumber import InvalidContactNumber
+from Exceptions.InvalidEmail import InvalidEmail
+from Exceptions.InvalidName import InvalidName
 from Exceptions.OTP_Not_Correct import OTP_Not_Correct
 from Exceptions.WrongCredentials import WrongCredentials
 from Exceptions.NoCustomersExist import NoCustomersExist
@@ -48,17 +51,47 @@ class CustomerService:
 
     @classmethod
     def createCustomer(cls, data):
+        global responseData
         if cls.createCustomerCheck(data.get('name'), data.get('username'), data.get('password'),
                                    data.get('email'),
                                    data.get('contact_no')):
-            responseData = cls.customerDAO.createNewCustomer(data.get('name'), data.get('username'),
-                                                             data.get('password'),
-                                                             data.get('email'),
-                                                             data.get('contact_no'))
+            z = data.get('name')
+            count = 0
 
-            cls.emailService.custCreateMail(responseData.get('customer_id'), responseData.get('email'))
+            for j in z:
+                if j in "0, 1, 2, 3, 4, 5, 6, 7, 8, 9,@,#,$,%,&,*":
+                    count = count + 1
+            if count == 0:
+                x = data.get('email')
+                count = 0
+                count1 = 0
+                for i in x:
+                    if i == '@':
+                        count = count + 1
+                    elif i == '.':
+                        count1 = count1 + 1
+                if count == 1 and count1 == 1:
+                    y = data.get('contact_no')
+                    count = 0
+                    for j in y:
+                        if j not in "0, 1, 2, 3, 4, 5, 6, 7, 8, 9":
+                            count = count + 1
+                    if count != 0:
+                        raise InvalidContactNumber
+                    else:
+                        responseData = cls.customerDAO.createNewCustomer(data.get('name'), data.get('username'),
+                                                                     data.get('password'),
+                                                                     data.get('email'),
+                                                                     data.get('contact_no'))
+                        cls.emailService.custCreateMail(responseData.get('customer_id'), responseData.get('email'))
+                else:
+                    raise InvalidEmail
+            else:
+                raise InvalidName
+
         else:
             raise SomethingWentWrong
+
         return responseData
 
     @classmethod
