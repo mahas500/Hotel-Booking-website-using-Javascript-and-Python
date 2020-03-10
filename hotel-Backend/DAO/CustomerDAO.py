@@ -208,6 +208,7 @@ class CustomerDAO:
             cursor.close()
             conn.close()
 
+
     @classmethod
     def userLogoutDAO(cls,customer_id):
         try:

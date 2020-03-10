@@ -35,7 +35,6 @@ class CustomerService:
             raise WrongCredentials
         return responseData
 
-
     @classmethod
     def newPassword(cls, data):
         if cls.OTPCheck(data):

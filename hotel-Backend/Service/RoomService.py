@@ -3,6 +3,7 @@ from wsgiref import headers
 import json
 from flask import session
 from werkzeug.wrappers import json
+from werkzeug.security import generate_password_hash, check_password_hash
 
 from DAO.RoomDAO import RoomDAO
 from DAO.BookingDAO import BookingDAO
@@ -20,8 +21,8 @@ class RoomService:
 
     @classmethod
     def adminLogin(cls, data):
-        if cls.adminLoginCheck(data):
-            adminData = cls.roomDAO.adminLogin(data.get('username'), data.get('password'))
+        if cls.adminLoginCheck(data.get('username'),data.get('password')):
+            adminData = cls.roomDAO.adminLoginfromAdminID(data.get('username'))
             session['adminDataStored'] = adminData
             responseData = cls.roomDAO.getAllRooms()
         else:
@@ -108,12 +109,12 @@ class RoomService:
 
 
     @classmethod
-    def adminLoginCheck(cls, data):
-        responseData = cls.roomDAO.adminLogin(data.get('username'), data.get('password'))
-        if responseData is not None:
-            return True
-        else:
-            return None
+    def adminLoginCheck(cls,username,password):
+        password1 = cls.roomDAO.getHashPass(username)
+        passwordHash = password1.get('password')
+        result = check_password_hash(passwordHash, password)
+        return result
+
 
     @classmethod
     def adminCheckFromSessionID(cls, header):

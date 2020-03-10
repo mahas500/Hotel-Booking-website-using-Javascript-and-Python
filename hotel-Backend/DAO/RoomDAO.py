@@ -348,3 +348,36 @@ class RoomDAO:
             print(e)
         finally:
             cursor.close()
+
+    @classmethod
+    def getHashPass(cls, username):
+        try:
+            conn = mysql.connect()
+            cursor = conn.cursor(pymysql.cursors.DictCursor)
+
+            cursor.execute("SELECT password from admin where username=%s",
+                           username)
+            rows = cursor.fetchone()
+            return rows
+        except Exception as e:
+            print(e)
+        finally:
+            cursor.close()
+            conn.close()
+
+
+    @classmethod
+    def adminLoginfromAdminID(cls, username):
+        try:
+            conn = mysql.connect()
+            cursor = conn.cursor(pymysql.cursors.DictCursor)
+
+            cursor.execute("SELECT * from admin where username=%s",
+                           username)
+            rows = cursor.fetchone()
+            return rows
+        except Exception as e:
+            print(e)
+        finally:
+            cursor.close()
+            conn.close()
