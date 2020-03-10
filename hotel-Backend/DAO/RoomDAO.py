@@ -182,7 +182,7 @@ class RoomDAO:
 
             cursor.execute("DELETE from room where room_id=%s", room_id)
             conn.commit()
-            cursor.execute("SELECT * from room")
+            cursor.execute("SELECT room_id, room_number,price,Average_Rating,availibility,facilities from room")
             rows = cursor.fetchall()
             return rows
         except Exception as e:
@@ -257,7 +257,7 @@ class RoomDAO:
             cursor.execute("UPDATE room set availibility = 'No' where room_id=%s",
                            room_id)
             conn.commit()
-            cursor.execute("select * from room where room_id=%s",
+            cursor.execute("select room_id,room_number,price,Average_Rating,availibility,facilities from room where room_id=%s",
                            room_id)
             row = cursor.fetchone()
             return row
