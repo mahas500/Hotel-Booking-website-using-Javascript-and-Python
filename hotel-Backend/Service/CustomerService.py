@@ -1,6 +1,6 @@
 import uuid
 from wsgiref import headers
-
+from werkzeug.security import generate_password_hash, check_password_hash
 from flask import session, jsonify
 from DAO.CustomerDAO import CustomerDAO
 from DAO.RoomDAO import RoomDAO
@@ -43,7 +43,8 @@ class CustomerService:
             newPassword = data.get('password')
             if oldPassword!=newPassword:
                 if len(newPassword.strip()) >= 8:
-                    responseData = cls.customerDAO.UpdateNewPassword(data.get('password'), data.get('OTP'))
+                    hashedPassword = generate_password_hash(newPassword)
+                    responseData = cls.customerDAO.UpdateNewPassword(hashedPassword, data.get('OTP'))
                 else:
                     raise PasswordTooShort
             else:
@@ -89,8 +90,10 @@ class CustomerService:
                     password1 = data.get('password')
                     if len(password1.strip()) >= 8:
 
+                        hashedPassword = generate_password_hash(password1)
+
                         responseData = cls.customerDAO.createNewCustomer(data.get('name'), data.get('username'),
-                                                                             data.get('password'),
+                                                                             hashedPassword,
                                                                              data.get('email'),
                                                                              data.get('contact_no'))
                         cls.emailService.custCreateMail(responseData.get('customer_id'), responseData.get('email'))
@@ -108,13 +111,16 @@ class CustomerService:
     @classmethod
     def customerLogin(cls, data):
         global responseData
-        if cls.customerLoginCheck(data.get('username'), data.get('password')):
+        if cls.customerLoginCheck(data.get('username'),data.get('password')):
+            print("Hello")
             if cls.roomService.getAllRoomsForUser():
                 responseData = cls.roomDAO.getAllRoomsForUser()
                 if responseData == ():
                     raise RoomNotAvailable
                 else:
-                    customerData = cls.customerDAO.customerLogin(data.get('username'), data.get('password'))
+
+                    passHash = cls.customerDAO.getHashPass(data.get('username'))
+                    customerData = cls.customerDAO.customerLogin(data.get('username'), passHash)
                     session['loginData'] = customerData
         else:
             raise WrongCredentials
@@ -139,12 +145,12 @@ class CustomerService:
             return False
 
     @classmethod
-    def customerLoginCheck(cls, customer_id, password):
-        responseData = cls.customerDAO.customerLogin(customer_id, password)
-        if responseData is not None:
-            return True
-        else:
-            return False
+    def customerLoginCheck(cls,username,password):
+        passwordHash = cls.customerDAO.getHashPass(username)
+        print(passwordHash)
+        result = check_password_hash(passwordHash, password)
+        print(result)
+        return result
 
     @classmethod
     def forgotPasswordCheck(cls, data):
