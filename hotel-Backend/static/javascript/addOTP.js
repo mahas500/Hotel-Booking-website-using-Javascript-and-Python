@@ -14,8 +14,11 @@ $("document").ready(function()
                 if(result.operationStatus === 1){
                     window.location.href = "http://127.0.0.1:5000/passwordChangedPage"
                 }
-                else{
+                else if(result.operationStatus === -9){
                     window.alert('OTP not correct')
+                }
+                else if(result.operationStatus === -17){
+                    window.alert('Old password cannot be same as new password')
                 }
 
             }});

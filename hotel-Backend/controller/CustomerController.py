@@ -2,6 +2,7 @@ from CustomUtils import CustomUtils
 from Exceptions.InvalidContactNumber import InvalidContactNumber
 from Exceptions.InvalidEmail import InvalidEmail
 from Exceptions.InvalidName import InvalidName
+from Exceptions.NewPasswordCannotBeSameAsOldPassword import NewPasswordCannotBeSameAsOldPassword
 from Exceptions.OTP_Not_Correct import OTP_Not_Correct
 from Exceptions.WrongCredentials import WrongCredentials
 from Exceptions.NoCustomersExist import NoCustomersExist
@@ -56,6 +57,9 @@ def newPassword():
         responseData = customerService.newPassword(request.json)
         wsResponse['resultSet'] = responseData
         wsResponse['operationStatus'] = 1
+    except NewPasswordCannotBeSameAsOldPassword:
+        wsResponse['resultSet'] = None
+        wsResponse['operationStatus'] = CustomUtils.NEW_PASSWORD_SAME_AS_OLD_PASSWORD
     except OTP_Not_Correct:
         wsResponse['resultSet'] = None
         wsResponse['operationStatus'] = CustomUtils.OTP_NOT_CORRECT

@@ -7,6 +7,7 @@ from DAO.RoomDAO import RoomDAO
 from Exceptions.InvalidContactNumber import InvalidContactNumber
 from Exceptions.InvalidEmail import InvalidEmail
 from Exceptions.InvalidName import InvalidName
+from Exceptions.NewPasswordCannotBeSameAsOldPassword import NewPasswordCannotBeSameAsOldPassword
 from Exceptions.OTP_Not_Correct import OTP_Not_Correct
 from Exceptions.WrongCredentials import WrongCredentials
 from Exceptions.NoCustomersExist import NoCustomersExist
@@ -36,7 +37,13 @@ class CustomerService:
     @classmethod
     def newPassword(cls, data):
         if cls.OTPCheck(data):
-            responseData = cls.customerDAO.UpdateNewPassword(data.get('password'), data.get('OTP'))
+            custData = cls.customerDAO.OTPCheck(data.get('OTP'))
+            oldPassword = custData.get('password')
+            newPassword = data.get('password')
+            if oldPassword!=newPassword:
+                responseData = cls.customerDAO.UpdateNewPassword(data.get('password'), data.get('OTP'))
+            else:
+                raise NewPasswordCannotBeSameAsOldPassword
         else:
             raise OTP_Not_Correct
         return responseData
@@ -101,6 +108,7 @@ class CustomerService:
             session['loginData'] = customerData
             if cls.roomService.getAllRoomsForUser():
                 responseData = cls.roomDAO.getAllRoomsForUser()
+                print(responseData)
 
             else:
                 raise RoomNotAvailable
