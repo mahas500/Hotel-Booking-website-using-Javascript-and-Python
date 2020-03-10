@@ -17,6 +17,9 @@ $("document").ready(function()
                 else if(result.operationStatus === -9){
                     window.alert('OTP not correct')
                 }
+                else if(result.operationStatus===-19){
+                    window.alert('Password too short!!')
+                }
                 else if(result.operationStatus === -17){
                     window.alert('Old password cannot be same as new password')
                 }

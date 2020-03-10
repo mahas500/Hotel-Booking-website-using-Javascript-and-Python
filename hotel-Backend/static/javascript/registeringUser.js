@@ -20,6 +20,9 @@ $("document").ready(function()
                 else if(result.operationStatus===-15){
                     window.alert('Invalid Contact Number!!')
                 }
+                else if(result.operationStatus===-19){
+                    window.alert('Password too short!!')
+                }
                 else if(result.operationStatus===-16){
                     window.alert('Invalid Name!!')
                 }

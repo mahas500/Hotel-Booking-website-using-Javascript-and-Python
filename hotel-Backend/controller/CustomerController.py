@@ -4,6 +4,7 @@ from Exceptions.InvalidEmail import InvalidEmail
 from Exceptions.InvalidName import InvalidName
 from Exceptions.NewPasswordCannotBeSameAsOldPassword import NewPasswordCannotBeSameAsOldPassword
 from Exceptions.OTP_Not_Correct import OTP_Not_Correct
+from Exceptions.PasswordTooShort import PasswordTooShort
 from Exceptions.WrongCredentials import WrongCredentials
 from Exceptions.NoCustomersExist import NoCustomersExist
 from Exceptions.RoomNotAvailable import RoomNotAvailable
@@ -51,6 +52,9 @@ def newPassword():
         responseData = customerService.newPassword(request.json)
         wsResponse['resultSet'] = responseData
         wsResponse['operationStatus'] = 1
+    except PasswordTooShort:
+        wsResponse['resultSet'] = None
+        wsResponse['operationStatus'] = CustomUtils.PASSWORD_TOO_SHORT
     except NewPasswordCannotBeSameAsOldPassword:
         wsResponse['resultSet'] = None
         wsResponse['operationStatus'] = CustomUtils.NEW_PASSWORD_SAME_AS_OLD_PASSWORD
@@ -80,6 +84,9 @@ def addCustomerInDB():
     except InvalidContactNumber:
         wsResponse['resultSet'] = None
         wsResponse['operationStatus'] = CustomUtils.INVALID_CONTACT_NUMBER
+    except PasswordTooShort:
+        wsResponse['resultSet'] = None
+        wsResponse['operationStatus'] = CustomUtils.PASSWORD_TOO_SHORT
     except InvalidEmail:
         wsResponse['resultSet'] = None
         wsResponse['operationStatus'] = CustomUtils.INVALID_EMAIL

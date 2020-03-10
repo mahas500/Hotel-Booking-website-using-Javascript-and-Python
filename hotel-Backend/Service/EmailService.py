@@ -93,3 +93,4 @@ class EmailService:
             return True
         except Exception as e:
             return False
+
