@@ -22,7 +22,9 @@ $("document").ready(function()
                 else if(result.operationStatus===-16){
                     window.alert('Invalid Name!!')
                 }
-
+                else if(result.operationStatus===-18){
+                    window.alert('Description cannot be empty!!')
+                }
             }});
 
     });

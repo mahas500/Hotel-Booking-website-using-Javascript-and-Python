@@ -5,6 +5,7 @@ from flask import session
 from DAO.BookingDAO import BookingDAO
 from DAO.CustomerDAO import CustomerDAO
 from DAO.RoomDAO import RoomDAO
+from Exceptions.DescriptionCannotBeEmpty import DescriptionCannotBeEmpty
 from Exceptions.InvalidEmail import InvalidEmail
 from Exceptions.InvalidName import InvalidName
 from Exceptions.NoBookingsExist import NoBookingsExist
@@ -41,8 +42,9 @@ class BookingService:
                 responseData = cls.bookingDAO.addRoomBooking(checkCustomer.get('customer_id'), data.get('room_id'),
                                                              checkCustomer.get('email'))
 
-                cls.emailService.sendEmail(checkCustomer.get('email'),responseData.get('booking_id'),
-                                           roomData.get('room_number'),roomData.get('price'),roomData.get('facilities'),roomData.get('Average_Rating'))
+                cls.emailService.sendEmail(checkCustomer.get('email'), responseData.get('booking_id'),
+                                           roomData.get('room_number'), roomData.get('price'),
+                                           roomData.get('facilities'), roomData.get('Average_Rating'))
                 currentRoomData = cls.roomService.getCurrentRoomData(data.get('room_id'))
                 session['currentRoomData'] = currentRoomData
             else:
@@ -53,19 +55,25 @@ class BookingService:
 
     @classmethod
     def contactUS(cls, header, data):
+        global responseData
         if cls.customerService.checkCustomerFromSessionID(header.get('session_id')):
             checkCustomer = cls.customerDAO.checkCustomerFromSessionID(header.get('session_id'))
-            responseData = cls.bookingDAO.contactUS(checkCustomer.get('customer_id'), checkCustomer.get('username'),
-                                                    data.get('description'))
-            cls.emailService.contactUsEmail(responseData.get('incident_id'), data.get('description'),
-                                            checkCustomer.get('email'))
+            desc = data.get('description')
+
+            if len(desc.strip()) != 0:
+                responseData = cls.bookingDAO.contactUS(checkCustomer.get('customer_id'), checkCustomer.get('username'),
+                                                        data.get('description'))
+                cls.emailService.contactUsEmail(responseData.get('incident_id'), data.get('description'),
+                                                checkCustomer.get('email'))
+            else:
+                raise DescriptionCannotBeEmpty
         else:
             raise CustomerNotLoggedIn
         return responseData
 
     @classmethod
     def contactUsViaHome(cls, data):
-        if cls.contactUsViaHomeCheck(data.get('name'), data.get('email'),data.get('description')):
+        if cls.contactUsViaHomeCheck(data.get('name'), data.get('email'), data.get('description')):
             z = data.get('name')
             count = 0
 
@@ -82,10 +90,15 @@ class BookingService:
                     elif i == '.':
                         count1 = count1 + 1
                 if count == 1 and count1 == 1:
-                    responseData = cls.bookingDAO.contactUsViaHome(data.get('name'), data.get('email'),
+                    desc = data.get('description')
+                    if len(desc.strip()) != 0:
+                        responseData = cls.bookingDAO.contactUsViaHome(data.get('name'), data.get('email'),
                                                                    data.get('description'))
-                    cls.emailService.contactUsEmailbyHome(responseData.get('query_id'), data.get('name'), data.get('email'),
-                                                      data.get('description'))
+                        cls.emailService.contactUsEmailbyHome(responseData.get('query_id'), data.get('name'),
+                                                          data.get('email'),
+                                                          data.get('description'))
+                    else:
+                        raise DescriptionCannotBeEmpty
                 else:
                     raise InvalidEmail
             else:

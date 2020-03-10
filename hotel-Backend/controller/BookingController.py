@@ -1,6 +1,7 @@
 from CustomUtils import CustomUtils
 from Exceptions import NoBookingsExist
 from Exceptions.CustomerNotLoggedIn import CustomerNotLoggedIn
+from Exceptions.DescriptionCannotBeEmpty import DescriptionCannotBeEmpty
 from Exceptions.InvalidEmail import InvalidEmail
 from Exceptions.InvalidName import InvalidName
 from Exceptions.NoBookingsExist import NoBookingsExist
@@ -59,6 +60,9 @@ def contactUS():
         responseData = bookingService.contactUS(request.headers,request.json)
         wsResponse['resultSet'] = responseData
         wsResponse['operationStatus'] = 1
+    except DescriptionCannotBeEmpty:
+        wsResponse['resultSet'] = None
+        wsResponse['operationStatus'] = CustomUtils.DESCRIPTION_EMPTY
     except CustomerNotLoggedIn:
         wsResponse['resultSet'] = None
         wsResponse['operationStatus'] = CustomUtils.CUSTOMER_NOT_LOGGED_IN
@@ -72,6 +76,9 @@ def contactUsViaHome():
         responseData = bookingService.contactUsViaHome(request.json)
         wsResponse['resultSet'] = responseData
         wsResponse['operationStatus'] = 1
+    except DescriptionCannotBeEmpty:
+        wsResponse['resultSet'] = None
+        wsResponse['operationStatus'] = CustomUtils.DESCRIPTION_EMPTY
     except InvalidEmail:
         wsResponse['resultSet'] = None
         wsResponse['operationStatus'] = CustomUtils.INVALID_EMAIL

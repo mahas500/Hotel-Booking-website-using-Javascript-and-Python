@@ -13,9 +13,15 @@ $("document").ready(function()
     },
             data: JSON.stringify({description: description}),
             contentType: "application/json",
-            success: function()
+            success: function(result)
             {
-                window.alert("Mail sent to admin!!!")
+                if(result.operationStatus===1){
+                    window.alert("Mail sent to admin!!!")
+                }
+
+                else if(result.operationStatus===-18){
+                    window.alert('Description cannot be empty!!')
+                }
 
             }});
 
