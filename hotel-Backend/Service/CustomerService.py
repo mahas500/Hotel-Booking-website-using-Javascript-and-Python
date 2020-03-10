@@ -62,52 +62,46 @@ class CustomerService:
     @classmethod
     def createCustomer(cls, data):
         global responseData
-        if cls.createCustomerCheck(data.get('name'), data.get('username'), data.get('password'),
-                                   data.get('email'),
-                                   data.get('contact_no')):
-            z = data.get('name')
-            count = 0
+        z = data.get('name')
+        count = 0
 
-            for j in z:
-                if j in "0, 1, 2, 3, 4, 5, 6, 7, 8, 9,@,#,$,%,&,*":
-                    count = count + 1
-            if count == 0:
-                x = data.get('email')
-                count = 0
-                count1 = 0
-                for i in x:
-                    if i == '@':
-                        count = count + 1
-                    elif i == '.':
-                        count1 = count1 + 1
-                if count == 1 and count1 == 1:
-                    y = data.get('contact_no')
-                    count = 0
-                    for j in y:
-                        if j not in "0, 1, 2, 3, 4, 5, 6, 7, 8, 9":
-                            count = count + 1
-                    if count != 0:
-                        raise InvalidContactNumber
-                    else:
-                        password = data.get('password')
-                        print(len(password.strip()))
-                        if len(password.strip()) < 8:
-                            raise PasswordTooShort
+        for j in z:
+            if j in "0, 1, 2, 3, 4, 5, 6, 7, 8, 9,@,#,$,%,&,*":
+                count = count + 1
+        if count == 0:
+            x = data.get('email')
+            count2 = 0
+            count1 = 0
+            for i in x:
+                if i == '@':
+                    count2 = count2 + 1
+                elif i == '.':
+                    count1 = count1 + 1
+            if count2 == 1 and count1 == 1:
+                y = data.get('contact_no')
+                count3 = 0
+                for j in y:
+                    if j not in "0, 1, 2, 3, 4, 5, 6, 7, 8, 9":
+                        count3 = count3 + 1
+                if count3 != 0:
+                    raise InvalidContactNumber
+                else:
+                    password1 = data.get('password')
+                    if len(password1.strip()) >= 8:
 
-                        else:
-                            responseData = cls.customerDAO.createNewCustomer(data.get('name'), data.get('username'),
+                        responseData = cls.customerDAO.createNewCustomer(data.get('name'), data.get('username'),
                                                                              data.get('password'),
                                                                              data.get('email'),
                                                                              data.get('contact_no'))
-                            cls.emailService.custCreateMail(responseData.get('customer_id'), responseData.get('email'))
+                        cls.emailService.custCreateMail(responseData.get('customer_id'), responseData.get('email'))
 
-                else:
-                    raise InvalidEmail
+                    else:
+                        raise PasswordTooShort
+
             else:
-                raise InvalidName
-
+                raise InvalidEmail
         else:
-            raise SomethingWentWrong
+            raise InvalidName
 
         return responseData
 
@@ -139,14 +133,6 @@ class CustomerService:
     @classmethod
     def getAllCustomersCheck(cls):
         responseData = cls.customerDAO.getAllCustomersfromDB()
-        if responseData is not None:
-            return True
-        else:
-            return False
-
-    @classmethod
-    def createCustomerCheck(cls, name, username, password, email, contact_no):
-        responseData = cls.customerDAO.createNewCustomer(name, username, password, email, contact_no)
         if responseData is not None:
             return True
         else:
