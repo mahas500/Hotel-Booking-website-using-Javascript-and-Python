@@ -9,6 +9,7 @@ from Exceptions.InvalidEmail import InvalidEmail
 from Exceptions.InvalidName import InvalidName
 from Exceptions.NewPasswordCannotBeSameAsOldPassword import NewPasswordCannotBeSameAsOldPassword
 from Exceptions.OTP_Not_Correct import OTP_Not_Correct
+from Exceptions.PasswordTooShort import PasswordTooShort
 from Exceptions.WrongCredentials import WrongCredentials
 from Exceptions.NoCustomersExist import NoCustomersExist
 from Exceptions.RoomNotAvailable import RoomNotAvailable
@@ -41,7 +42,10 @@ class CustomerService:
             oldPassword = custData.get('password')
             newPassword = data.get('password')
             if oldPassword!=newPassword:
-                responseData = cls.customerDAO.UpdateNewPassword(data.get('password'), data.get('OTP'))
+                if len(newPassword.strip()) >= 8:
+                    responseData = cls.customerDAO.UpdateNewPassword(data.get('password'), data.get('OTP'))
+                else:
+                    raise PasswordTooShort
             else:
                 raise NewPasswordCannotBeSameAsOldPassword
         else:
@@ -85,11 +89,18 @@ class CustomerService:
                     if count != 0:
                         raise InvalidContactNumber
                     else:
-                        responseData = cls.customerDAO.createNewCustomer(data.get('name'), data.get('username'),
-                                                                     data.get('password'),
-                                                                     data.get('email'),
-                                                                     data.get('contact_no'))
-                        cls.emailService.custCreateMail(responseData.get('customer_id'), responseData.get('email'))
+                        password = data.get('password')
+                        print(len(password.strip()))
+                        if len(password.strip()) < 8:
+                            raise PasswordTooShort
+
+                        else:
+                            responseData = cls.customerDAO.createNewCustomer(data.get('name'), data.get('username'),
+                                                                             data.get('password'),
+                                                                             data.get('email'),
+                                                                             data.get('contact_no'))
+                            cls.emailService.custCreateMail(responseData.get('customer_id'), responseData.get('email'))
+
                 else:
                     raise InvalidEmail
             else:

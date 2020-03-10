@@ -60,7 +60,6 @@ class RoomService:
         if cls.checkRoomWithNumber(room_number):
             roomData = cls.roomDAO.addNewRoom(room_number, price, Average_Rating,facilities,image)
             responseData = cls.roomDAO.getAllRoomsForAdmin()
-            print(responseData)
         else:
             raise RoomWithGivenNumberAlreadyExist
         return responseData
