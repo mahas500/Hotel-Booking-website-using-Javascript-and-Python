@@ -30,7 +30,6 @@ def adminLogin():
     except WrongCredentials:
         wsResponse['resultSet'] = None
         wsResponse['operationStatus'] = CustomUtils.WRONG_CREDENTIALS
-    print(wsResponse)
     return wsResponse
 
 
@@ -145,6 +144,11 @@ def RoomBookingPage():
 def CustomerEnquiries():
     incidentData = roomDAO.Customerincident()
     session['CustomerIncidents'] = incidentData
+    return render_template('CustomerEnquiries.html')
+
+
+@app.route('/nonRegisteredUserComplaints')
+def nonRegisteredUserComplaints():
     enquiryData = roomDAO.CustomerEnquiry()
     session['NewCustomerEnquiry'] = enquiryData
-    return render_template('CustomerEnquiries.html')
+    return render_template('NonRegisteredUserComplaints.html')
