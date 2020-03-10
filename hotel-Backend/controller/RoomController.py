@@ -27,21 +27,11 @@ def adminLogin():
         responseData = roomService.adminLogin(request.json)
         wsResponse['resultSet'] = responseData
         wsResponse['operationStatus'] = 1
-    except NoBookingsExist:
-        wsResponse['resultSet'] = None
-        wsResponse[''] = CustomUtils.NO_BOOKINGS_EXIST
-    except RoomNotAvailable:
-        wsResponse['resultSet'] = None
-        wsResponse['operationStatus'] = CustomUtils.ROOM_NOT_AVAILABLE
     except WrongCredentials:
         wsResponse['resultSet'] = None
         wsResponse['operationStatus'] = CustomUtils.WRONG_CREDENTIALS
+    print(wsResponse)
     return wsResponse
-
-
-@app.route("/addRoomPage", methods=['GET'])
-def addRoomPage():
-    return render_template('addRoomPage.html')
 
 
 @app.route('/deleteRoom', methods=['POST'])

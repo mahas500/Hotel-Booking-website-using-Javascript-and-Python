@@ -23,13 +23,7 @@ class RoomService:
         if cls.adminLoginCheck(data):
             adminData = cls.roomDAO.adminLogin(data.get('username'), data.get('password'))
             session['adminDataStored'] = adminData
-            if cls.getAllBookingsfromDBCheck():
-                if cls.getAllRooms():
-                    responseData = cls.roomDAO.getAllRoomsForAdmin()
-                else:
-                    raise NoBookingsExist
-            else:
-                raise RoomNotAvailable
+            responseData = cls.roomDAO.getAllRoomsForAdmin()
         else:
             raise WrongCredentials
         return responseData

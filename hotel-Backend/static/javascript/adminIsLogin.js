@@ -11,9 +11,16 @@ $("document").ready(function()
             contentType: "application/json",
             success: function(result)
             {
-                console.log(result);
-            window.location.href = "http://127.0.0.1:5000/adminDashboard";
+                if(result.operationStatus===1){
+                    window.location.href = "http://127.0.0.1:5000/adminDashboard";
+                }
+                else if(result.operationStatus===-2){
+                    window.alert('Wrong credentials')
+                }
+
             }});
 
     });
 });
+
+
