@@ -14,12 +14,15 @@ $("document").ready(function()
 
                 if(result.operationStatus===1){
                     window.location.href = "http://127.0.0.1:5000/dashboard";
+                    console.log(result.operationStatus);
                 }
                 else if(result.operationStatus===-4){
                    window.alert('Rooms not available.Kindly contact admin')
+                    console.log(result.operationStatus);
             }
                 else if(result.operationStatus===-2){
                     window.alert('Wrong credentials')
+                    console.log(result.operationStatus);
                 }
 
             }});

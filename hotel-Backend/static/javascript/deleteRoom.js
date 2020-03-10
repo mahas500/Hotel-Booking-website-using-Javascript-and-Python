@@ -13,13 +13,13 @@ $("document").ready(function()
             contentType: "application/json",
             success: function(result)
             {
-                var x = result.operationStatus
+                var x = result.operationStatus;
                 if(x === -12){
-
+                    console.log(result.operationStatus);
                     window.alert('Room with given ID does not exist')
                 }
                 else if(x === 1){
-                    console.log(result.operationStatus)
+                    console.log(result.operationStatus);
                      window.alert('Room deleted successfully')
                 }
 

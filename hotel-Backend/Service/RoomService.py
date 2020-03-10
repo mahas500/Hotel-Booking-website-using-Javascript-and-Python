@@ -23,7 +23,7 @@ class RoomService:
         if cls.adminLoginCheck(data):
             adminData = cls.roomDAO.adminLogin(data.get('username'), data.get('password'))
             session['adminDataStored'] = adminData
-            responseData = cls.roomDAO.getAllRoomsForAdmin()
+            responseData = cls.roomDAO.getAllRooms()
         else:
             raise WrongCredentials
         return responseData

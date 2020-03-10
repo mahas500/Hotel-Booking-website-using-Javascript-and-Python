@@ -11,10 +11,14 @@ $("document").ready(function()
             contentType: "application/json",
             success: function(result)
             {
-                if(result.operationStatus===1){
+                x =result.operationStatus;
+
+                if(x===1){
+                    console.log(x)
                     window.location.href = "http://127.0.0.1:5000/adminDashboard";
                 }
-                else if(result.operationStatus===-2){
+                else if(x===-2){
+                    console.log(x)
                     window.alert('Wrong credentials')
                 }
 
