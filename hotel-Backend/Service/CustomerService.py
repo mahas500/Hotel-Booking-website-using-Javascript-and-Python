@@ -39,16 +39,18 @@ class CustomerService:
     def newPassword(cls, data):
         if cls.OTPCheck(data):
             custData = cls.customerDAO.OTPCheck(data.get('OTP'))
-            oldPassword = custData.get('password')
             newPassword = data.get('password')
-            if oldPassword!=newPassword:
-                if len(newPassword.strip()) >= 8:
+            if len(newPassword.strip()) >= 8:
+                oldPassword = custData.get('password')
+                result = check_password_hash(oldPassword, newPassword)
+                if result:
+                    raise NewPasswordCannotBeSameAsOldPassword
+
+                else:
                     hashedPassword = generate_password_hash(newPassword)
                     responseData = cls.customerDAO.UpdateNewPassword(hashedPassword, data.get('OTP'))
-                else:
-                    raise PasswordTooShort
             else:
-                raise NewPasswordCannotBeSameAsOldPassword
+                raise PasswordTooShort
         else:
             raise OTP_Not_Correct
         return responseData
