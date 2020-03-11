@@ -130,35 +130,6 @@ class CustomerDAO:
 
 
     @classmethod
-    def customerLogin(cls, username, password):
-        try:
-            conn = mysql.connect()
-            cursor = conn.cursor(pymysql.cursors.DictCursor)
-
-            cursor.execute("SELECT * from customer where username = %s and password= %s",
-                           (username, password))
-            rows = cursor.fetchone()
-            if rows is not None:
-                sessionId = str(uuid.uuid4())
-                cursor.execute("update customer set session_id = %s where username = %s",
-                               (sessionId, username))
-                conn.commit()
-
-                cursor.execute("SELECT * from customer where username = %s and password= %s",
-                               (username, password))
-                rows = cursor.fetchone()
-                return rows
-            else:
-                return None
-        except Exception as e:
-
-            print(e)
-        finally:
-            cursor.close()
-            conn.close()
-
-
-    @classmethod
     def checkCustomerFromSessionID(cls,session_id):
         try:
             conn = mysql.connect()

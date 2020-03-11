@@ -56,33 +56,6 @@ class RoomDAO:
             cursor.close()
             conn.close()
 
-    @classmethod
-    def adminLogin(cls, username, password):
-        try:
-            conn = mysql.connect()
-            cursor = conn.cursor(pymysql.cursors.DictCursor)
-
-            cursor.execute("SELECT * from admin where username = %s and password= %s",
-                           (username, password))
-            rows = cursor.fetchone()
-            if rows is not None:
-                sessionId = str(uuid.uuid4())
-                cursor.execute("update admin set session_id = %s where username = %s",
-                               (sessionId, username))
-                conn.commit()
-
-                cursor.execute("SELECT * from admin where username = %s and password= %s",
-                               (username, password))
-                rows = cursor.fetchone()
-                return rows
-            else:
-                return None
-        except Exception as e:
-
-            print(e)
-        finally:
-            cursor.close()
-            conn.close()
 
     @classmethod
     def getAllRooms(cls):
