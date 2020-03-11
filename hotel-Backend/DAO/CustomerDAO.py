@@ -184,7 +184,16 @@ class CustomerDAO:
             cursor.execute("SELECT * from customer where username=%s",
                            username)
             rows = cursor.fetchone()
-            return rows
+            if rows is not None:
+                sessionId = str(uuid.uuid4())
+                cursor.execute("update customer set session_id = %s where username = %s",
+                               (sessionId, username))
+                conn.commit()
+
+                cursor.execute("SELECT * from customer where username = %s",
+                               username)
+                rows = cursor.fetchone()
+                return rows
         except Exception as e:
             print(e)
         finally:

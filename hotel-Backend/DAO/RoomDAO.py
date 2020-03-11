@@ -375,6 +375,16 @@ class RoomDAO:
             cursor.execute("SELECT * from admin where username=%s",
                            username)
             rows = cursor.fetchone()
+            if rows is not None:
+                sessionId = str(uuid.uuid4())
+                cursor.execute("update admin set session_id = %s where username = %s",
+                               (sessionId, username))
+                conn.commit()
+
+                cursor.execute("SELECT * from admin where username = %s",
+                               username)
+                rows = cursor.fetchone()
+                return rows
             return rows
         except Exception as e:
             print(e)

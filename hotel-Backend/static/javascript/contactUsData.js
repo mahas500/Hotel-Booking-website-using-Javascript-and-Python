@@ -16,10 +16,12 @@ $("document").ready(function()
             success: function(result)
             {
                 if(result.operationStatus===1){
+                    console.log('result');
                     window.alert("Mail sent to admin!!!")
                 }
 
                 else if(result.operationStatus===-18){
+                    console.log('result');
                     window.alert('Description cannot be empty!!')
                 }
 

@@ -62,6 +62,7 @@ def changeRoomStatus():
     except NotAuthorized:
         wsResponse['resultSet'] = None
         wsResponse['operationStatus'] = CustomUtils.NOT_AUTHORIZED
+    print(wsResponse)
     return wsResponse
 
 
